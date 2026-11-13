@@ -28,11 +28,11 @@ Press **Restore a backup** at the bottom of the installer, pick the backup it ma
 press **RESTORE**. That puts the game folder back exactly as it was. You can also switch every card off and install
 again.
 
-### The Suave song
+### The Piñata Loco song
 
-The Suave dance move plays to four short clips of "Suavemente" by Elvis Crespo. That song is commercial and is not
-included. In the installer's Suave card, press **Choose file** and pick your own copy of the studio version (about
-4:28; mp3, wav, flac, ogg and similar).
+The Piñata Loco dance move plays to four short clips of "Suavemente" by Elvis Crespo. That song is commercial and is
+not included. In the installer's Piñata Loco card, press **Choose file** and pick your own copy of the studio version
+(about 4:28; mp3, m4a, wma, wav, flac, ogg and similar).
 
 ## Features
 
@@ -45,7 +45,7 @@ included. In the installer's Suave card, press **Choose file** and pick your own
 | Bullet time and quick restart | Manual bullet time with a meter, dive slow motion off, FOV, key rebinding, quick restart |
 | Seamless world (experimental) | Walk across a map border without a loading screen |
 | Smart AI | Enemies take roles, stagger their reactions, take turns closing in, and can break and run |
-| Suave (experimental) | A new loco move: a salsa with an enemy, a clapping ring, dynamite and a dive |
+| Piñata Loco (experimental) | A new loco move: a salsa with an enemy, a clapping ring, dynamite and a dive |
 | Minimap and markers | A sharp tile map inside the radar and markers over objectives |
 | HD effects | Ambient occlusion, per-pixel lighting, shadows, reflections, particles and water on the original game |
 | MAYHEM: physics | Box3D physics: props fall, tumble and fly from bullets and blasts; cars shove props and wrecks flip |
@@ -61,7 +61,7 @@ Every feature has its own guide in [docs/mods](docs/mods/README.md).
 |---|---|
 | ![Minimap before and after](docs/media/minimap_before_after.jpg) | ![Physics: an explosion throws props](docs/media/physics_explosion.jpg) |
 
-![Suave](docs/media/suave_dance.jpg)
+![Piñata Loco](docs/media/suave_dance.jpg)
 
 A short showcase video is in [showcase/](showcase/).
 
