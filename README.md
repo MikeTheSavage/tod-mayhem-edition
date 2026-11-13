@@ -6,9 +6,6 @@ installer that backs up your game before it touches anything.
 
 ![The MAYHEM title screen, before and after](docs/media/title_before_after.jpg)
 
-> Unofficial. Not made by or connected to the game's publisher. No game files are included: the installer builds
-> its data on your PC from your own copy of the game.
-
 ## Download and install
 
 1. Get **TOD Mayhem Installer.7z** from the
@@ -21,8 +18,7 @@ installer that backs up your game before it touches anything.
    (another drive is best) and press **INSTALL**.
 
 You need Windows 10 or 11, Total Overdose from GOG, and free space for a full backup of the game folder (about
-1.5 GB). The DLL features only run on the GOG `TOD.exe`; with any other exe the installer warns you that they stay
-off.
+1.5 GB). The DLL features only run on the GOG `TOD.exe`.
 
 ![The installer](docs/media/installer.jpg)
 
@@ -36,8 +32,7 @@ again.
 
 The Suave dance move plays to four short clips of "Suavemente" by Elvis Crespo. That song is commercial and is not
 included. In the installer's Suave card, press **Choose file** and pick your own copy of the studio version (about
-4:28; mp3, wav, flac, ogg and similar). The installer finds the song, cuts the clips on your PC and adds them to the
-game data. Your file is only read, never copied or uploaded. Without a song, Suave still works, just silently.
+4:28; mp3, wav, flac, ogg and similar).
 
 ## Features
 
@@ -126,5 +121,3 @@ Third-party parts keep their own licences:
 - The installer exe bundles Python 3.12 (PSF), PyInstaller (GPL 2 with bootloader exception), python-soundfile
   (BSD), libsndfile (LGPL 2.1), NumPy (BSD), cffi (MIT) and pycparser (BSD). Their licence texts ship inside the
   release archive.
-
-Total Overdose and "Suavemente" belong to their owners.
