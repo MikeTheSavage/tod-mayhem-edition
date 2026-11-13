@@ -1,0 +1,7 @@
+Barrel_01
+Source: https://polyhaven.com/a/Barrel_01
+Licence: CC0 1.0 (public domain), Poly Haven
+Author(s): Jorge Camacho
+Downloaded: 2026-10-20 via api.polyhaven.com (md5-verified)
+Contents: glTF 2K + 4K (shared .bin, jpg/png textures in textures\)
+Use in TOD jungle: Oil drums (ref has red/orange drums in the hangar).

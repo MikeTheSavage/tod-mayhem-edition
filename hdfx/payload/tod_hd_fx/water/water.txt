@@ -1,0 +1,58 @@
+# tod_hd_fx\water\water.txt -- which textures ARE water, for `water_mode` (KEEP.md 30).  Re-read live.
+#
+#   role  key  [metres_per_u  metres_per_v]
+#
+# key   the texture's key LEAF (the last part of its game key), exactly as tod_hd_fx\light\manifest.txt names it.
+#       A trailing * matches every leaf that starts with the rest (harbour_water_* = the 16 flipbook frames).
+#       The texture must also be in that manifest (it is how the DLL recognises the bytes the game uploads), so
+#       water_mode needs light_classes = 1.
+# role  surface  open water: refraction, absorption, reflection, glints, shoreline foam
+#       opaque   water PAINTED onto an opaque mesh with nothing modelled under it: the game texture stands in
+#                for the bottom, seen through a nominal depth; reflection and glints as a surface
+#       fall     a waterfall sheet: streaked foam falling down the sheet, over what is behind it
+#       bottom   the floor UNDER a water surface (a river bed, the sea floor, a pool basin): drawn by the game, but
+#                with water_mode = 1 the per-pixel lighting lights it as plain ground -- the material-class map calls
+#                these `water` (a mirror), which only stood in for the surface the engine merely added over them
+#       keep     named here only to say it is NOT a surface: left to the game exactly as it draws it
+# metres_per_u / metres_per_v   only for a mesh whose texture the ENGINE SCROLLS (a river): how many metres one
+#       unit of its UV spans along u and along v.  The wave detail is laid out in that UV so it flows WITH the
+#       river's own UV direction; these two numbers keep the waves square in metres.  Default 50 50.
+#
+# Evidence for each line: work\wrapper\water\report.md (the MM010 census, the river geometry) and
+# work\research\water\census.json / drivers.txt (the models and their textures, every level).
+#
+# ---- MM010 jungle (map09 submap01; its textures live in map08_jungle_test) --------------------------------
+# FloodWater: the river SURFACE.  FVF 0x152, SRCALPHA/ONE, zwrite off, stage-0 texture scrolled in V by the
+# engine (TEXTURETRANSFORM COUNT2).  141.9 m per U, 52.46 m per V (water_geometry.txt).  1 draw a frame.
+surface  flood_background      141.9  52.46
+# FloodWaterFoam / FoamFX / FoamFXSides: the game's own additive foam layers over the river, drawn BEFORE the
+# surface.  Kept: they are the engine's streaks down the river and they stay on top of the water.
+keep     floodwaterfoam
+# the river BED (opaque terrain seen through the water) and its banks: never a surface
+bottom   river_jungle_bottom
+keep     river_jungle_cliffside
+keep     jungle_stone_waterfall
+# the waterfalls (waterfall_front / waterfall_small, and the painted backdrop waterfall_back_static)
+fall     waterfall
+fall     waterfall_background
+# ---- the sea: maps 02 (TER_WATER_DT, Ocean_EastLoad), 03 (TER_Water_Industrial), 04 (TER_Water_Harbour),
+# ---- 08 (TER_OceanPlane).  FVF 0x152, a 16-frame flipbook at 10-15 fps.  Render state not captured.
+surface  harbour_water_*
+# harbour_water_base(_01) is on the TERRAIN chunks under the sea surface: the sea floor's own colour
+bottom   harbour_water_base
+bottom   harbour_water_base_01
+# the coastline's additive foam strips (Coastline_*, Wave.model)
+keep     ocean
+# ---- pools and fountains: map08 hacienda (PoolWater, SmallPoolWater, FontainWater), map09 JungleTunnelWater.
+# ---- A 16-frame caustics flipbook with a stage-1 sparkle map.
+surface  causticsa_*
+keep     poolwatersparkle
+# the pool basins' own floor on the hacienda terrain chunks, and the other river beds
+bottom   waterpool
+bottom   waterpool2
+bottom   river_bottom
+bottom   sea_bottom
+# ---- map10 dead man's gorge: the river is PAINTED on the terrain tile (Terrain_Canyon_Tile_River smb8) and the
+# ---- same texture carries the sand and grass banks either side of it, so the draw is NOT all water: kept.  (Role
+# ---- `opaque` exists for a texture that is water edge to edge.)
+keep     canyon_river

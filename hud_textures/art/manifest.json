@@ -1,0 +1,2441 @@
+{
+ "format": 1,
+ "block": "data_pc/overdose_the_game/overdose/shared/overdose.main",
+ "note": "made by hud_textures/make_hud_textures.py; payload = A8R8G8B8 mip chain (B, G, R, A), zlib",
+ "textures": [
+  {
+   "name": "LocoMove_Rewind",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Rewind.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Rewind.bin.z",
+   "file_bytes": 154193,
+   "sha256": "c1fcb762b21e9341a65773f095ca74769745c19626f201a6c5ab237196972c88",
+   "source": "pickups/LocoMove_Rewind/opt2_clean.png",
+   "source_sha256": "ec95c1916f92e3eb7daca7bdbb495b141251d8a3d48603621ff577d18cddc2e0",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2316,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     256.0
+    ],
+    "placed": [
+     -1,
+     3,
+     258,
+     258
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     32
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_GoldenGun",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_GoldenGun.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_GoldenGun.bin.z",
+   "file_bytes": 166569,
+   "sha256": "bd10e81dc8686432811addf85d6493196bd3041efc3482514f8cf7f581b6f3d7",
+   "source": "pickups/LocoMove_GoldenGun/opt2_clean.png",
+   "source_sha256": "435f6b905dcae8474da6168613bdbcf7668cce98d570f029344e1146f36d7b58",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2326,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     256.0
+    ],
+    "placed": [
+     -1,
+     3,
+     258,
+     258
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     32
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_Mariachi",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Mariachi.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Mariachi.bin.z",
+   "file_bytes": 148031,
+   "sha256": "fec5185b812bf9f576eadbb0dce01f1aaf9eed4d6cf2447075787b3f2d2335b8",
+   "source": "pickups/LocoMove_Mariachi/opt2_clean.png",
+   "source_sha256": "394cbc2f4bf29cf53dcf6d13aa9dcdab138b91fb23820b2643bd8ea0399ef487",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2247,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_Toro",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Toro.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Toro.bin.z",
+   "file_bytes": 137106,
+   "sha256": "cc1c7af41622d46174a090dba4745eeee7bcee33ce258c725711ea9c14e5f556",
+   "source": "pickups/LocoMove_Toro/opt2_clean.png",
+   "source_sha256": "f2f249f23ea3bb5888cb9d7ff698d74c1dc3e9b99d2e1cf6d97a97f6c7e7889d",
+   "clean": "none",
+   "placement": {
+    "scale": 0.226,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_Pinata",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Pinata.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Pinata.bin.z",
+   "file_bytes": 164792,
+   "sha256": "fb04c734a9ffc232b39b568f195630a63bf8a5376458ab4643d172b65a37cf0b",
+   "source": "pickups/LocoMove_Pinata/opt2_clean.png",
+   "source_sha256": "38ad1b488e706f563a7955b46d26d54c0e92e9b650fa44d95391b4a49c8f7f7f",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2247,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_Tornado",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Tornado.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Tornado.bin.z",
+   "file_bytes": 158014,
+   "sha256": "b420750c27442ec5339ae45023fc815ef2474a1dd7491c89498b906f606e9d57",
+   "source": "pickups/LocoMove_Tornado/opt2_clean.png",
+   "source_sha256": "4c1a19e1fe9456fb100cd3bd2227f196b3154712e16b0f7b03d4ba3ea9a89219",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2322,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     256.0
+    ],
+    "placed": [
+     -1,
+     3,
+     258,
+     258
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     32
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_Sombrero",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Sombrero.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Sombrero.bin.z",
+   "file_bytes": 135598,
+   "sha256": "73fca840887ec9b2c3034ebe6f8ed5b7acf21ee2bd4798e3365109ea6290fd06",
+   "source": "pickups/LocoMove_Sombrero/opt2_clean.png",
+   "source_sha256": "d3a4ff1996b13be51f455cf6491b1d8dd71478e843e7bf44952bfa2fa8e44efc",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2271,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_Wrestler",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Wrestler.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_Wrestler.bin.z",
+   "file_bytes": 169739,
+   "sha256": "64701fe120e3948f663887eec091751d9d731bb2ada188e325f5de7e9a4c96cf",
+   "source": "pickups/LocoMove_Wrestler/opt2_clean.png",
+   "source_sha256": "b731026c9cdc2ac9c5cc25523d55b485348fcfc6f2b2fefbfc7d0cc2cfa72905",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2258,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "LocoMove_MedKit",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_MedKit.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "LocoMove_MedKit.bin.z",
+   "file_bytes": 155475,
+   "sha256": "52e33a263685422c363503b6b9cfb6a646e3339492b9aa2b7737cfc36e1e3d38",
+   "source": "pickups/LocoMove_MedKit/opt2_clean.png",
+   "source_sha256": "f29f9f4e7f9c2353a3de7227573245c029e073b4e16f455e4064e4837a682f25",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2254,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "OneShot_TimeExtend",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/OneShot_TimeExtend.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "OneShot_TimeExtend.bin.z",
+   "file_bytes": 158348,
+   "sha256": "3cc832ef68a110fdfd92a3e5b50bf9117686b7d50c37b5f2023c925db6900f4f",
+   "source": "pickups/OneShot_TimeExtend/opt2_chosen.png",
+   "source_sha256": "92a6bf19d4d9a2401af21ab375c4fec9f0d3cfc29340adbb27d77da8d4df27a9",
+   "clean": "square",
+   "placement": {
+    "scale": 0.2264,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "OneShot_Health_Small",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/OneShot_Health_Small.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "OneShot_Health_Small.bin.z",
+   "file_bytes": 152477,
+   "sha256": "c35e83b80ce013cc5d3a45c133a1fc7d5950121048dfc4a9fe062fd1ca20f290",
+   "source": "pickups/OneShot_Health_Small/opt2_clean.png",
+   "source_sha256": "bb6a9b33048c3469ad107340c5ee35534ea6c5adb7be7722f8ea9de2258d995e",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2281,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "OneShot_Health_Big",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/OneShot_Health_Big.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "OneShot_Health_Big.bin.z",
+   "file_bytes": 168470,
+   "sha256": "2020c5ca8b101f6c8a29cd15cb79053abf73f5a52d0cf00598dc462c03931759",
+   "source": "pickups/OneShot_Health_Big/opt2_clean.png",
+   "source_sha256": "5d32f0df3e62322c61344e69d4c3fab54c4107f05ffc1a374f3118ac454811b9",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2273,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "Permanent_Health",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/Permanent_Health.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "Permanent_Health.bin.z",
+   "file_bytes": 166515,
+   "sha256": "b7fa9673875ee4b9c35c632f6289cd8b3681d2f00aab1220521ce2cbd85ffe54",
+   "source": "pickups/Permanent_Health/opt2_chosen.png",
+   "source_sha256": "0fb00c02c943e38ae8981e63a407d8a647808c31a8b123518e58a9c01a06eb5b",
+   "clean": "square",
+   "placement": {
+    "scale": 0.2292,
+    "box": [
+     16.0,
+     8.0,
+     232.0,
+     248.0
+    ],
+    "placed": [
+     -1,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     29,
+     31
+    ]
+   }
+  },
+  {
+   "name": "Permanent_Stamina",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/Permanent_Stamina.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "Permanent_Stamina.bin.z",
+   "file_bytes": 165963,
+   "sha256": "0f67e1277b2a4f2382b66e653b20b070d9511aaae27bb650f4f6e4d8768d2346",
+   "source": "pickups/Permanent_Stamina/opt2_clean.png",
+   "source_sha256": "e64e693a0b7680730fb1d82f15154e1919a1eb1bb74b5cba0db164c133fe126b",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2344,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "Permanent_GunSkill",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/Permanent_GunSkill.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "Permanent_GunSkill.bin.z",
+   "file_bytes": 164286,
+   "sha256": "6b605a42a491be04cd736a7b9f494d0b7f5cc2f31f5f144ad9ad57a673377514",
+   "source": "pickups/Permanent_GunSkill/opt2.png",
+   "source_sha256": "9c22de9e04a84e46bf27a5aeb47b15345135516fc756934fc967c1a05534c5d0",
+   "clean": "square",
+   "placement": {
+    "scale": 0.2277,
+    "box": [
+     16.0,
+     8.0,
+     240.0,
+     248.0
+    ],
+    "placed": [
+     3,
+     3,
+     250,
+     250
+    ],
+    "original_box": [
+     2,
+     1,
+     30,
+     31
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Gun",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Gun.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Gun.bin.z",
+   "file_bytes": 113126,
+   "sha256": "a50b89dad06c41ac740d7204b90bfe70229855babaca320c3600619198d1b42a",
+   "source": "ammo/BulletIcon_Gun/final_clean.png",
+   "source_sha256": "c0f57176a898e67a4cde0a65b5cc48021222bc01294c853df0c5bee48688667a",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2222,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -6,
+     267,
+     267
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Shotgun",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Shotgun.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Shotgun.bin.z",
+   "file_bytes": 141265,
+   "sha256": "d9ea81461e98897d4eefc113038f2cf7f9402d56b0d71514ea090f8c70533886",
+   "source": "ammo/BulletIcon_Shotgun/final_clean.png",
+   "source_sha256": "92fbb4c9a78a7b7cb0fa9f6f38beb20331790285409524cc61e2f3cff550095a",
+   "clean": "none",
+   "placement": {
+    "scale": 0.225,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Rifle",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Rifle.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Rifle.bin.z",
+   "file_bytes": 118844,
+   "sha256": "102b69892a295ec56bf98de441d4f35e6258d8f4543a76f39d774748aedbf5bf",
+   "source": "ammo/BulletIcon_Rifle/final_clean.png",
+   "source_sha256": "56c66b4007da3d2b3a28f6a1bb513485835b453e49e1737dc41a455dc741cd1e",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2278,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_GrenadeTrown",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_GrenadeTrown.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_GrenadeTrown.bin.z",
+   "file_bytes": 142916,
+   "sha256": "231723cfcb8c5e63fc53415f7871ad7f8446e4eaa204a471c15ad87efbc13084",
+   "source": "ammo/BulletIcon_GrenadeTrown/final_clean.png",
+   "source_sha256": "dcc71cc209020edfca3b0d77656a121f915baa8f5618c5bb26239010c125d837",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2278,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Molotov",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Molotov.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Molotov.bin.z",
+   "file_bytes": 146124,
+   "sha256": "76c12cb4a3c0e3d8989b8177f103f11b09795b5b77ea7f509f31ee63ea496c76",
+   "source": "ammo/BulletIcon_Molotov/final_clean.png",
+   "source_sha256": "4ca4fe3ae990d67c010086610be91a92fd6714ff1fae64fe2c0465461f6d84c0",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2242,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Dynamite",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Dynamite.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Dynamite.bin.z",
+   "file_bytes": 140259,
+   "sha256": "3ca02028ea9827c1ebdb01ab7fa7cc76483506a9fb7cf2974b7e760543659aba",
+   "source": "ammo/BulletIcon_Dynamite/final_clean.png",
+   "source_sha256": "afca22701912bba1fc0a824f18edaab60e026d5b746b0c0805024efd963b1ea9",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2272,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_GrenadeLauncher",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_GrenadeLauncher.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_GrenadeLauncher.bin.z",
+   "file_bytes": 139709,
+   "sha256": "65a288cffe171509821cd644495facd150ad35fd5d8b44d4a1e7db4a4024678b",
+   "source": "ammo/BulletIcon_GrenadeLauncher/final_clean.png",
+   "source_sha256": "330f209846a44dfcf37216818e5b03af33544e14f95a328786d1239c868a0caa",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2257,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Rocket",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Rocket.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Rocket.bin.z",
+   "file_bytes": 125779,
+   "sha256": "e12c9ad2a801e4069a3b0065ffd1aee2948e03517ca5eff83bf46666deba9126",
+   "source": "ammo/BulletIcon_Rocket/final_clean.png",
+   "source_sha256": "7e7ce12a84fcdd2ef61e21185f98138b055de2c948ed2574296ca0341a82f84b",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2265,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_GoldenGun",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_GoldenGun.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_GoldenGun.bin.z",
+   "file_bytes": 133452,
+   "sha256": "788f7f6b599284e92d5034e0b5cf2cdc6791ed4735a0d6aa3becb7e17e2f6ed6",
+   "source": "ammo/BulletIcon_GoldenGun/final_clean.png",
+   "source_sha256": "16c5380e06b845475080368c63531903ecc5ae38ba8ba981a34d525a62ffb356",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2278,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Mariachi",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Mariachi.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Mariachi.bin.z",
+   "file_bytes": 130833,
+   "sha256": "19825f9a75e9a3f0bc4fc00f97926d2f4b81388d2bb87b0f351bb664407d9bb1",
+   "source": "ammo/BulletIcon_Mariachi/final_clean.png",
+   "source_sha256": "e97d3079093500ca948be1e16b142526f834eaac6736660fda03c80b4aa72242",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2149,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -5,
+     266,
+     266
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Pinata",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Pinata.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Pinata.bin.z",
+   "file_bytes": 145282,
+   "sha256": "b27ef0e8ed1aaed26e8e64c38ee8d4b30ba81477ed7f0b1c994ff7813ad4138d",
+   "source": "ammo/BulletIcon_Pinata/final_clean.png",
+   "source_sha256": "a8480fa6bcb3c3916ea2a23f3b0c6240f6ac48473a739c1b883a9d51ee49415f",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2306,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -6,
+     -5,
+     267,
+     267
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletIcon_Fist",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Fist.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    32,
+    32
+   ],
+   "fmt": "RGBA32",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "bytes": 349524,
+   "file": "BulletIcon_Fist.bin.z",
+   "file_bytes": 136123,
+   "sha256": "9348ad19bca38d002f35e8ac681bd68f8bf5e7cc97da98623ccaf804ccdcb37c",
+   "source": "ammo/BulletIcon_Fist/final_clean.png",
+   "source_sha256": "55dcdf1ac4270745b0c28a1f15b2051d0c9aaffac4ded01b202662c876012d54",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2203,
+    "box": [
+     0.0,
+     0.0,
+     256.0,
+     256.0
+    ],
+    "placed": [
+     -5,
+     -6,
+     267,
+     267
+    ],
+    "original_box": [
+     0,
+     0,
+     32,
+     32
+    ]
+   }
+  },
+  {
+   "name": "BulletLine_Bullet",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletLine_Bullet.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    8,
+    16
+   ],
+   "fmt": "RGBA32",
+   "w": 128,
+   "h": 256,
+   "levels": 9,
+   "bytes": 174764,
+   "file": "BulletLine_Bullet.bin.z",
+   "file_bytes": 67620,
+   "sha256": "e259fc3b4da67b777339b719f14712bb282a5a1365d955cc8fe66dc7f0d4e8d3",
+   "source": "ammo/BulletLine_Bullet/final_clean.png",
+   "source_sha256": "4ed12e4f2bb4d21ab9e6b21f0c2bb60a665bd21fa4afbc21bd8ea11ffedb5a4d",
+   "clean": "none",
+   "placement": {
+    "scale": 0.1679,
+    "box": [
+     0.0,
+     16.0,
+     112.0,
+     224.0
+    ],
+    "placed": [
+     -52,
+     12,
+     216,
+     216
+    ],
+    "original_box": [
+     0,
+     1,
+     7,
+     14
+    ]
+   }
+  },
+  {
+   "name": "fist",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/fist.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "fist.bin.z",
+   "file_bytes": 60137,
+   "sha256": "c62aca78f60dd8089788080528c8f4d81c75c286d2696eb80b99cbf5d896ed89",
+   "source": "weapons/fist/final_clean.png",
+   "source_sha256": "122836f4fa4b4aabd8af55df9467829c80945257858e35a6d91246fbe357d477",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2989,
+    "box": [
+     256.0,
+     68.0,
+     496.0,
+     220.0
+    ],
+    "placed": [
+     256,
+     81,
+     241,
+     127
+    ],
+    "original_box": [
+     64,
+     17,
+     124,
+     55
+    ]
+   }
+  },
+  {
+   "name": "melee_machete",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/melee_machete.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "melee_machete.bin.z",
+   "file_bytes": 199087,
+   "sha256": "de6ead29cf3cc332b6d184f6068257251b62fb686b47bfab24ea8d909b32ae0e",
+   "source": "weapons/melee_machete/final.png",
+   "source_sha256": "f63f3182761363796d2152aaf7e6891dfe3566c3bb1b4c6165a5c877ac4ac750",
+   "clean": "crop",
+   "placement": {
+    "scale": 0.2865,
+    "box": [
+     40.0,
+     12.0,
+     480.0,
+     204.0
+    ],
+    "placed": [
+     40,
+     19,
+     441,
+     178
+    ],
+    "original_box": [
+     10,
+     3,
+     120,
+     51
+    ]
+   }
+  },
+  {
+   "name": "Melee_BaseballBat",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_BaseballBat.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "Melee_BaseballBat.bin.z",
+   "file_bytes": 207095,
+   "sha256": "eea577c96ac0f8984b79df89ef9019d4511e3dcece917857fcdd51f72a6ce013",
+   "source": "weapons/Melee_BaseballBat/final_clean.png",
+   "source_sha256": "bcaf9a6c015e476eb62d586889c70de4adfeae16732d28abd8a2e6dc3c2a0e94",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2901,
+    "box": [
+     24.0,
+     24.0,
+     496.0,
+     200.0
+    ],
+    "placed": [
+     24,
+     26,
+     473,
+     173
+    ],
+    "original_box": [
+     6,
+     6,
+     124,
+     50
+    ]
+   }
+  },
+  {
+   "name": "Melee_IronBar",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_IronBar.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "Melee_IronBar.bin.z",
+   "file_bytes": 231480,
+   "sha256": "fefe776a715ad349d3cf2d793e1392825453bc6c533c31acd95ef6468c6d3408",
+   "source": "weapons/Melee_IronBar/final_clean.png",
+   "source_sha256": "92a8855c12793e0137532e6ae11b9174aee583a4728d830d7c4cd6d60500f3f6",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2883,
+    "box": [
+     12.0,
+     0.0,
+     492.0,
+     220.0
+    ],
+    "placed": [
+     14,
+     0,
+     475,
+     221
+    ],
+    "original_box": [
+     3,
+     0,
+     123,
+     55
+    ]
+   }
+  },
+  {
+   "name": "Melee_Rake",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_Rake.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "Melee_Rake.bin.z",
+   "file_bytes": 225477,
+   "sha256": "cb7ac4a95a6245f8fc113b05535cfb7730e79535862c5cf6c53813b39a93bb60",
+   "source": "weapons/Melee_Rake/final_clean.png",
+   "source_sha256": "a17ac7034304c89e1f086e5bde8e48d4b3ca5251e070e9dcf5ae75fa197c693d",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2727,
+    "box": [
+     12.0,
+     4.0,
+     492.0,
+     220.0
+    ],
+    "placed": [
+     22,
+     4,
+     459,
+     217
+    ],
+    "original_box": [
+     3,
+     1,
+     123,
+     55
+    ]
+   }
+  },
+  {
+   "name": "Melee_Shovel",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_Shovel.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "Melee_Shovel.bin.z",
+   "file_bytes": 191076,
+   "sha256": "ff34794b6bcc574debb98c96f0f893d9dc16061f4c040a32247ce34c60dfaa80",
+   "source": "weapons/Melee_Shovel/final_clean.png",
+   "source_sha256": "98ba9034ff902d6807959c39c1d4bba2e1d9d28e8e66e3786aacd3e03a87f409",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2813,
+    "box": [
+     8.0,
+     12.0,
+     496.0,
+     232.0
+    ],
+    "placed": [
+     15,
+     11,
+     473,
+     221
+    ],
+    "original_box": [
+     2,
+     3,
+     124,
+     58
+    ]
+   }
+  },
+  {
+   "name": "gun_Light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Light.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "gun_Light.bin.z",
+   "file_bytes": 110702,
+   "sha256": "d20a9e9ba6a5536d5fe38719edf4b4bd7934512033a899186c98e1e4e217a211",
+   "source": "weapons/gun_Light/final_clean.png",
+   "source_sha256": "ae0879db521d504f2837de92945e8645da582d3d2dadc40d9cc6e15cf45963b2",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2963,
+    "box": [
+     220.0,
+     12.0,
+     408.0,
+     252.0
+    ],
+    "placed": [
+     222,
+     11,
+     185,
+     241
+    ],
+    "original_box": [
+     55,
+     3,
+     102,
+     63
+    ]
+   }
+  },
+  {
+   "name": "gun_Light_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Light_Dubble.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "gun_Light_Dubble.bin.z",
+   "file_bytes": 175654,
+   "sha256": "8cfa14d94a5602aac637afe807e146df2d52598d469e37c7e47e3a3ee0df4efb",
+   "source": "weapons/gun_Light_Dubble/final_clean.png",
+   "source_sha256": "f7813ddea248d072736753ac8217437877033857955513a700fab6ee99345c72",
+   "clean": "none",
+   "placement": {
+    "scale": 0.3021,
+    "box": [
+     120.0,
+     12.0,
+     436.0,
+     252.0
+    ],
+    "placed": [
+     120,
+     12,
+     317,
+     240
+    ],
+    "original_box": [
+     30,
+     3,
+     109,
+     63
+    ]
+   }
+  },
+  {
+   "name": "gun_Heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Heavy.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "gun_Heavy.bin.z",
+   "file_bytes": 137744,
+   "sha256": "7ace7b6819feb782720d4b3e7dbcc10f770a02d4a3741194e65b780e4bcaec24",
+   "source": "weapons/gun_Heavy/final_clean.png",
+   "source_sha256": "aaf1ad8cba121a29b28ecf3ca13928b1fe803c42e4bd7228d1f22304be490fda",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2909,
+    "box": [
+     156.0,
+     8.0,
+     424.0,
+     248.0
+    ],
+    "placed": [
+     158,
+     8,
+     263,
+     241
+    ],
+    "original_box": [
+     39,
+     2,
+     106,
+     62
+    ]
+   }
+  },
+  {
+   "name": "gun_Heavy_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Heavy_Dubble.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "gun_Heavy_Dubble.bin.z",
+   "file_bytes": 231113,
+   "sha256": "dea1a8a37c9b41708e97cb93df433b7a5788283931aad8562647e224e2edf271",
+   "source": "weapons/gun_Heavy_Dubble/final_clean.png",
+   "source_sha256": "2d1b194394a0ef7a5509921728c423c7a95286ab51bed147f15d5df286a32578",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2891,
+    "box": [
+     64.0,
+     12.0,
+     456.0,
+     252.0
+    ],
+    "placed": [
+     63,
+     13,
+     393,
+     238
+    ],
+    "original_box": [
+     16,
+     3,
+     114,
+     63
+    ]
+   }
+  },
+  {
+   "name": "rifle_light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rifle_light.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "rifle_light.bin.z",
+   "file_bytes": 206353,
+   "sha256": "e369df52e2a7576080a8872dcbd8fd2c785da65f465f8c80aaa76d1fc62b4041",
+   "source": "weapons/rifle_light/final_clean.png",
+   "source_sha256": "2efaa7e67f0adfdf56715281ff3e13c1fb9fc443a5c64fb4aae9cf377acb9639",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2838,
+    "box": [
+     28.0,
+     12.0,
+     488.0,
+     244.0
+    ],
+    "placed": [
+     28,
+     16,
+     461,
+     224
+    ],
+    "original_box": [
+     7,
+     3,
+     122,
+     61
+    ]
+   }
+  },
+  {
+   "name": "rifle_light_dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rifle_light_dubble.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "rifle_light_dubble.bin.z",
+   "file_bytes": 280332,
+   "sha256": "5f249a3ff7db3d73dba513e504827b087aed657c6712b1207b6a9f4a3615ff25",
+   "source": "weapons/rifle_light_dubble/final_clean.png",
+   "source_sha256": "06348d2633086b117d62cc6a2c26ba6267712dc1047374d564299df20eff6246",
+   "clean": "none",
+   "placement": {
+    "scale": 0.3272,
+    "box": [
+     12.0,
+     4.0,
+     496.0,
+     252.0
+    ],
+    "placed": [
+     8,
+     5,
+     488,
+     246
+    ],
+    "original_box": [
+     3,
+     1,
+     124,
+     63
+    ]
+   }
+  },
+  {
+   "name": "rifle_heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rifle_heavy.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "rifle_heavy.bin.z",
+   "file_bytes": 187461,
+   "sha256": "d45c002838ab87242972a8ff16aefa0ee861b5ed867cd213b700525a24a44bcf",
+   "source": "weapons/rifle_heavy/final_clean.png",
+   "source_sha256": "30e08a4216adc20f870e5e566001c161788c66499b786dce30d11ace0e57f14f",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2847,
+    "box": [
+     16.0,
+     4.0,
+     504.0,
+     256.0
+    ],
+    "placed": [
+     16,
+     4,
+     488,
+     251
+    ],
+    "original_box": [
+     4,
+     1,
+     126,
+     64
+    ]
+   }
+  },
+  {
+   "name": "shotgun_sawedoff",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_sawedoff.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "shotgun_sawedoff.bin.z",
+   "file_bytes": 184412,
+   "sha256": "2677b62f71c824fd0b216426f45f70fc117be6ce1c8b4345a55ba2869f8b242d",
+   "source": "weapons/shotgun_sawedoff/final_clean.png",
+   "source_sha256": "124c17b1ac50fae5eededbb1846472de8a71e9945a4af4062a0fff3988c6be02",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2851,
+    "box": [
+     52.0,
+     12.0,
+     436.0,
+     252.0
+    ],
+    "placed": [
+     52,
+     12,
+     385,
+     240
+    ],
+    "original_box": [
+     13,
+     3,
+     109,
+     63
+    ]
+   }
+  },
+  {
+   "name": "shotgun_sawedoff_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_sawedoff_Dubble.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "shotgun_sawedoff_Dubble.bin.z",
+   "file_bytes": 236996,
+   "sha256": "a8773dbfb912bd40c63c43c1793488c3d718e6f81e5593d14ad4668ddecb9844",
+   "source": "weapons/shotgun_sawedoff_Dubble/final_clean.png",
+   "source_sha256": "efea9cc434681a938473eb769a89db9c83c185166fbaa73bfe8014dc0b160d02",
+   "clean": "none",
+   "placement": {
+    "scale": 0.3085,
+    "box": [
+     12.0,
+     12.0,
+     492.0,
+     244.0
+    ],
+    "placed": [
+     20,
+     12,
+     461,
+     232
+    ],
+    "original_box": [
+     3,
+     3,
+     123,
+     61
+    ]
+   }
+  },
+  {
+   "name": "shotgun_combat",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_combat.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "shotgun_combat.bin.z",
+   "file_bytes": 150510,
+   "sha256": "c2ffd4b6a846af2be535252402add8c81b3f3acd44b1955fb2f1b96ca731f3b3",
+   "source": "weapons/shotgun_combat/final_clean.png",
+   "source_sha256": "9e91f2d69758a73a8a6dc733adaaef73844e6bcffab57f359936c9fda80238c6",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2752,
+    "box": [
+     36.0,
+     4.0,
+     456.0,
+     248.0
+    ],
+    "placed": [
+     36,
+     9,
+     421,
+     235
+    ],
+    "original_box": [
+     9,
+     1,
+     114,
+     62
+    ]
+   }
+  },
+  {
+   "name": "shotgun_combat_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_combat_Dubble.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "shotgun_combat_Dubble.bin.z",
+   "file_bytes": 190292,
+   "sha256": "ebf1b5d8bbb25b576b8a4cfe30a0dacad2392afe5fdc1cb1ab477a7851f3f022",
+   "source": "weapons/shotgun_combat_Dubble/final_clean.png",
+   "source_sha256": "4322341aa4f7548c58b878de508b0d58b9213468e71a508fbd9a17c5844b3635",
+   "clean": "none",
+   "placement": {
+    "scale": 0.3272,
+    "box": [
+     12.0,
+     4.0,
+     496.0,
+     252.0
+    ],
+    "placed": [
+     8,
+     5,
+     489,
+     246
+    ],
+    "original_box": [
+     3,
+     1,
+     124,
+     63
+    ]
+   }
+  },
+  {
+   "name": "sub_automatic_light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/sub_automatic_light.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "sub_automatic_light.bin.z",
+   "file_bytes": 103003,
+   "sha256": "f2761d9e51fc9c5bff89e766a503b1ce3a52c35e717cbeda423eb36e7f6919ea",
+   "source": "weapons/sub_automatic_light/final_clean.png",
+   "source_sha256": "95432b1f5e6ae6f238e537136f7acd51ee0765ad0b48e33c2ebf26879830b2fd",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2887,
+    "box": [
+     216.0,
+     4.0,
+     408.0,
+     252.0
+    ],
+    "placed": [
+     216,
+     15,
+     193,
+     226
+    ],
+    "original_box": [
+     54,
+     1,
+     102,
+     63
+    ]
+   }
+  },
+  {
+   "name": "sub_automatic_light_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/sub_automatic_light_Dubble.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "sub_automatic_light_Dubble.bin.z",
+   "file_bytes": 144135,
+   "sha256": "5d0a1ffde321af39440ef3b4378e8e1da43c9e7c56efece2f9293d1d6705977c",
+   "source": "weapons/sub_automatic_light_Dubble/final_clean.png",
+   "source_sha256": "33f43c88a87d8aff517f3ae7c155ee5a629a248604254702261e23306ffd1dd4",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2537,
+    "box": [
+     116.0,
+     4.0,
+     444.0,
+     252.0
+    ],
+    "placed": [
+     112,
+     29,
+     332,
+     194
+    ],
+    "original_box": [
+     29,
+     1,
+     111,
+     63
+    ]
+   }
+  },
+  {
+   "name": "sub_automatic_Heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/sub_automatic_Heavy.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "sub_automatic_Heavy.bin.z",
+   "file_bytes": 140728,
+   "sha256": "333a3a8a4a0cec543e55a6482360ef3afcdc182183936df52e6125527ca3d9c1",
+   "source": "weapons/sub_automatic_Heavy/final_clean.png",
+   "source_sha256": "ad911fb1d049057488100c2348a714b06139a32de0480a0528e290bea5391f1b",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2869,
+    "box": [
+     160.0,
+     4.0,
+     432.0,
+     252.0
+    ],
+    "placed": [
+     160,
+     6,
+     273,
+     245
+    ],
+    "original_box": [
+     40,
+     1,
+     108,
+     63
+    ]
+   }
+  },
+  {
+   "name": "automatic_Light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/automatic_Light.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "automatic_Light.bin.z",
+   "file_bytes": 141999,
+   "sha256": "f020938d1e8d1548edb8f9ca0b6238365540f6ffac8675ed4e726ed4578ce5f4",
+   "source": "weapons/automatic_Light/final_clean.png",
+   "source_sha256": "cffc55716b0cdf334c65160d20a281cb282b88d042981d3b137578ab715df99b",
+   "clean": "none",
+   "placement": {
+    "scale": 0.27,
+    "box": [
+     52.0,
+     24.0,
+     436.0,
+     240.0
+    ],
+    "placed": [
+     52,
+     32,
+     385,
+     201
+    ],
+    "original_box": [
+     13,
+     6,
+     109,
+     60
+    ]
+   }
+  },
+  {
+   "name": "automatic_Heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/automatic_Heavy.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "automatic_Heavy.bin.z",
+   "file_bytes": 202500,
+   "sha256": "060d11e9c9ee696a000a349e5b6b02744c61f813e86303268988483c1d4a3b8e",
+   "source": "weapons/automatic_Heavy/final_clean.png",
+   "source_sha256": "8f805720ba0ed9d77707846aa7fff27799de14fe6195a3dcfc776d7027d721f0",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2841,
+    "box": [
+     48.0,
+     4.0,
+     452.0,
+     252.0
+    ],
+    "placed": [
+     49,
+     4,
+     402,
+     249
+    ],
+    "original_box": [
+     12,
+     1,
+     113,
+     63
+    ]
+   }
+  },
+  {
+   "name": "automatic_Gatling",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/automatic_Gatling.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "automatic_Gatling.bin.z",
+   "file_bytes": 104963,
+   "sha256": "5380e4e223510f9d1eb5e1eee1118b78ac74ba6b131f39f38c9ab7af7fd56ad9",
+   "source": "weapons/automatic_Gatling/final_clean.png",
+   "source_sha256": "509c9f51089758079af0ded71d80b3803286efeb32ab56d7301ce7331faa16e4",
+   "clean": "none",
+   "placement": {
+    "scale": 0.298,
+    "box": [
+     32.0,
+     72.0,
+     496.0,
+     228.0
+    ],
+    "placed": [
+     32,
+     85,
+     465,
+     130
+    ],
+    "original_box": [
+     8,
+     18,
+     124,
+     57
+    ]
+   }
+  },
+  {
+   "name": "thrown_grenate",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/thrown_grenate.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "thrown_grenate.bin.z",
+   "file_bytes": 158942,
+   "sha256": "43e09831f7c79b674b41a42413dee3b3dca0906600d58dac145136be07442a50",
+   "source": "weapons/thrown_grenate/final_clean.png",
+   "source_sha256": "c8ec1e1e5ac4dd7a588ed5219ea6ff5ef25057f648a22abcac7cbe75b4f63cb7",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2773,
+    "box": [
+     160.0,
+     20.0,
+     412.0,
+     208.0
+    ],
+    "placed": [
+     170,
+     20,
+     233,
+     189
+    ],
+    "original_box": [
+     40,
+     5,
+     103,
+     52
+    ]
+   }
+  },
+  {
+   "name": "thrown_molotov",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/thrown_molotov.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "thrown_molotov.bin.z",
+   "file_bytes": 241127,
+   "sha256": "517e8caa84787d92e560c2d006fed1b4f53046ca178022604ed689890eda205c",
+   "source": "weapons/thrown_molotov/final_clean.png",
+   "source_sha256": "7ea2ff20ce3d8145ed7cd34932f804291ef7445a414e5cbec6a804c6d65a6a4d",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2661,
+    "box": [
+     88.0,
+     40.0,
+     440.0,
+     204.0
+    ],
+    "placed": [
+     88,
+     48,
+     353,
+     148
+    ],
+    "original_box": [
+     22,
+     10,
+     110,
+     51
+    ]
+   }
+  },
+  {
+   "name": "thrown_dynamite",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/thrown_dynamite.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "thrown_dynamite.bin.z",
+   "file_bytes": 231307,
+   "sha256": "7a762b078179bae62d537c37a7576443713a1df613d7386de6a723bcff9e83cb",
+   "source": "weapons/thrown_dynamite/final_clean.png",
+   "source_sha256": "e0a335a7baa98eb031dbf0f7b5e53b76a289b1b35960cb83affb2293363a47d6",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2824,
+    "box": [
+     52.0,
+     32.0,
+     472.0,
+     204.0
+    ],
+    "placed": [
+     58,
+     32,
+     407,
+     173
+    ],
+    "original_box": [
+     13,
+     8,
+     118,
+     51
+    ]
+   }
+  },
+  {
+   "name": "grenade_launcher",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/grenade_launcher.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "grenade_launcher.bin.z",
+   "file_bytes": 209016,
+   "sha256": "3334cccf18519b990c2b28ca088f15f808318e53196b8887496665e4002861a2",
+   "source": "weapons/grenade_launcher/final_clean.png",
+   "source_sha256": "6365550b2994504d855e409cc52bb2581505efb27d8975612424206ce4ef8d4c",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2818,
+    "box": [
+     28.0,
+     4.0,
+     476.0,
+     248.0
+    ],
+    "placed": [
+     35,
+     3,
+     434,
+     245
+    ],
+    "original_box": [
+     7,
+     1,
+     119,
+     62
+    ]
+   }
+  },
+  {
+   "name": "rocket_launcher",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rocket_launcher.BMP",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    128,
+    64
+   ],
+   "fmt": "RGBA32",
+   "w": 512,
+   "h": 256,
+   "levels": 10,
+   "bytes": 699052,
+   "file": "rocket_launcher.bin.z",
+   "file_bytes": 244232,
+   "sha256": "f43c1cf543279901bbd1a405e12eb5036038bf2f437276cb53a87f5e220ac7be",
+   "source": "weapons/rocket_launcher/final_clean.png",
+   "source_sha256": "f3d8447d26f09bde54bdd565f9b72de7cc2ef40f0e420a6a6f8a0d8d596ba9be",
+   "clean": "none",
+   "placement": {
+    "scale": 0.2872,
+    "box": [
+     12.0,
+     4.0,
+     504.0,
+     256.0
+    ],
+    "placed": [
+     11,
+     7,
+     493,
+     246
+    ],
+    "original_box": [
+     3,
+     1,
+     126,
+     64
+    ]
+   }
+  },
+  {
+   "name": "hud_element_combotimer",
+   "group": "combo",
+   "resource": "/data/Models/props/effect/hud_element_combotimer.bmp",
+   "enabled": true,
+   "status": "approved",
+   "original": [
+    64,
+    256
+   ],
+   "fmt": "RGBA32",
+   "w": 128,
+   "h": 512,
+   "levels": 10,
+   "bytes": 349532,
+   "file": "hud_element_combotimer.bin.z",
+   "file_bytes": 65567,
+   "sha256": "f0e84a048dbb5ad402f299f8951d6863531db26ba1290c33e951a17db3d76dad",
+   "source": "combo/skull_H_fire_matched.png",
+   "source_sha256": "92b891b4cbfef3fd681291f476dc8f76a518848d8a5cab1330f52a0a0467323f",
+   "clean": "additive",
+   "placement": {
+    "mapping": "disc",
+    "size": 1024
+   }
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+diff --git a/src/ctz.h b/src/ctz.h
+index 483ce4b..a5876d7 100644
+--- a/src/ctz.h
++++ b/src/ctz.h
+@@ -72,7 +72,12 @@ static inline uint32_t b3CTZ64( uint64_t block )
+ 
+ static inline int b3PopCount64( uint64_t block )
+ {
++#ifdef _WIN64
+ 	return (int)__popcnt64( block );
++#else
++	// TOD Gameplay+ x86 patch: no __popcnt64 on 32-bit x86
++	return (int)( __popcnt( (uint32_t)block ) + __popcnt( (uint32_t)( block >> 32 ) ) );
++#endif
+ }
+ 
+ #else
+diff --git a/src/platform.h b/src/platform.h
+index 856b19b..505f74a 100644
+--- a/src/platform.h
++++ b/src/platform.h
+@@ -135,7 +135,16 @@ static inline uint32_t b3AtomicFetchOrU32( uint32_t* a, uint32_t mask )
+ 
+ static inline int64_t b3AtomicFetchAddI64( b3AtomicI64* a, int64_t increment )
+ {
+-#if defined( _MSC_VER )
++#if defined( _MSC_VER ) && defined( _M_IX86 )
++	// TOD Gameplay+ x86 patch: MSVC has no _InterlockedExchangeAdd64 intrinsic on 32-bit x86 (cmpxchg8b loop)
++	__int64 old;
++	do
++	{
++		old = __iso_volatile_load64( (volatile __int64*)&a->value );
++	}
++	while ( _InterlockedCompareExchange64( (__int64*)&a->value, old + (__int64)increment, old ) != old );
++	return (int64_t)old;
++#elif defined( _MSC_VER )
+ 	return (int64_t)_InterlockedExchangeAdd64( (__int64*)&a->value, (__int64)increment );
+ #elif defined( __GNUC__ ) || defined( __clang__ )
+ 	return __atomic_fetch_add( &a->value, increment, __ATOMIC_SEQ_CST );

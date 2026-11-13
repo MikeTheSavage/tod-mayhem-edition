@@ -1,0 +1,11 @@
+/* Barlow Condensed, Barlow Semi Condensed (The Barlow Project Authors) and Rokkitt (The Rokkitt Project Authors),
+   SIL Open Font License 1.1 (OFL.txt). Latin subset woff2 files from Google Fonts, stored here so the installer works
+   offline; sources in SOURCES.txt. */
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 500; font-display: swap; src: url(BarlowCondensed-500.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 600; font-display: swap; src: url(BarlowCondensed-600.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(BarlowCondensed-700.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 800; font-display: swap; src: url(BarlowCondensed-800.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 500; font-display: swap; src: url(BarlowSemiCondensed-500.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 600; font-display: swap; src: url(BarlowSemiCondensed-600.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(BarlowSemiCondensed-700.woff2) format('woff2'); }
+@font-face { font-family: 'Rokkitt'; font-style: normal; font-weight: 700 900; font-display: swap; src: url(Rokkitt-variable.woff2) format('woff2'); }

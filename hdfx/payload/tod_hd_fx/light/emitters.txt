@@ -1,0 +1,88 @@
+# TOD HD fx -- EMISSIVE LIGHTS (emissive_lights, lighting_mode = 2): which textures are LIGHT SOURCES, and how.
+#
+#   <name>  <r> <g> <b>  <intensity>  <range m>  <kind>
+#
+# name   the texture's key LEAF, exactly as the particle manifest (particles\manifest.txt: `fire`) or the material
+#        class map (light\classes.txt: `parkinghouselamps`) names it.  `*<class>` matches every texture of that
+#        material class -- a plain name always wins over it.  `*engine` is the row for the ENGINE's own D3D point
+#        and spot lights: its colour and range are MULTIPLIERS on the light the engine sets (which brings its own).
+# kind   fire   the fire and explosion sprites.  One quad per particle, each with its own world matrix; the sprites
+#               within 4 m of each other are ONE light at their alpha-weighted centre, as strong as they are opaque
+#               (four opaque sprites = 1.0, capped at 2) and flickering with them at `emissive_flicker`.
+#        flash  a muzzle flash: on at once, gone within a few frames, as strong as its draw's TFACTOR alpha.
+#               NOT the flipbooks' EMPTY frames: `flash_autolong_8` and `flash_gun_4` are every texel alpha 0, and the
+#               engine draws them on EVERY armed character EVERY frame, firing or not (run_ko_b: 4 characters x 12
+#               frames).  As rows they were a light glued to the player's gun and to every enemy's.  Never add them.
+#        lamp   a lamp, a glare billboard, a sign: a steady light at the draw's own world position.  The engine
+#               frustum-culls, so a lamp stays lit for `emissive_persist` seconds after it was last drawn.
+#        engine only for `*engine`.  The engine's own lights are applied per draw, only to the lit objects the
+#               engine enabled them for, at the engine's own strength (1/Attenuation0) and attenuation.
+# The intensity multiplies the colour (and `emissive_intensity` multiplies everything); the range is where the light
+# reaches exactly zero (x `emissive_range`).  A draw whose world matrix has no translation (level geometry batched in
+# world space) has no position of its own and is never a source, whatever its texture.
+#
+# YOU MAY EDIT THIS FILE, and the DLL re-reads it live while emissive_lights = 1.  A line that does not parse is
+# skipped and counted in the log.  Textures that are in no line are not light sources.
+*engine                         1.00  1.00  1.00   1.00    1.0  engine
+fire                            1.00  0.52  0.18   1.60    9.0  fire
+explosion01                     1.00  0.58  0.22   4.00   16.0  fire
+explosion03                     1.00  0.58  0.22   4.00   16.0  fire
+explosion04                     1.00  0.58  0.22   4.00   16.0  fire
+explotion                       1.00  0.58  0.22   4.00   16.0  fire
+flash_autolong_1                1.00  0.78  0.45   2.50    6.0  flash
+flash_autolong_2                1.00  0.78  0.45   2.50    6.0  flash
+flash_autolong_3                1.00  0.78  0.45   2.50    6.0  flash
+flash_autolong_4                1.00  0.78  0.45   2.50    6.0  flash
+flash_autolong_5                1.00  0.78  0.45   2.50    6.0  flash
+flash_autolong_6                1.00  0.78  0.45   2.50    6.0  flash
+flash_autolong_7                1.00  0.78  0.45   2.50    6.0  flash
+flash_gun_1                     1.00  0.78  0.45   2.50    6.0  flash
+flash_gun_2                     1.00  0.78  0.45   2.50    6.0  flash
+flash_gun_3                     1.00  0.78  0.45   2.50    6.0  flash
+flash1                          1.00  0.78  0.45   2.50    6.0  flash
+flash2                          1.00  0.78  0.45   2.50    6.0  flash
+flash3                          1.00  0.78  0.45   2.50    6.0  flash
+flash4                          1.00  0.78  0.45   2.50    6.0  flash
+flash5                          1.00  0.78  0.45   2.50    6.0  flash
+flash6                          1.00  0.78  0.45   2.50    6.0  flash
+flash7                          1.00  0.78  0.45   2.50    6.0  flash
+flash8                          1.00  0.78  0.45   2.50    6.0  flash
+glarespritehorizontal_barlamp   1.00  0.86  0.62   1.20   10.0  lamp
+lightglare01                    1.00  0.86  0.62   1.20   10.0  lamp
+streetlight_cone01              1.00  0.84  0.58   1.00   12.0  lamp
+tunnellampcone                  1.00  0.84  0.58   1.00   12.0  lamp
+dea_officelightglow             0.92  0.95  1.00   0.80    7.0  lamp
+lightchain_white_glow           1.00  0.90  0.70   0.35    4.0  lamp
+lightchain_red_glow             1.00  0.20  0.12   0.35    4.0  lamp
+lightchain_green_glow           0.25  1.00  0.30   0.35    4.0  lamp
+glow_red                        1.00  0.15  0.10   0.50    4.0  lamp
+glow_green                      0.20  1.00  0.25   0.50    4.0  lamp
+*emissive                       1.00  0.86  0.66   0.70    6.0  lamp
+parkinghouselamps               1.00  0.90  0.72   1.00    9.0  lamp
+lamp                            1.00  0.84  0.60   1.00    8.0  lamp
+lamppemex                       1.00  0.84  0.60   1.00    8.0  lamp
+tunnellamp                      1.00  0.84  0.58   1.00   10.0  lamp
+airfieldlight                   1.00  0.80  0.45   0.80    6.0  lamp
+mobilehomelight                 1.00  0.86  0.66   0.80    6.0  lamp
+lamp_red                        1.00  0.15  0.10   0.80    5.0  lamp
+lamp_green                      0.20  1.00  0.25   0.80    5.0  lamp
+trafficlightred                 1.00  0.12  0.08   0.50    4.0  lamp
+trafficlightyellow              1.00  0.70  0.12   0.50    4.0  lamp
+trafficlightgreen               0.20  1.00  0.45   0.50    4.0  lamp
+trafficlightgreenpedestrian     0.20  1.00  0.45   0.40    3.0  lamp
+sirene_blue                     0.20  0.35  1.00   1.00    8.0  lamp
+sirene_red                      1.00  0.10  0.08   1.00    8.0  lamp
+siren                           1.00  0.15  0.12   0.80    7.0  lamp
+amblancesiren                   1.00  0.15  0.12   0.80    7.0  lamp
+neonlineblue                    0.25  0.45  1.00   0.60    5.0  lamp
+neonlinegreen                   0.25  1.00  0.40   0.60    5.0  lamp
+neonlinered                     1.00  0.15  0.20   0.60    5.0  lamp
+lightchain_white                1.00  0.90  0.70   0.35    4.0  lamp
+lightchain_red                  1.00  0.20  0.12   0.35    4.0  lamp
+lightchain_green                0.25  1.00  0.30   0.35    4.0  lamp
+dea_computerscreen              0.55  0.75  1.00   0.35    3.0  lamp
+dea_controlroom_monitor         0.55  0.75  1.00   0.35    3.0  lamp
+tv_wood                         0.55  0.75  1.00   0.35    3.0  lamp
+bombcomputer                    0.55  0.75  1.00   0.35    3.0  lamp
+launchcontrols                  0.55  0.75  1.00   0.35    3.0  lamp
+panel_launchcontols             0.55  0.75  1.00   0.35    3.0  lamp

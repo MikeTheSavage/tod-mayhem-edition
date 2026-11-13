@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOD Gameplay+ installer</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="installer.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="to-win win-heat-0" id="win">
+  <svg class="to-defs" aria-hidden="true" focusable="false">
+    <filter id="to-distress" x="-4%" y="-14%" width="108%" height="128%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="warp"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"></feDisplacementMap>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" result="grain"></feTurbulence>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.3" result="holes"></feColorMatrix>
+      <feComposite in="rough" in2="holes" operator="in"></feComposite>
+    </filter>
+    <filter id="mh-distress" x="-4%" y="-14%" width="108%" height="128%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="warp"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="rough"></feDisplacementMap>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="grain"></feTurbulence>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.4" result="holes"></feColorMatrix>
+      <feComposite in="rough" in2="holes" operator="in"></feComposite>
+    </filter>
+    <filter id="mh-blur" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3"></feGaussianBlur></filter>
+  </svg>
+  <svg class="to-grain" aria-hidden="true" focusable="false">
+    <filter id="to-grain-f"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+    <rect width="100%" height="100%" filter="url(#to-grain-f)"></rect>
+  </svg>
+
+  <header class="to-head">
+    <div class="to-rays" aria-hidden="true"></div>
+    <div class="brand">
+      <h1 class="brand-title">TOD</h1>
+      <p class="brand-sub">GAMEPLAY<b>+</b></p>
+    </div>
+    <div class="head-right">
+      <div class="audio" id="audio">
+        <button type="button" class="icon-btn" id="mute" aria-label="Mute music" aria-pressed="false" title="Music (starts with your first click)">
+          <svg class="ico-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"></path><path d="M16.5 8.8a4.5 4.5 0 0 1 0 6.4"></path><path d="M19.2 6.2a8.2 8.2 0 0 1 0 11.6"></path></svg>
+          <svg class="ico-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"></path><path d="M16.5 9.5l5 5M21.5 9.5l-5 5"></path></svg>
+        </button>
+        <input class="rng rng-vol" id="volume" type="range" min="0" max="100" step="1" value="80" aria-label="Music volume">
+      </div>
+      <p class="credit" id="credit" hidden></p>
+    </div>
+  </header>
+
+  <!-- ===================================================== main -->
+  <div class="scr-main" id="scr-main">
+    <main class="to-body" id="body">
+      <h2 class="sr-only">Gameplay mods</h2>
+      <div class="cards" id="cards"></div>
+
+      <section class="mayhem heat-0" id="mayhem" aria-labelledby="mh-title">
+        <div class="mh-bg" aria-hidden="true">
+          <svg class="mh-cracks" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <g class="glow" filter="url(#mh-blur)" fill="none" stroke-linejoin="miter">
+              <path d="M-10 270L60 258L95 272L160 246L230 262L290 238L350 252L420 226L470 240"></path><path d="M160 246L172 212L150 180L176 150L168 118"></path><path d="M470 240L540 276L610 262L680 290L760 270L830 296L900 280"></path><path d="M610 262L628 228L600 196L640 170L630 130"></path><path d="M900 280L960 250L1030 264L1090 236L1150 250L1210 230"></path><path d="M1030 264L1046 300L1020 330"></path><path d="M700 120L760 100L800 118L860 92L930 108L980 84"></path><path d="M80 60L140 84L190 70L240 96L300 80"></path><path d="M350 252L340 300L372 330"></path><path d="M1090 236L1100 190L1140 160L1130 120L1170 90"></path><path d="M420 226L440 180L410 150L452 110L500 96"></path><path d="M760 270L780 230L750 200"></path>
+            </g>
+            <g class="core" fill="none" stroke-linejoin="miter">
+              <path d="M-10 270L60 258L95 272L160 246L230 262L290 238L350 252L420 226L470 240"></path><path d="M160 246L172 212L150 180L176 150L168 118"></path><path d="M470 240L540 276L610 262L680 290L760 270L830 296L900 280"></path><path d="M610 262L628 228L600 196L640 170L630 130"></path><path d="M900 280L960 250L1030 264L1090 236L1150 250L1210 230"></path><path d="M1030 264L1046 300L1020 330"></path><path d="M700 120L760 100L800 118L860 92L930 108L980 84"></path><path d="M80 60L140 84L190 70L240 96L300 80"></path><path d="M350 252L340 300L372 330"></path><path d="M1090 236L1100 190L1140 160L1130 120L1170 90"></path><path d="M420 226L440 180L410 150L452 110L500 96"></path><path d="M760 270L780 230L750 200"></path>
+            </g>
+          </svg>
+        </div>
+        <div class="mh-coals" aria-hidden="true"></div>
+        <div class="mh-fire" aria-hidden="true">
+          <svg class="mh-flames" viewBox="0 0 1200 300" preserveAspectRatio="none" focusable="false">
+            <g class="fl-deep"><path d="M-147 312L-147 300C-147 189 -76 110 -45 36C-7 126 95 189 95 300L95 312Z"></path><path d="M-14 312L-14 300C-14 176 66 88 99 5C146 106 267 176 267 300L267 312Z"></path><path d="M147 312L147 300C147 190 224 112 268 39C297 128 389 190 389 300L389 312Z"></path><path d="M281 312L281 300C281 181 362 97 410 18C439 114 533 181 533 300L533 312Z"></path><path d="M424 312L424 300C424 178 501 91 529 10C578 108 700 178 700 300L700 312Z"></path><path d="M588 312L588 300C588 188 670 108 705 33C751 124 870 188 870 300L870 312Z"></path><path d="M753 312L753 300C753 193 826 117 855 45C900 132 1013 193 1013 300L1013 312Z"></path><path d="M892 312L892 300C892 178 985 91 1045 10C1071 108 1168 178 1168 300L1168 312Z"></path><path d="M1022 312L1022 300C1022 187 1119 106 1175 31C1209 123 1320 187 1320 300L1320 312Z"></path></g>
+            <g class="fl-red"><path d="M-101 312L-101 300C-101 194 -35 118 4 47C26 133 100 194 100 300L100 312Z"></path><path d="M30 312L30 300C30 210 80 146 101 86C129 159 202 210 202 300L202 312Z"></path><path d="M127 312L127 300C127 213 180 151 203 94C232 164 309 213 309 300L309 312Z"></path><path d="M260 312L260 300C260 206 313 139 334 77C367 153 448 206 448 300L448 312Z"></path><path d="M355 312L355 300C355 199 427 127 471 60C493 141 572 199 572 300L572 312Z"></path><path d="M478 312L478 300C478 212 541 149 573 90C601 161 684 212 684 300L684 312Z"></path><path d="M623 312L623 300C623 201 692 131 736 65C754 145 825 201 825 300L825 312Z"></path><path d="M735 312L735 300C735 210 791 146 808 86C849 159 944 210 944 300L944 312Z"></path><path d="M853 312L853 300C853 211 922 147 975 87C982 159 1037 211 1037 300L1037 312Z"></path><path d="M988 312L988 300C988 199 1045 127 1073 59C1099 141 1173 199 1173 300L1173 312Z"></path><path d="M1105 312L1105 300C1105 209 1161 144 1184 84C1216 157 1298 209 1298 300L1298 312Z"></path></g>
+            <g class="fl-orange"><path d="M-67 312L-67 300C-67 225 -14 172 29 122C32 183 71 225 71 300L71 312Z"></path><path d="M29 312L29 300C29 214 73 153 98 95C114 165 165 214 165 300L165 312Z"></path><path d="M123 312L123 300C123 238 168 194 197 153C209 203 254 238 254 300L254 312Z"></path><path d="M237 312L237 300C237 239 280 196 300 156C321 205 380 239 380 300L380 312Z"></path><path d="M341 312L341 300C341 215 396 154 438 97C444 166 487 215 487 300L487 312Z"></path><path d="M411 312L411 300C411 223 460 167 489 116C506 178 562 223 562 300L562 312Z"></path><path d="M519 312L519 300C519 238 565 194 589 153C609 203 668 238 668 300L668 312Z"></path><path d="M619 312L619 300C619 217 665 158 683 103C710 170 778 217 778 300L778 312Z"></path><path d="M732 312L732 300C732 216 784 156 825 101C829 168 868 216 868 300L868 312Z"></path><path d="M820 312L820 300C820 225 859 171 871 120C900 181 969 225 969 300L969 312Z"></path><path d="M934 312L934 300C934 220 982 163 1009 109C1026 174 1080 220 1080 300L1080 312Z"></path><path d="M1016 312L1016 300C1016 241 1071 198 1115 159C1117 207 1156 241 1156 300L1156 312Z"></path><path d="M1133 312L1133 300C1133 233 1172 185 1181 140C1214 194 1288 233 1288 300L1288 312Z"></path></g>
+            <g class="fl-yellow"><path d="M-41 312L-41 300C-41 268 -3 246 18 224C32 250 78 268 78 300L78 312Z"></path><path d="M26 312L26 300C26 250 53 214 57 180C83 221 138 250 138 300L138 312Z"></path><path d="M126 312L126 300C126 263 169 237 205 213C205 242 233 263 233 300L233 312Z"></path><path d="M216 312L216 300C216 256 252 224 279 195C283 231 312 256 312 300L312 312Z"></path><path d="M294 312L294 300C294 243 329 203 354 165C361 211 393 243 393 300L393 312Z"></path><path d="M384 312L384 300C384 267 411 244 418 222C440 249 489 267 489 300L489 312Z"></path><path d="M466 312L466 300C466 264 493 239 500 215C523 244 573 264 573 300L573 312Z"></path><path d="M544 312L544 300C544 264 588 239 626 215C625 244 652 264 652 300L652 312Z"></path><path d="M660 312L660 300C660 264 694 238 718 215C723 244 752 264 752 300L752 312Z"></path><path d="M727 312L727 300C727 245 759 206 779 169C788 214 821 245 821 300L821 312Z"></path><path d="M810 312L810 300C810 249 839 212 846 178C870 219 924 249 924 300L924 312Z"></path><path d="M891 312L891 300C891 259 923 230 940 202C954 236 994 259 994 300L994 312Z"></path><path d="M991 312L991 300C991 244 1017 204 1019 166C1046 212 1102 244 1102 300L1102 312Z"></path><path d="M1073 312L1073 300C1073 247 1099 209 1106 174C1127 217 1173 247 1173 300L1173 312Z"></path><path d="M1152 312L1152 300C1152 259 1179 230 1188 203C1208 236 1255 259 1255 300L1255 312Z"></path></g>
+          </svg>
+        </div>
+        <div class="mh-sparks" aria-hidden="true"><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i></div>
+
+        <div class="mh-content">
+          <div class="mh-head">
+            <h2 class="mh-title" id="mh-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.6 1.8c.6 3.6 5.4 5.6 5.4 11.2A6 6 0 0 1 6 13c0-2.6 1.3-4.4 2.6-5.6.1 2.1 1 3.4 2.4 3.6-.6-3.2.1-6.2 1.6-9.2z"></path></svg><span>MAYHEM</span></h2>
+            <span class="mh-extra" id="mh-extra" hidden></span>
+          </div>
+          <div class="mh-grid" id="mh-grid"></div>
+          <div class="mh-soon">
+            <span class="mh-soon-label" id="mh-soon-l"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="8.6"></circle><path d="M12 7.2V12l3.2 2.2"></path></svg>Coming soon</span>
+            <ul class="chips" id="soon" aria-labelledby="mh-soon-l"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="to-foot" id="foot">
+      <div class="loc">
+        <div class="loc-label"><span>Game folder</span><span class="loc-ok" id="exe-badge"></span></div>
+        <div class="loc-row">
+          <label class="path" title=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 5.5h6.5l2 2.5H21v11H3z"></path></svg><input class="path-txt path-in" id="game" type="text" spellcheck="false" aria-label="Game folder"></label>
+          <button type="button" class="btn-ghost" id="game-browse">Browse</button>
+        </div>
+      </div>
+      <div class="loc">
+        <div class="loc-label"><span>Backup</span><span class="loc-space" id="space-txt"></span></div>
+        <div class="loc-row">
+          <label class="path"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 5.5h6.5l2 2.5H21v11H3z"></path></svg><input class="path-txt path-in" id="backup-root" type="text" spellcheck="false" aria-label="Backup folder"></label>
+          <button type="button" class="icon-btn icon-btn--sm" id="backup-browse" aria-label="Change backup folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 5.5h6.5l2 2.5H21v11H3z"></path><path d="M12 11v5M9.5 13.5h5"></path></svg></button>
+        </div>
+        <div class="meter" id="meter" aria-hidden="true"><span style="width: 0%"></span></div>
+        <div class="bk-kind" role="radiogroup" aria-label="What to back up">
+          <label class="opt opt--sm"><input type="radio" name="bk-kind" value="full" checked><span class="opt-dot"></span><span>Full folder</span></label>
+          <label class="opt opt--sm"><input type="radio" name="bk-kind" value="changed"><span class="opt-dot"></span><span>Changed files only</span></label>
+        </div>
+      </div>
+      <div class="foot-act">
+        <button type="button" class="link" id="go-restore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"></path><path d="M3.5 3.5v5h5"></path></svg>Restore a backup</button>
+        <button type="button" class="btn-install" id="install" disabled>INSTALL</button>
+      </div>
+      <p class="foot-msg" id="foot-msg" hidden></p>
+    </footer>
+  </div>
+
+  <!-- ===================================================== progress -->
+  <main class="screen scr-progress" id="scr-progress" aria-labelledby="scr-prog-t" hidden>
+    <div class="prog-hero burst">
+      <h2 class="kicker" id="scr-prog-t" tabindex="-1">INSTALLING</h2>
+      <p class="prog-num" aria-hidden="true"><span class="pct-n" id="pct-n">0</span><span>%</span></p>
+      <p class="mini-label prog-sub" id="prog-sub"></p>
+    </div>
+    <ol class="steps" id="steps" aria-live="polite"></ol>
+    <div class="prog-track" role="progressbar" id="prog-track" aria-labelledby="scr-prog-t" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="prog-bar" id="prog-bar" style="width: 0%"></div>
+    </div>
+    <div class="scr-foot">
+      <span class="mini-label prog-keep">Keep the game closed</span>
+      <button type="button" class="btn-ghost" id="log-toggle" aria-expanded="false" aria-controls="log">Log</button>
+    </div>
+    <pre class="log" id="log" hidden></pre>
+  </main>
+
+  <!-- ===================================================== done -->
+  <main class="screen scr-done" id="scr-done" hidden>
+    <div class="done-hero burst">
+      <h2 class="mega" id="done-title" lang="es" tabindex="-1">¡LISTO!</h2>
+      <p class="done-sub" id="done-sub"></p>
+    </div>
+    <div class="done-body" id="done-body"></div>
+    <div class="scr-foot"><button type="button" class="btn-install btn-install--md" id="done-close">CLOSE</button></div>
+  </main>
+
+  <!-- ===================================================== restore -->
+  <main class="screen scr-restore" id="scr-restore" aria-labelledby="scr-rest-t" hidden>
+    <div class="scr-head">
+      <button type="button" class="icon-btn" id="rest-back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" aria-hidden="true"><path d="M20 12H5M11 5.5L4.5 12l6.5 6.5"></path></svg></button>
+      <h2 class="scr-title" id="scr-rest-t" tabindex="-1">RESTORE</h2>
+      <p class="scr-note">Checked against its sha256 manifest and copied back; files the installer added since are removed. The oldest backup puts the folder back as it was before your first install with this installer.</p>
+    </div>
+    <fieldset class="bk-list" id="bk-list"><legend class="sr-only">Choose a backup</legend></fieldset>
+    <div class="scr-foot">
+      <span class="bk-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 5.5h6.5l2 2.5H21v11H3z"></path></svg><span id="rest-root"></span></span>
+      <button type="button" class="icon-btn icon-btn--sm" id="rest-browse" aria-label="Backups in another folder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 5.5h6.5l2 2.5H21v11H3z"></path><path d="M12 11v5M9.5 13.5h5"></path></svg></button>
+      <button type="button" class="btn-ghost" id="all-off">Switch everything off</button>
+      <button type="button" class="btn-install btn-install--md" id="rest-go" disabled>RESTORE</button>
+    </div>
+  </main>
+
+  <!-- ===================================================== dialogs -->
+  <div class="overlay" id="dlg-running" hidden>
+    <div class="dlg" role="alertdialog" aria-modal="true" aria-labelledby="err-t" aria-describedby="err-d">
+      <div class="dlg-stripe" aria-hidden="true"></div>
+      <div class="dlg-body">
+        <svg class="dlg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3L1.8 20.5h20.4z"></path><path d="M12 9.5v5.5M12 17.2v1.3"></path></svg>
+        <h2 class="dlg-title" id="err-t">CLOSE THE GAME TO CONTINUE</h2>
+      </div>
+      <p class="dlg-text" id="err-d">Total Overdose is running from this game folder. Nothing is installed or restored while it runs.</p>
+      <div class="dlg-actions">
+        <button type="button" class="btn-ghost" data-close>Cancel</button>
+        <button type="button" class="btn-install btn-install--sm" id="err-retry" data-autofocus>RETRY</button>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="dlg-confirm" hidden>
+    <div class="dlg" role="alertdialog" aria-modal="true" aria-labelledby="cf-t" aria-describedby="cf-d">
+      <div class="dlg-stripe" aria-hidden="true"></div>
+      <div class="dlg-body">
+        <svg class="dlg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"></path><path d="M3.5 3.5v5h5"></path></svg>
+        <h2 class="dlg-title" id="cf-t">RESTORE THIS BACKUP?</h2>
+      </div>
+      <p class="dlg-text" id="cf-d"></p>
+      <div class="dlg-actions">
+        <button type="button" class="btn-ghost" data-close>Cancel</button>
+        <button type="button" class="btn-install btn-install--sm" id="cf-go" data-autofocus>RESTORE</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="mayhem_music.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1012 @@
+{
+ "Entity": {
+  "parent": null,
+  "saved": {},
+  "T": 0
+ },
+ "Node": {
+  "parent": "Entity",
+  "saved": {
+   "1": [
+    "parent",
+    "Entity"
+   ],
+   "2": [
+    "flags",
+    "integer"
+   ],
+   "3": [
+    "pos",
+    "vector"
+   ],
+   "4": [
+    "orient",
+    "quaternion"
+   ],
+   "5": [
+    "use_aux_quadtree",
+    "truth"
+   ],
+   "8": [
+    "lod_threshold",
+    "number"
+   ],
+   "9": [
+    "fade_threshold",
+    "number"
+   ],
+   "6": [
+    "UserType",
+    "integer"
+   ],
+   "7": [
+    "IgnoreList",
+    "string"
+   ]
+  },
+  "T": 10
+ },
+ "NodeSpatial": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "boundradius",
+    "number"
+   ]
+  },
+  "T": 11
+ },
+ "NodeLogical": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Camera": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "offset",
+    "number"
+   ],
+   "12": [
+    "nearclip",
+    "number"
+   ],
+   "13": [
+    "farclip",
+    "number"
+   ],
+   "11": [
+    "fov",
+    "number"
+   ]
+  },
+  "T": 14
+ },
+ "Model": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "modelres",
+    "string"
+   ],
+   "12": [
+    "opacity",
+    "number"
+   ],
+   "11": [
+    "active_texture_set",
+    "integer"
+   ]
+  },
+  "T": 13
+ },
+ "Folder": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Scene": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "timemultiplier",
+    "number"
+   ]
+  },
+  "T": 11
+ },
+ "MockupBox": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "EditorCamera": {
+  "parent": "Camera",
+  "saved": {},
+  "T": 14
+ },
+ "Character": {
+  "parent": "Node",
+  "saved": {
+   "17": [
+    "modelres",
+    "string"
+   ],
+   "10": [
+    "freeze",
+    "truth"
+   ],
+   "11": [
+    "bonecontrol",
+    "truth"
+   ],
+   "12": [
+    "opacity",
+    "number"
+   ],
+   "18": [
+    "active_texture_set",
+    "integer"
+   ],
+   "16": [
+    "attachment",
+    "string"
+   ]
+  },
+  "T": 19
+ },
+ "Bone": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "AnimSlot": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "MotionAnimSlot": {
+  "parent": "AnimSlot",
+  "saved": {},
+  "T": 10
+ },
+ "AnimLayer": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "playing",
+    "truth"
+   ],
+   "11": [
+    "looping",
+    "truth"
+   ],
+   "12": [
+    "freeze",
+    "truth"
+   ],
+   "13": [
+    "target_anim",
+    "integer"
+   ],
+   "14": [
+    "weight",
+    "number"
+   ],
+   "15": [
+    "crosstarget1",
+    "Entity"
+   ],
+   "16": [
+    "crosstarget2",
+    "Entity"
+   ],
+   "17": [
+    "playpos1",
+    "number"
+   ],
+   "18": [
+    "playpos2",
+    "number"
+   ],
+   "19": [
+    "crossblendfactor",
+    "number"
+   ],
+   "21": [
+    "crossblendspeed",
+    "number"
+   ],
+   "20": [
+    "targetcrossblendfactor",
+    "number"
+   ],
+   "22": [
+    "event",
+    "integer"
+   ],
+   "23": [
+    "blendfinishedevent",
+    "integer"
+   ],
+   "24": [
+    "motionlayer",
+    "Entity"
+   ],
+   "25": [
+    "overridetarget1",
+    "truth"
+   ],
+   "26": [
+    "overridetarget2",
+    "truth"
+   ],
+   "27": [
+    "overridegamepivotpos1",
+    "vector"
+   ],
+   "28": [
+    "overridegamepivotpos2",
+    "vector"
+   ],
+   "29": [
+    "getclearoverridetarget1onblendfinished",
+    "truth"
+   ],
+   "30": [
+    "getclearoverridetarget2onblendfinished",
+    "truth"
+   ],
+   "31": [
+    "speedmultiplier",
+    "number"
+   ]
+  },
+  "T": 32
+ },
+ "CutscenePlayer": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "MotionLayer": {
+  "parent": "AnimLayer",
+  "saved": {
+   "32": [
+    "worldstartpos",
+    "vector"
+   ],
+   "33": [
+    "worldstartorient",
+    "quaternion"
+   ],
+   "34": [
+    "worldendpos",
+    "vector"
+   ],
+   "35": [
+    "worldendorient",
+    "quaternion"
+   ],
+   "36": [
+    "updateabsolute",
+    "truth"
+   ]
+  },
+  "T": 37
+ },
+ "CollisionBox": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "CollisionFlags",
+    "integer"
+   ]
+  },
+  "T": 11
+ },
+ "CollisionSphere": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "radius",
+    "number"
+   ],
+   "11": [
+    "extrusion",
+    "number"
+   ],
+   "12": [
+    "CollisionFlags",
+    "integer"
+   ]
+  },
+  "T": 13
+ },
+ "WayPoint": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "TrackPoint": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Navigator": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "movectrl",
+    "Entity"
+   ],
+   "11": [
+    "active",
+    "truth"
+   ],
+   "12": [
+    "maxlookahead",
+    "number"
+   ],
+   "13": [
+    "movectrlcommand",
+    "integer"
+   ],
+   "14": [
+    "obstaclecheckinterval",
+    "number"
+   ],
+   "15": [
+    "TargetPoint",
+    "vector"
+   ],
+   "16": [
+    "NextTargetPoint",
+    "vector"
+   ],
+   "17": [
+    "looping",
+    "truth"
+   ],
+   "18": [
+    "Path2",
+    "list(vector)"
+   ],
+   "19": [
+    "PathPoint",
+    "integer"
+   ],
+   "20": [
+    "PathFraction",
+    "number"
+   ],
+   "21": [
+    "PathFinishedEvent",
+    "integer"
+   ],
+   "22": [
+    "NextObstacleCheckTime",
+    "integer"
+   ],
+   "23": [
+    "ObstacleFound",
+    "truth"
+   ],
+   "24": [
+    "ObstacleNormal",
+    "vector"
+   ],
+   "25": [
+    "ObstacleDist",
+    "number"
+   ]
+  },
+  "T": 26
+ },
+ "SignPost": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Track": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "ControlSetup": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Control": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Group": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "CollisionProbe": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "RigidBody": {
+  "parent": "Node",
+  "saved": {
+   "13": [
+    "coll_mass",
+    "number"
+   ],
+   "14": [
+    "Elasticity",
+    "number"
+   ],
+   "10": [
+    "angularmomentum",
+    "vector"
+   ],
+   "12": [
+    "coll_linear_speed",
+    "vector"
+   ],
+   "11": [
+    "coll_angular_speed",
+    "vector"
+   ],
+   "15": [
+    "Orientation_t",
+    "quaternion"
+   ],
+   "16": [
+    "Position_t",
+    "vector"
+   ]
+  },
+  "T": 17
+ },
+ "OverdoseVehicle": {
+  "parent": "RigidBody",
+  "saved": {
+   "26": [
+    "spring_k",
+    "number"
+   ],
+   "25": [
+    "spring_damping",
+    "number"
+   ],
+   "27": [
+    "stiffness",
+    "number"
+   ],
+   "24": [
+    "realmainbody_default_y",
+    "number"
+   ],
+   "21": [
+    "front_point_velocity",
+    "vector"
+   ],
+   "22": [
+    "rear_point_velocity",
+    "vector"
+   ],
+   "23": [
+    "LastNormal_list",
+    "list(vector)"
+   ],
+   "29": [
+    "wheel_radius",
+    "number"
+   ],
+   "17": [
+    "front_point_t",
+    "vector"
+   ],
+   "18": [
+    "rear_point_t",
+    "vector"
+   ],
+   "19": [
+    "roll_angle_t",
+    "number"
+   ],
+   "28": [
+    "tilt_angle_speed",
+    "number"
+   ],
+   "20": [
+    "axle_height",
+    "number"
+   ],
+   "30": [
+    "width",
+    "number"
+   ]
+  },
+  "T": 31
+ },
+ "StretchModel": {
+  "parent": "Model",
+  "saved": {},
+  "T": 13
+ },
+ "SkyBox": {
+  "parent": "Model",
+  "saved": {},
+  "T": 13
+ },
+ "Fog": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "start",
+    "number"
+   ],
+   "11": [
+    "end",
+    "number"
+   ],
+   "12": [
+    "color_rgb",
+    "vector"
+   ]
+  },
+  "T": 13
+ },
+ "Wind": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Cloth": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "GFXEffect": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Shadow": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "LensFlare": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "LensFlareManager": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "DecalManager": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "SurroundGeometry": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "DynamicSurroundGeometry": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Light": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Sprite": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "texture",
+    "string"
+   ],
+   "11": [
+    "sprite_size",
+    "vector"
+   ],
+   "12": [
+    "blendMode",
+    "integer"
+   ],
+   "13": [
+    "opacity",
+    "number"
+   ],
+   "14": [
+    "is_3d",
+    "truth"
+   ],
+   "15": [
+    "cullmode",
+    "integer"
+   ],
+   "16": [
+    "prioritylayer",
+    "integer"
+   ],
+   "17": [
+    "infinite_distance",
+    "truth"
+   ],
+   "18": [
+    "constant_size_mode",
+    "integer"
+   ],
+   "19": [
+    "const_size_near",
+    "number"
+   ],
+   "20": [
+    "const_size_far",
+    "number"
+   ],
+   "21": [
+    "const_size_far_shrink",
+    "number"
+   ],
+   "22": [
+    "AxisAlign3d",
+    "integer"
+   ],
+   "23": [
+    "angle",
+    "number"
+   ],
+   "24": [
+    "v1u",
+    "number"
+   ],
+   "25": [
+    "v1v",
+    "number"
+   ],
+   "26": [
+    "v2u",
+    "number"
+   ],
+   "27": [
+    "v2v",
+    "number"
+   ],
+   "28": [
+    "v3u",
+    "number"
+   ],
+   "29": [
+    "v3v",
+    "number"
+   ],
+   "30": [
+    "v4u",
+    "number"
+   ],
+   "31": [
+    "v4v",
+    "number"
+   ],
+   "32": [
+    "color_rgb1",
+    "vector"
+   ],
+   "33": [
+    "color_a1",
+    "number"
+   ],
+   "34": [
+    "color_rgb2",
+    "vector"
+   ],
+   "35": [
+    "color_a2",
+    "number"
+   ],
+   "36": [
+    "color_rgb3",
+    "vector"
+   ],
+   "37": [
+    "color_a3",
+    "number"
+   ],
+   "38": [
+    "color_rgb4",
+    "vector"
+   ],
+   "39": [
+    "color_a4",
+    "number"
+   ]
+  },
+  "T": 40
+ },
+ "TextBox": {
+  "parent": "Sprite",
+  "saved": {},
+  "T": 40
+ },
+ "TextSlot": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "GuideBox": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "Bullet": {
+  "parent": "Model",
+  "saved": {},
+  "T": 13
+ },
+ "SoundSlot": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "SoundEmitter": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "stopmessage",
+    "integer"
+   ]
+  },
+  "T": 11
+ },
+ "StaticLighting": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "MoviePlayer": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "ParticleSystem": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "GEKeyFrame": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "GeometryEffect": {
+  "parent": "Model",
+  "saved": {},
+  "T": 13
+ },
+ "ProfilerInput": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ },
+ "RealtimeFolder": {
+  "parent": "Folder",
+  "saved": {},
+  "T": 10
+ },
+ "PlaceHolder": {
+  "parent": "Model",
+  "saved": {
+   "15": [
+    "boundradius",
+    "number"
+   ],
+   "14": [
+    "usemodelbound",
+    "truth"
+   ],
+   "13": [
+    "collisionpivot",
+    "integer"
+   ]
+  },
+  "T": 16
+ },
+ "CharacterPlaceHolder": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "Status",
+    "integer"
+   ],
+   "14": [
+    "PopSensitiveType",
+    "integer"
+   ],
+   "11": [
+    "Locked",
+    "truth"
+   ],
+   "12": [
+    "VIPTimer",
+    "number"
+   ],
+   "13": [
+    "Priority",
+    "integer"
+   ],
+   "15": [
+    "StoredDamage",
+    "number"
+   ],
+   "16": [
+    "OrgHealth",
+    "number"
+   ],
+   "31": [
+    "Marco_sqr_dist",
+    "number"
+   ],
+   "17": [
+    "FactionID",
+    "integer"
+   ],
+   "18": [
+    "UsingModifiedFaction",
+    "truth"
+   ],
+   "19": [
+    "UsingSecretFaction",
+    "truth"
+   ],
+   "20": [
+    "SecretFaction",
+    "integer"
+   ],
+   "21": [
+    "PedestrianGroup",
+    "integer"
+   ],
+   "22": [
+    "LockedType",
+    "truth"
+   ],
+   "24": [
+    "FallbackModel",
+    "integer"
+   ],
+   "23": [
+    "CurrentModel",
+    "integer"
+   ],
+   "25": [
+    "StoreTrig",
+    "truth"
+   ],
+   "26": [
+    "StoreAlarm",
+    "truth"
+   ],
+   "27": [
+    "StorePriority",
+    "truth"
+   ],
+   "28": [
+    "StoreTrigType",
+    "integer"
+   ],
+   "29": [
+    "passenger_seat",
+    "integer"
+   ],
+   "30": [
+    "was_passenger",
+    "truth"
+   ]
+  },
+  "T": 32
+ },
+ "HavocPlaceHolder": {
+  "parent": "PlaceHolder",
+  "saved": {
+   "16": [
+    "Status",
+    "integer"
+   ],
+   "17": [
+    "Locked",
+    "truth"
+   ],
+   "18": [
+    "VIPTimer",
+    "number"
+   ],
+   "19": [
+    "Priority",
+    "integer"
+   ],
+   "20": [
+    "Replace_pivot_ID",
+    "integer"
+   ],
+   "21": [
+    "com_ID",
+    "integer"
+   ],
+   "22": [
+    "Broken",
+    "truth"
+   ]
+  },
+  "T": 23
+ },
+ "GoodiePlaceHolder": {
+  "parent": "PlaceHolder",
+  "saved": {
+   "16": [
+    "Status",
+    "integer"
+   ],
+   "17": [
+    "Locked",
+    "truth"
+   ],
+   "18": [
+    "VIPTimer",
+    "number"
+   ],
+   "19": [
+    "Priority",
+    "integer"
+   ]
+  },
+  "T": 20
+ },
+ "WeaponPlaceHolder": {
+  "parent": "PlaceHolder",
+  "saved": {
+   "16": [
+    "Status",
+    "integer"
+   ],
+   "17": [
+    "Locked",
+    "truth"
+   ],
+   "18": [
+    "VIPTimer",
+    "number"
+   ],
+   "19": [
+    "Priority",
+    "integer"
+   ]
+  },
+  "T": 20
+ },
+ "MemoryCards": {
+  "parent": "Node",
+  "saved": {
+   "10": [
+    "savefilesize",
+    "integer"
+   ]
+  },
+  "T": 11
+ },
+ "LoadScreenNode": {
+  "parent": "Node",
+  "saved": {},
+  "T": 10
+ }
+}

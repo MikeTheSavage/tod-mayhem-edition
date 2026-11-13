@@ -1,0 +1,163 @@
+/* app.css - additions to the design's installer.css for what the design does not draw: status badges, the
+   EXPERIMENTAL tag, the "what it changes" list, the backup kind choice, footer messages, the credit line, the log,
+   restore-screen notes. Same tokens (installer.css :root); a restyle edits the tokens there. */
+
+html, body { margin: 0; height: 100%; background: var(--to-ink); }
+[hidden] { display: none !important; }
+
+.scr-main { position: relative; z-index: 1; flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+
+/* header: audio + credit line */
+.head-right { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 0; }
+.icon-btn .ico-off { display: none; }
+.icon-btn[aria-pressed="true"] .ico-on { display: none; }
+.icon-btn[aria-pressed="true"] .ico-off { display: block; }
+.rng-vol { background-size: var(--fill, 80%) 8px, 100% 8px; }
+.credit {
+  margin: 0; max-width: 460px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--to-cond); font-weight: 600; font-size: 12.5px; letter-spacing: .04em; color: var(--to-paper-3);
+}
+
+/* card title column: title + badges */
+.card-tt { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.badges { display: flex; flex-wrap: wrap; gap: 5px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px;
+  border: 1.5px solid var(--to-paper-3); color: var(--to-paper-3); background: transparent;
+  font-family: var(--to-cond); font-weight: 800; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap;
+}
+.badge svg { width: 12px; height: 12px; }
+.badge--now { border-color: #5b4422; color: var(--to-paper-2); }
+.badge--now svg { color: var(--to-yellow); }
+.badge--new { border-color: var(--to-yellow); color: var(--to-yellow); }
+.badge--off { border-color: #ff6b57; color: #ff6b57; }
+.badge--needs { border-style: dashed; }
+/* EXPERIMENTAL: a hazard tag (stripes + black plate), distinct from the outline badges */
+.tag-exp {
+  display: inline-flex; align-items: stretch; height: 22px; border: 2px solid var(--to-yellow); background: #000;
+  font-family: var(--to-cond); font-weight: 800; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+  box-shadow: 2px 2px 0 var(--to-red);
+}
+.tag-exp::before { content: ""; width: 14px; background: repeating-linear-gradient(-45deg, var(--to-yellow) 0 4px, #000 4px 8px); }
+.tag-exp span { display: flex; align-items: center; padding: 0 7px 0 6px; color: var(--to-yellow); }
+.exp-note {
+  display: flex; align-items: flex-start; gap: 8px; margin: 0; padding: 7px 9px;
+  background: repeating-linear-gradient(-45deg, rgba(255, 210, 31, .1) 0 8px, transparent 8px 16px), #000;
+  border-left: 4px solid var(--to-yellow);
+  font-family: var(--to-cond); font-weight: 700; font-size: 14px; letter-spacing: .02em; color: var(--to-yellow);
+}
+.exp-note svg { flex: none; width: 16px; height: 16px; margin-top: 1px; }
+
+/* details: description + controls + what it changes */
+.card:not(.is-open) .card-details, .mh-card:not(.is-open) .card-details { display: none; }
+.card-desc { margin: 0; font-size: 14px; color: var(--to-paper-2); }
+.fx { margin: 2px 0 0; padding: 8px 0 0; list-style: none; border-top: 1px solid var(--to-line); display: flex; flex-direction: column; gap: 3px; }
+.fx li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 7px; align-items: baseline; font-size: 12.5px; line-height: 1.3; color: var(--to-paper-3); }
+.fx b { font-family: var(--to-cond); font-weight: 800; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--to-muted); }
+.fx b.k-data { color: #7fc6e6; } .fx b.k-ini { color: var(--to-orange); } .fx b.k-file { color: #a8e07a; }
+.fx code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 11.5px; color: var(--to-paper-2); word-break: break-word; }
+.chk { align-items: flex-start; }
+.chk .chk-box { margin-top: 2px; }
+.card .warn { margin-top: 0; }
+.card-details .opt, .card-details .chk { font-size: 14.5px; line-height: 1.25; }
+.keyrow .key { min-width: 86px; }
+.key-msg { margin: -4px 0 0; font-family: var(--to-cond); font-weight: 700; font-size: 13px; color: #ff6b57; }
+
+/* mayhem additions */
+.mh-head { flex-wrap: wrap; }
+.mh-extra { font-family: var(--to-cond); font-weight: 800; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--to-paper-3); }
+.mh-extra.is-on { color: var(--to-orange); }
+.mh-card .card-more { margin-top: -2px; }
+.mh-card .card-details { border-top-color: #4a2014; }
+.mh-card .badges { margin-top: -2px; }
+.mh-needs { margin: 0; font-family: var(--to-cond); font-weight: 700; font-size: 13.5px; letter-spacing: .03em; color: var(--to-paper-3); }
+
+/* footer additions */
+.path { cursor: text; }
+.path-in { flex: 1 1 auto; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; }
+.path:focus-within { border-color: var(--to-focus); outline: 3px solid var(--to-focus); outline-offset: 3px; }
+.loc-ok.is-bad { color: #ff6b57; }
+.loc-ok.is-warn { color: var(--to-orange); }
+.bk-kind { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 1px; }
+.opt--sm { min-height: 24px; gap: 7px; font-family: var(--to-cond); font-size: 13.5px; font-weight: 700; letter-spacing: .04em; color: var(--to-paper-2); }
+.opt--sm .opt-dot { width: 18px; height: 18px; }
+.opt--sm .opt-dot::after { width: 8px; height: 8px; }
+.foot-msg {
+  grid-column: 1 / -1; margin: -4px 0 0; display: flex; flex-direction: column; gap: 2px;
+  font-family: var(--to-cond); font-weight: 700; font-size: 14px; letter-spacing: .02em;
+}
+.foot-msg .m-bad { color: #ff6b57; }
+.foot-msg .m-warn { color: var(--to-yellow); }
+.btn-install[aria-busy="true"] { cursor: progress; }
+
+/* progress / done / restore additions */
+.prog-sub { margin-top: 18px; color: var(--to-paper-2); text-transform: none; letter-spacing: .04em; font-size: 15px; }
+.step-sub { margin-left: auto; font-family: var(--to-cond); font-weight: 600; font-size: 14px; color: var(--to-paper-3); text-align: right; }
+.step.is-failed { color: #ff6b57; border-color: #ff6b57; background: #2a0f0b; }
+.step.is-failed .step-ico { border: 0; background: #ff6b57; color: #000; }
+.step.is-failed .step-ico svg { width: 18px; height: 18px; }
+.prog-keep { margin-right: auto; }
+.log {
+  grid-column: 1 / -1; max-height: 180px; overflow: auto; margin: 0; padding: 10px 12px;
+  background: #000; border: 2px solid var(--to-line); color: var(--to-paper-2);
+  font: 12px/1.4 Consolas, "Cascadia Mono", monospace; white-space: pre-wrap;
+}
+.done-sub { margin: 18px 0 0; max-width: 480px; font-size: 16px; color: var(--to-paper-2); }
+.done-meta { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.done-meta code { display: block; font: 12px Consolas, "Cascadia Mono", monospace; color: var(--to-paper-3); word-break: break-all; }
+.done-list { margin: 0; padding: 0 0 0 2px; list-style: none; display: flex; flex-direction: column; gap: 4px; font-family: var(--to-cond); font-weight: 600; font-size: 16px; }
+.sum-chip.is-off { border-style: dashed; border-color: var(--to-line); color: var(--to-muted); }
+.sum-chip.is-off svg { color: var(--to-muted); }
+.scr-head { flex-wrap: wrap; }
+.scr-note { flex: 1 1 320px; margin: 0; max-width: 620px; font-size: 14.5px; color: var(--to-paper-3); }
+.bk-kind-tag { margin-left: 8px; font-family: var(--to-cond); font-weight: 800; font-size: 12px; letter-spacing: .14em; color: var(--to-orange); }
+.bk small.bk-before { display: block; margin-top: 2px; font-family: var(--to-cond); font-weight: 600; font-size: 13px; letter-spacing: .02em; color: var(--to-muted); }
+.bk-main { display: flex; flex-direction: column; min-width: 0; padding: 10px 0; }
+.bk-empty { padding: 26px; border: 2px dashed var(--to-line); color: var(--to-paper-3); font-family: var(--to-cond); font-weight: 700; font-size: 17px; }
+.dlg-text { margin: 0; padding: 4px 26px 0 98px; font-size: 15.5px; color: var(--to-paper-2); }
+.scr-restore .scr-foot { flex-wrap: wrap; }
+
+@container win (max-width: 1120px) {
+  .credit { max-width: 300px; }
+  .fx code { font-size: 11px; }
+}
+
+/* headings that only take focus for screen readers when a screen opens: no ring */
+.mega:focus-visible, .kicker:focus-visible, .scr-title:focus-visible { outline: none; }
+.prog-num .pct-n { font-size: 1em; margin-left: 0; letter-spacing: inherit; }
+.opts { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+
+/* requirements, notes, small hazard tag */
+/* a group whose requirement is off (Ragdoll / Car Physics / Chain Reactions / Breakable Cover need Physics, More
+   Enemies needs Difficulty): the dashed border of the "coming soon" chips, a dim title, a locked switch */
+.mh-card.is-needs { border-style: dashed; border-color: #5f4d3e; box-shadow: none; }
+.mh-card.is-needs .mh-card-title { color: var(--to-muted); }
+.mh-card.is-needs .badges .tag-exp { opacity: .6; }
+.mh-needs::before { content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 7px 1px 1px; background: var(--to-orange); transform: rotate(45deg); }
+/* a sub-option whose own requirement is off (e.g. HD water needs Lighting): dimmed and locked */
+.card-details .is-dim { opacity: .42; }
+.card-details .is-dim, .card-details .is-dim * { cursor: not-allowed; }
+.card-note {
+  margin: 0; padding: 1px 0 1px 9px; border-left: 3px solid var(--to-line);
+  font-family: var(--to-cond); font-weight: 700; font-size: 13.5px; letter-spacing: .02em; line-height: 1.3; color: var(--to-paper-3);
+}
+.card-note--kept { border-left-color: var(--to-orange); color: var(--to-paper-2); }
+.opts > .field-label { padding: 0; margin-bottom: 2px; }
+.tag-exp--sm { height: 17px; margin-left: 6px; vertical-align: 1px; border-width: 1.5px; font-size: 9.5px; box-shadow: 1px 1px 0 var(--to-red); }
+.tag-exp--sm::before { width: 9px; background: repeating-linear-gradient(-45deg, var(--to-yellow) 0 3px, #000 3px 6px); }
+.tag-exp--sm span { padding: 0 5px 0 4px; }
+/* the song file picker of the Suave card (type 'file') */
+.filerow { display: flex; flex-direction: column; gap: 6px; }
+.filepick { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.filepath { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: rtl; text-align: left; padding: 6px 9px; border: 2px solid var(--to-line); font-family: var(--to-cond); font-weight: 700; font-size: 14px; letter-spacing: .02em; color: var(--to-paper-2); }
+.filepath.is-empty { color: var(--to-muted); font-style: italic; direction: ltr; }
+.btn-ghost--sm { height: 34px; padding: 0 12px; font-size: 13px; flex: none; }
+.file-status { margin: 0; font-family: var(--to-cond); font-weight: 700; font-size: 13.5px; letter-spacing: .02em; line-height: 1.3; color: var(--to-paper-3); }
+.file-status.is-ok { color: #6fd08c; }
+.file-status.is-bad { color: var(--to-orange); }
+.warn--check { align-items: flex-start; font-size: 13.5px; line-height: 1.25; }
+.warn--check svg { margin-top: 1px; }
+.done-warn { margin: 0; align-items: flex-start; font-size: 15px; }
+/* nine Mayhem cards: while a card shows its details, the others keep their own height (no tall empty boxes next to
+   it); closed, a row stays even as drawn */
+.mh-grid:has(.mh-card.is-open) { align-items: start; }

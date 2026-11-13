@@ -1,0 +1,20 @@
+mm075_hacienda.mission  cartel=98 elvez=20
+   cartel     - elvez      pairs<=25m  147  closest 1.7 m: None (MM075_Hacienda.fragment) / None (MM075_Hacienda.fragment) at -788.6, 19.0, -1384.3
+mm080_highwaybridge.mission  army=31 mexpolice=9
+   army       - mexpolice  pairs<=25m   97  closest 1.5 m: None (MM080_HighwayBridge.fragment) / None (MM080_HighwayBridge.fragment) at 204.6, 10.3, -578.6
+mm100_gettothedeahq.mission  border=46 dea=57 outlaw=45
+   border     - dea        pairs<=25m    6  closest 0.5 m: BorderCar_Guy_02 (MM100_GetToTheDEAHQ.fragment) / DEA_Van_CarGuy_02 (MM100_GetToTheDEAHQ.fragment) at 2.6, 0.0, 0.8
+   border     - outlaw     pairs<=25m    2  closest 0.5 m: BorderCar_Guy_02 (MM100_GetToTheDEAHQ.fragment) / DEA_Van_CarGuy_02 (MM100_GetToTheDEAHQ.fragment) at 2.6, 0.0, 0.8
+   dea        - outlaw     pairs<=25m  344  closest 0.0 m: DEA_Van_CarGuy_02 (MM100_GetToTheDEAHQ.fragment) / DEA_Van_CarGuy_02 (MM100_GetToTheDEAHQ.fragment) at 2.3, 0.0, 1.2
+mm110_deahqvault.mission  dea=48 gangster=2 outlaw=30
+   dea        - gangster   pairs<=25m    7  closest 13.4 m: MM011_DEA_BombRoom_Enemy_extra (MM110_DEAHQVault.fragment) / MM011_DEA_BombRoom_Enemy_03 (MM110_DEAHQVault.fragment) at -739.6, 19.6, 1152.1
+   dea        - outlaw     pairs<=25m  173  closest 1.5 m: MM011_DEA_VaultRoom_Enemy_99 (MM110_DEAHQVault.fragment) / MM011_DEA_VaultRoom_Enemy_99 (MM110_DEAHQVault.fragment) at -763.5, 26.1, 1179.1
+   gangster   - outlaw     pairs<=25m   10  closest 1.3 m: MM011_DEA_BombRoom_Enemy_05 (MM110_DEAHQVault.fragment) / MM011_DEA_BombRoom_Enemy_02 (MM110_DEAHQVault.fragment) at -722.5, 28.9, 1145.5
+mm120_runawaytrain.mission  dea=34 outlaw=27
+   dea        - outlaw     pairs<=25m   82  closest 0.5 m: DEA_MountedGun_06 (MM120_RunawayTrain.fragment) / DEA_MountedGun_07 (MM120_RunawayTrain.fragment) at 29.3, 5.4, -0.2
+subm_01_indu_liktak_steal.mission  cartel=1 gangster=16
+   cartel     - gangster   pairs<=25m    6  closest 1.2 m: Balcony_EN_01 (SubM_01_Indu_LikTak_Steal.fragment) / Balcony_EN_02 (SubM_01_Indu_LikTak_Steal.fragment) at -742.3, 5.8, 162.7
+subm_17_down_coldeb02_killsteal.mission  elvez=2 gangster=23
+   elvez      - gangster   pairs<=25m    7  closest 9.8 m: None (SubM_17_Down_ColDeb02_KillSteal.fragment) / None (SubM_17_Down_ColDeb02_KillSteal.fragment) at 26.5, 3.4, -2.2
+subm_25_harb_movcarg_racekill.mission  cartel=1 gangster=18
+   cartel     - gangster   pairs<=25m    0  closest 57.0 m: Mech01 (SubM_25_Harb_MovCarg_RaceKill.fragment) / Peter (SubM_25_Harb_MovCarg_RaceKill.fragment) at -763.9, 1.0, -662.4

@@ -1,0 +1,9 @@
+work/
+__pycache__/
+*.pyc
+*.part
+build/
+pack_out/
+*.7z
+*.zip
+*.mp3

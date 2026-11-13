@@ -1,0 +1,13 @@
+{
+  "_comment": "Copy to config.local.json (git-ignored) and set the paths. todOut: the folder with the character glbs; musicPath: your own copy of the song. Relative paths are resolved from the folder you start the dev server in (suave/trainer). Paths are read at runtime by the dev server only; nothing is copied into the repo.",
+  "todOut": "",
+  "saExport": "../anim/export",
+  "sbAudio": "../audio",
+  "musicPath": "",
+  "musicSegments": [
+    { "id": "beat32", "label": "Song cut: first full groove (beat 32, 0:15.8)", "start": 15.8357, "bpm": 124.17, "firstBeat": 0 },
+    { "id": "beat64", "label": "Song cut: brass section (beat 64, 0:31.3)", "start": 31.2984, "bpm": 124.17, "firstBeat": 0 },
+    { "id": "beat192", "label": "Song cut: vocal section (beat 192, 1:33.1)", "start": 93.1493, "bpm": 124.17, "firstBeat": 0 },
+    { "id": "beat448", "label": "Song cut: climax (beat 448, 3:36.9)", "start": 216.851, "bpm": 124.17, "firstBeat": 0 }
+  ]
+}

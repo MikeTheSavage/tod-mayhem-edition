@@ -1,0 +1,19 @@
+{
+  "name": "suave-trainer",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 6390 --strictPort",
+    "build": "vite build",
+    "verify": "node scripts/verify.mjs",
+    "record": "node scripts/record.mjs"
+  },
+  "dependencies": {
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10",
+    "playwright-core": "^1.48.0"
+  }
+}

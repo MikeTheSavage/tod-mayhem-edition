@@ -1,0 +1,2 @@
+// gp_heat.rc - [mayhem_heat]: the heat icons and the radar rim ring (built by mayhem_heat/art/make_heat_art.py; original art)
+HEAT_ICONS RCDATA "../../mayhem_heat/art/heat_icons.png"

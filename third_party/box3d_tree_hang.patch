@@ -1,0 +1,48 @@
+diff --git a/src/dynamic_tree.c b/src/dynamic_tree.c
+index 5206637..4c58875 100644
+--- a/src/dynamic_tree.c
++++ b/src/dynamic_tree.c
+@@ -274,8 +274,15 @@ static int b3FindBestSibling( const b3DynamicTree* tree, b3AABB boxD )
+ 	float bestCost = directCost;
+ 
+ 	// Descend the tree, following a single greedy path.
++	// TOD Gameplay+ patch: a well-formed descent visits each node at most once, so nodeEnd steps bound it.
++	int guard = tree->nodeEnd + 2;
+ 	for ( ;; )
+ 	{
++		if ( --guard < 0 )
++		{
++			break;
++		}
++
+ 		int child1 = b3GetLeftChild( nodes + nodeIndex );
+ 		int child2 = child1 + 1;
+ 
+@@ -370,18 +377,25 @@ static int b3FindBestSibling( const b3DynamicTree* tree, b3AABB boxD )
+ 		}
+ 
+ 		// Descend
+-		if ( lowerCost1 < lowerCost2 && leaf1 == false )
++		// TOD Gameplay+ patch: never descend into a leaf. With a NaN / inf box every cost compare is false and the
++		// upstream else-branch took child2 even when it was a leaf; a leaf's child field is its proxy id, so the walk
++		// went on through unrelated nodes and could loop forever (a hang of the game thread).
++		if ( leaf1 == false && ( leaf2 || lowerCost1 < lowerCost2 ) )
+ 		{
+ 			nodeIndex = child1;
+ 			areaBase = area1;
+ 			directCost = directCost1;
+ 		}
+-		else
++		else if ( leaf2 == false )
+ 		{
+ 			nodeIndex = child2;
+ 			areaBase = area2;
+ 			directCost = directCost2;
+ 		}
++		else
++		{
++			break;
++		}
+ 	}
+ 
+ 	return bestSibling;

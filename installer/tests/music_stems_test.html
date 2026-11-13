@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Mayhem stems test</title></head>
+<body>
+<pre id="result">running</pre>
+<script src="/mayhem_music.js"></script>
+<script>
+/* Renders the stem player offline against TEST-ONLY tone stems (installer\tests\run_music_tests.py makes them; they
+ * are never shipped) and checks: sample-locked stems, bar-synced per-stem fades, loop end from music.json, bus fades,
+ * missing files. Result: JSON in #result (posted to /api/test-result for the runner). */
+(async function () {
+  const out = document.getElementById('result');
+  const errors = [];
+  window.addEventListener('error', (e) => errors.push(String(e.message)));
+  window.addEventListener('unhandledrejection', (e) => errors.push(String(e.reason)));
+  const kase = new URLSearchParams(location.search).get('case') || 'full';
+  try {
+    const sr = 44100, seconds = 14;
+    const ctx = new OfflineAudioContext(1, sr * seconds, sr);
+    const m = new MayhemMusic(ctx, ctx.destination);
+    const loaded = await m.load();
+    const q = (t) => Math.round(t * sr / 128) * 128 / sr;
+    const events = [[2.0, 2], [5.0, 3], [8.0, 1], [11.0, 0]];
+    for (const [t, n] of events) ctx.suspend(q(t)).then(() => { m.setLevel(n, 3); ctx.resume(); });
+    m.setLevel(1, 3);
+    const t0 = m.t0, bar = m.barSeconds;
+    const buf = await ctx.startRendering();
+    const x = buf.getChannelData(0);
+    // amplitude of a sine at f around time t (Goertzel over 60 ms)
+    const amp = (f, t) => {
+      const n = Math.floor(0.06 * sr), a = Math.floor(t * sr);
+      const k = 2 * Math.cos(2 * Math.PI * f / sr);
+      let s1 = 0, s2 = 0;
+      for (let i = 0; i < n; i++) { const s0 = x[a + i] + k * s1 - s2; s2 = s1; s1 = s0; }
+      return Math.sqrt(Math.max(0, s1 * s1 + s2 * s2 - k * s1 * s2)) * 2 / n;
+    };
+    const F = [220, 330, 440, 550];
+    const probe = (t) => F.map((f) => +(amp(f, t) / (0.2 * 0.8)).toFixed(2));   // 1.0 = stem fully on at volume 0.8
+    const r = { case: kase, loaded, t0, bar, loopEnd: m.loopEnd, stems: m.stems.map((s) => ({ name: s.name, loaded: !!s.buffer })) };
+    if (loaded) {
+      const b = (k) => t0 + k * bar;                  // bar lines
+      r.probe = {};
+      for (const t of [1.5, b(2) - 0.1, b(2) + 0.45, b(2) + 1.3, b(4) - 0.1, b(4) + 1.3, b(6) - 0.1, b(6) + 1.3, 11.6, 12.7, 13.5])
+        r.probe[t.toFixed(2)] = probe(t);
+      // no 1000 Hz: the tail past loop_length_samples is never played
+      r.tail1000 = Math.max(...[1.0, 3.5, 4.5, 6.8, 9.5].map((t) => amp(1000, t)));
+      // sample lock: every stem has an impulse at its loop start; at t0 + 3 loops (9.0 s later) all four are on
+      const at = Math.round((t0 + 3 * m.loopEnd) * sr), win = Math.round(0.1 * sr);
+      let big = 0, peak = 0, where = -1;
+      for (let i = at - win; i < at + win; i++) { const v = Math.abs(x[i]); if (v > 1.0) big++; if (v > peak) { peak = v; where = i; } }
+      r.lock = { samples_over_1: big, peak: +peak.toFixed(3), offset_samples: where - at };
+      let tailMax = 0; for (let i = Math.floor(12.65 * sr); i < x.length; i++) tailMax = Math.max(tailMax, Math.abs(x[i]));
+      r.silence_after_fade = +tailMax.toFixed(5);
+    }
+    r.errors = errors;
+    report(r);
+  } catch (e) {
+    report({ case: kase, exception: String(e && e.stack || e), errors });
+  }
+  function report(r) {
+    out.textContent = JSON.stringify(r);
+    fetch('/api/test-result', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(r) }).catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>

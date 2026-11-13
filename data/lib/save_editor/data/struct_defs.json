@@ -1,0 +1,1407 @@
+{
+ "Take_a_hit_info": [
+  {
+   "name": "RecievingEntity",
+   "type": "Entity",
+   "at": "0x7a1fae"
+  },
+  {
+   "name": "Damage",
+   "type": "number",
+   "at": "0x7a1fcb"
+  },
+  {
+   "name": "Owner",
+   "type": "Entity",
+   "at": "0x7a1fe8"
+  },
+  {
+   "name": "inflictor_node",
+   "type": "Entity",
+   "at": "0x7a2005"
+  },
+  {
+   "name": "RecievingCollVolume",
+   "type": "Entity",
+   "at": "0x7a2022"
+  },
+  {
+   "name": "CollisionImpulse",
+   "type": "vector",
+   "at": "0x7a203f"
+  },
+  {
+   "name": "Peercontactpoint",
+   "type": "vector",
+   "at": "0x7a205c"
+  },
+  {
+   "name": "Damage_type",
+   "type": "integer",
+   "at": "0x7a2079"
+  }
+ ],
+ "s_BlockLoad": [
+  {
+   "name": "pBlock",
+   "type": "Entity",
+   "at": "0x7a2141"
+  },
+  {
+   "name": "sTeleportName",
+   "type": "string",
+   "at": "0x7a215e"
+  }
+ ],
+ "s_GenericRes": [
+  {
+   "name": "pResource",
+   "type": "Entity",
+   "at": "0x7a2224"
+  },
+  {
+   "name": "pPlaceholder",
+   "type": "Entity",
+   "at": "0x7a2241"
+  }
+ ],
+ "s_PlaceholderPriority": [
+  {
+   "name": "pPlaceholder",
+   "type": "Entity",
+   "at": "0x7a2307"
+  },
+  {
+   "name": "RangeSqr",
+   "type": "number",
+   "at": "0x7a2324"
+  },
+  {
+   "name": "bInView",
+   "type": "truth",
+   "at": "0x7a2341"
+  },
+  {
+   "name": "bIsVisible",
+   "type": "truth",
+   "at": "0x7a235e"
+  }
+ ],
+ "s_Inventory": [
+  {
+   "name": "RightHandGunList",
+   "type": "list(truth)",
+   "at": "0x7a2424"
+  },
+  {
+   "name": "LeftHandGunList",
+   "type": "list(truth)",
+   "at": "0x7a2441"
+  },
+  {
+   "name": "AmmoList",
+   "type": "list(integer)",
+   "at": "0x7a245e"
+  },
+  {
+   "name": "MaxAmmoList",
+   "type": "list(integer)",
+   "at": "0x7a247b"
+  },
+  {
+   "name": "AmmoInPrimWeapon",
+   "type": "list(integer)",
+   "at": "0x7a2498"
+  },
+  {
+   "name": "AmmoInSecWeapon",
+   "type": "list(integer)",
+   "at": "0x7a24b5"
+  }
+ ],
+ "s_AIPassenger": [
+  {
+   "name": "pPlaceHolder",
+   "type": "Entity",
+   "at": "0x7a257b"
+  },
+  {
+   "name": "vLocalPosition",
+   "type": "vector",
+   "at": "0x7a2598"
+  }
+ ],
+ "s_PowerUpInventory": [
+  {
+   "name": "PowerUpList",
+   "type": "list(integer)",
+   "at": "0x7a265e"
+  },
+  {
+   "name": "MaxPowerUpList",
+   "type": "list(integer)",
+   "at": "0x7a267b"
+  }
+ ],
+ "s_PowerUpSprite": [
+  {
+   "name": "Type",
+   "type": "integer",
+   "at": "0x7a2741"
+  },
+  {
+   "name": "Sprite",
+   "type": "Entity",
+   "at": "0x7a275e"
+  },
+  {
+   "name": "BGSprite",
+   "type": "Entity",
+   "at": "0x7a277b"
+  },
+  {
+   "name": "OrgSize",
+   "type": "vector",
+   "at": "0x7a2798"
+  },
+  {
+   "name": "NormalSize",
+   "type": "vector",
+   "at": "0x7a27b5"
+  },
+  {
+   "name": "NormalPos",
+   "type": "vector",
+   "at": "0x7a27d2"
+  },
+  {
+   "name": "SelectedSize",
+   "type": "vector",
+   "at": "0x7a27ef"
+  },
+  {
+   "name": "SelectedPos",
+   "type": "vector",
+   "at": "0x7a280c"
+  },
+  {
+   "name": "AmountTB",
+   "type": "Entity",
+   "at": "0x7a2829"
+  },
+  {
+   "name": "AmountTB_BG",
+   "type": "Entity",
+   "at": "0x7a2846"
+  }
+ ],
+ "s_RadarBlip": [
+  {
+   "name": "BlipSprite",
+   "type": "Entity",
+   "at": "0x7a2913"
+  },
+  {
+   "name": "LocationSprite",
+   "type": "Entity",
+   "at": "0x7a2930"
+  },
+  {
+   "name": "WatchedEntity",
+   "type": "Entity",
+   "at": "0x7a294d"
+  },
+  {
+   "name": "EntityType",
+   "type": "integer",
+   "at": "0x7a296a"
+  },
+  {
+   "name": "SubMapIndex",
+   "type": "integer",
+   "at": "0x7a2987"
+  }
+ ],
+ "s_MenuOption": [
+  {
+   "name": "OptionName",
+   "type": "integer",
+   "at": "0x7a2a53"
+  },
+  {
+   "name": "TextField",
+   "type": "Entity",
+   "at": "0x7a2a70"
+  },
+  {
+   "name": "TextFieldBG",
+   "type": "Entity",
+   "at": "0x7a2a8d"
+  },
+  {
+   "name": "OptionAction",
+   "type": "integer",
+   "at": "0x7a2aaa"
+  }
+ ],
+ "s_TaxiZapOptions": [
+  {
+   "name": "TaxiZapEntry",
+   "type": "Entity",
+   "at": "0x7a2b76"
+  },
+  {
+   "name": "EntryIcon",
+   "type": "Entity",
+   "at": "0x7a2b93"
+  },
+  {
+   "name": "ShowIcon",
+   "type": "truth",
+   "at": "0x7a2bb0"
+  },
+  {
+   "name": "EntryText",
+   "type": "integer",
+   "at": "0x7a2bcd"
+  },
+  {
+   "name": "EntryType",
+   "type": "integer",
+   "at": "0x7a2bea"
+  },
+  {
+   "name": "EntryDetailTextType",
+   "type": "integer",
+   "at": "0x7a2c07"
+  },
+  {
+   "name": "EntryDetailTextIndex",
+   "type": "integer",
+   "at": "0x7a2c24"
+  },
+  {
+   "name": "EntrySpacing",
+   "type": "truth",
+   "at": "0x7a2c41"
+  },
+  {
+   "name": "IsActiveEntry",
+   "type": "truth",
+   "at": "0x7a2c5e"
+  }
+ ],
+ "s_ScoreBar": [
+  {
+   "name": "IsAchieved",
+   "type": "truth",
+   "at": "0x7a2d2a"
+  },
+  {
+   "name": "NameTextField",
+   "type": "Entity",
+   "at": "0x7a2d47"
+  },
+  {
+   "name": "NameTextFieldBG",
+   "type": "Entity",
+   "at": "0x7a2d64"
+  },
+  {
+   "name": "ScoreTextField",
+   "type": "Entity",
+   "at": "0x7a2d81"
+  },
+  {
+   "name": "Stroke3",
+   "type": "Entity",
+   "at": "0x7a2d9e"
+  },
+  {
+   "name": "Stroke4",
+   "type": "Entity",
+   "at": "0x7a2dbb"
+  },
+  {
+   "name": "FlashEffect",
+   "type": "Entity",
+   "at": "0x7a2dd8"
+  },
+  {
+   "name": "AwardType",
+   "type": "integer",
+   "at": "0x7a2df5"
+  },
+  {
+   "name": "AwardAP",
+   "type": "integer",
+   "at": "0x7a2e12"
+  },
+  {
+   "name": "AwardModelList",
+   "type": "list(Entity)",
+   "at": "0x7a2e2f"
+  },
+  {
+   "name": "AwardModelListBg",
+   "type": "list(Entity)",
+   "at": "0x7a2e4c"
+  },
+  {
+   "name": "NumOfAwards",
+   "type": "integer",
+   "at": "0x7a2e69"
+  }
+ ],
+ "s_BounceText": [
+  {
+   "name": "TextBox",
+   "type": "Entity",
+   "at": "0x7a2f35"
+  },
+  {
+   "name": "TextBoxBG",
+   "type": "Entity",
+   "at": "0x7a2f52"
+  },
+  {
+   "name": "BounceSpeed",
+   "type": "number",
+   "at": "0x7a2f6f"
+  },
+  {
+   "name": "OrgScale",
+   "type": "number",
+   "at": "0x7a2f8c"
+  },
+  {
+   "name": "MaxScale",
+   "type": "number",
+   "at": "0x7a2fa9"
+  },
+  {
+   "name": "Expand",
+   "type": "truth",
+   "at": "0x7a2fc6"
+  }
+ ],
+ "s_ped_resource": [
+  {
+   "name": "Placeholder",
+   "type": "Entity",
+   "at": "0x7a3092"
+  },
+  {
+   "name": "StartPoint",
+   "type": "vector",
+   "at": "0x7a30af"
+  },
+  {
+   "name": "NewPoint",
+   "type": "Entity",
+   "at": "0x7a30cc"
+  },
+  {
+   "name": "LastPoint",
+   "type": "Entity",
+   "at": "0x7a30e9"
+  },
+  {
+   "name": "currenttime",
+   "type": "number",
+   "at": "0x7a3106"
+  },
+  {
+   "name": "at_pos",
+   "type": "truth",
+   "at": "0x7a3123"
+  }
+ ],
+ "s_CtrlBone": [
+  {
+   "name": "pBone",
+   "type": "Entity",
+   "at": "0x7a31ef"
+  },
+  {
+   "name": "vCurrentAngle",
+   "type": "vector",
+   "at": "0x7a320c"
+  },
+  {
+   "name": "vTargetAngle",
+   "type": "vector",
+   "at": "0x7a3229"
+  },
+  {
+   "name": "Speed",
+   "type": "number",
+   "at": "0x7a3246"
+  },
+  {
+   "name": "eRotateSpace",
+   "type": "integer",
+   "at": "0x7a3263"
+  },
+  {
+   "name": "bActive",
+   "type": "truth",
+   "at": "0x7a3280"
+  }
+ ],
+ "s_Mission_Objective": [
+  {
+   "name": "Objective",
+   "type": "Entity",
+   "at": "0x7a334c"
+  },
+  {
+   "name": "Show",
+   "type": "truth",
+   "at": "0x7a3369"
+  },
+  {
+   "name": "Status",
+   "type": "integer",
+   "at": "0x7a3386"
+  }
+ ],
+ "s_Mission_data": [
+  {
+   "name": "Mission_Valid",
+   "type": "truth",
+   "at": "0x7a3451"
+  },
+  {
+   "name": "Mission",
+   "type": "integer",
+   "at": "0x7a346e"
+  },
+  {
+   "name": "Mission_type",
+   "type": "integer",
+   "at": "0x7a348b"
+  },
+  {
+   "name": "Award_achived",
+   "type": "integer",
+   "at": "0x7a34a8"
+  },
+  {
+   "name": "Mission_Entity",
+   "type": "Entity",
+   "at": "0x7a34c5"
+  },
+  {
+   "name": "Mission_complete",
+   "type": "truth",
+   "at": "0x7a34e2"
+  },
+  {
+   "name": "Mission_open",
+   "type": "truth",
+   "at": "0x7a34ff"
+  },
+  {
+   "name": "Mission_name",
+   "type": "integer",
+   "at": "0x7a351c"
+  },
+  {
+   "name": "Mission_start_submap",
+   "type": "integer",
+   "at": "0x7a3539"
+  },
+  {
+   "name": "Highest_Score",
+   "type": "integer",
+   "at": "0x7a3556"
+  },
+  {
+   "name": "Current_Score",
+   "type": "integer",
+   "at": "0x7a3573"
+  },
+  {
+   "name": "L_Combo",
+   "type": "number",
+   "at": "0x7a3590"
+  },
+  {
+   "name": "Best_Move_string",
+   "type": "string",
+   "at": "0x7a35ad"
+  },
+  {
+   "name": "Best_Move",
+   "type": "integer",
+   "at": "0x7a35ca"
+  },
+  {
+   "name": "FollowUpMission",
+   "type": "integer",
+   "at": "0x7a35e7"
+  },
+  {
+   "name": "MissionConditions",
+   "type": "list(Entity)",
+   "at": "0x7a3604"
+  },
+  {
+   "name": "ObjectiveList",
+   "type": "list(Entity)",
+   "at": "0x7a3621"
+  }
+ ],
+ "s_ComboAwardString": [
+  {
+   "name": "TextBox",
+   "type": "Entity",
+   "at": "0x7a36ef"
+  },
+  {
+   "name": "TextBox_BG",
+   "type": "Entity",
+   "at": "0x7a370c"
+  },
+  {
+   "name": "SlideUpTime",
+   "type": "number",
+   "at": "0x7a3729"
+  },
+  {
+   "name": "StartSlideTime",
+   "type": "number",
+   "at": "0x7a3746"
+  },
+  {
+   "name": "SlideX",
+   "type": "number",
+   "at": "0x7a3763"
+  },
+  {
+   "name": "SlideY",
+   "type": "number",
+   "at": "0x7a3780"
+  },
+  {
+   "name": "FromPos",
+   "type": "vector",
+   "at": "0x7a379d"
+  },
+  {
+   "name": "TargetPos",
+   "type": "vector",
+   "at": "0x7a37ba"
+  },
+  {
+   "name": "FromOpacity",
+   "type": "number",
+   "at": "0x7a37d7"
+  },
+  {
+   "name": "TargetOpacity",
+   "type": "number",
+   "at": "0x7a37f4"
+  },
+  {
+   "name": "StayTime",
+   "type": "number",
+   "at": "0x7a3811"
+  },
+  {
+   "name": "InUse",
+   "type": "truth",
+   "at": "0x7a382e"
+  }
+ ],
+ "s_UniqueComboMove": [
+  {
+   "name": "MoveName",
+   "type": "integer",
+   "at": "0x7a38fc"
+  },
+  {
+   "name": "Bonus",
+   "type": "integer",
+   "at": "0x7a3919"
+  },
+  {
+   "name": "GoodieAward",
+   "type": "integer",
+   "at": "0x7a3936"
+  },
+  {
+   "name": "MoveBitName",
+   "type": "integer",
+   "at": "0x7a3953"
+  },
+  {
+   "name": "SoundIndex",
+   "type": "integer",
+   "at": "0x7a3970"
+  },
+  {
+   "name": "SoundFrequency",
+   "type": "number",
+   "at": "0x7a398d"
+  },
+  {
+   "name": "CCmove",
+   "type": "integer",
+   "at": "0x7a39aa"
+  }
+ ],
+ "s_ComboAward": [
+  {
+   "name": "KillsNeeded",
+   "type": "integer",
+   "at": "0x7a3a78"
+  },
+  {
+   "name": "ComboBonus",
+   "type": "integer",
+   "at": "0x7a3a95"
+  },
+  {
+   "name": "GoodieAwards",
+   "type": "list(integer)",
+   "at": "0x7a3ab2"
+  },
+  {
+   "name": "AwardString",
+   "type": "integer",
+   "at": "0x7a3acf"
+  }
+ ],
+ "s_StatusPoint": [
+  {
+   "name": "Position",
+   "type": "vector",
+   "at": "0x7a3b9d"
+  },
+  {
+   "name": "CurrentHealth",
+   "type": "number",
+   "at": "0x7a3bba"
+  },
+  {
+   "name": "CurrentWeapons",
+   "type": "list(string)",
+   "at": "0x7a3bd7"
+  },
+  {
+   "name": "AmmoActiveWeapon",
+   "type": "number",
+   "at": "0x7a3bf4"
+  }
+ ],
+ "s_Statistics": [
+  {
+   "name": "ActionsPoints",
+   "type": "integer",
+   "at": "0x7a3cc2"
+  },
+  {
+   "name": "EnemyKills",
+   "type": "integer",
+   "at": "0x7a3cdf"
+  },
+  {
+   "name": "NeutralKills",
+   "type": "integer",
+   "at": "0x7a3cfc"
+  },
+  {
+   "name": "BarrelsKilled",
+   "type": "integer",
+   "at": "0x7a3d19"
+  },
+  {
+   "name": "AvarageHealth",
+   "type": "number",
+   "at": "0x7a3d36"
+  },
+  {
+   "name": "UsedKillTypes",
+   "type": "list(string)",
+   "at": "0x7a3d53"
+  },
+  {
+   "name": "MostOftenKill",
+   "type": "list(integer)",
+   "at": "0x7a3d70"
+  },
+  {
+   "name": "LargestCombo",
+   "type": "string",
+   "at": "0x7a3d8d"
+  },
+  {
+   "name": "DrivingCar",
+   "type": "integer",
+   "at": "0x7a3daa"
+  },
+  {
+   "name": "MenuOpened",
+   "type": "integer",
+   "at": "0x7a3dc7"
+  },
+  {
+   "name": "MaxNumOfWeapon",
+   "type": "integer",
+   "at": "0x7a3de4"
+  },
+  {
+   "name": "MostUsedWeapon",
+   "type": "integer",
+   "at": "0x7a3e01"
+  },
+  {
+   "name": "Medals",
+   "type": "integer",
+   "at": "0x7a3e1e"
+  }
+ ],
+ "s_DelayedMessage": [
+  {
+   "name": "pCallBack",
+   "type": "Entity",
+   "at": "0x7a3eec"
+  },
+  {
+   "name": "eMessage",
+   "type": "integer",
+   "at": "0x7a3f09"
+  },
+  {
+   "name": "nTimer",
+   "type": "number",
+   "at": "0x7a3f26"
+  },
+  {
+   "name": "bRealTime",
+   "type": "truth",
+   "at": "0x7a3f43"
+  }
+ ],
+ "s_CollisionInfo": [
+  {
+   "name": "HasCollided",
+   "type": "truth",
+   "at": "0x7a4011"
+  },
+  {
+   "name": "ColEntity",
+   "type": "Entity",
+   "at": "0x7a402e"
+  },
+  {
+   "name": "ColVolume",
+   "type": "Entity",
+   "at": "0x7a404b"
+  },
+  {
+   "name": "ColMaterial",
+   "type": "integer",
+   "at": "0x7a4068"
+  },
+  {
+   "name": "ColFaceProperty",
+   "type": "integer",
+   "at": "0x7a4085"
+  },
+  {
+   "name": "ColNormal",
+   "type": "vector",
+   "at": "0x7a40a2"
+  },
+  {
+   "name": "ColPos",
+   "type": "vector",
+   "at": "0x7a40bf"
+  },
+  {
+   "name": "SetDecal",
+   "type": "truth",
+   "at": "0x7a40dc"
+  }
+ ],
+ "s_VehicleCollision": [
+  {
+   "name": "CollisionEntity",
+   "type": "Entity",
+   "at": "0x7a41aa"
+  },
+  {
+   "name": "RealNode",
+   "type": "Entity",
+   "at": "0x7a41c7"
+  },
+  {
+   "name": "CollisionPos",
+   "type": "vector",
+   "at": "0x7a41e4"
+  },
+  {
+   "name": "ColliderEntity",
+   "type": "Entity",
+   "at": "0x7a4201"
+  }
+ ],
+ "Random_sound": [
+  {
+   "name": "Sound",
+   "type": "list(Entity)",
+   "at": "0x7a42cf"
+  },
+  {
+   "name": "Volume",
+   "type": "list(number)",
+   "at": "0x7a42ec"
+  },
+  {
+   "name": "Min_Pause",
+   "type": "list(number)",
+   "at": "0x7a4309"
+  },
+  {
+   "name": "Max_Pause",
+   "type": "list(number)",
+   "at": "0x7a4326"
+  },
+  {
+   "name": "Position_Type",
+   "type": "list(integer)",
+   "at": "0x7a4343"
+  },
+  {
+   "name": "Position_Entity",
+   "type": "list(Entity)",
+   "at": "0x7a4360"
+  }
+ ],
+ "s_Entity_pair": [
+  {
+   "name": "ent_1",
+   "type": "Entity",
+   "at": "0x7a442e"
+  },
+  {
+   "name": "ent_2",
+   "type": "Entity",
+   "at": "0x7a444b"
+  }
+ ],
+ "s_HealthWatchedEntity": [
+  {
+   "name": "Watched",
+   "type": "Entity",
+   "at": "0x7a4519"
+  },
+  {
+   "name": "WatchedName",
+   "type": "integer",
+   "at": "0x7a4536"
+  },
+  {
+   "name": "HealthPercentage",
+   "type": "number",
+   "at": "0x7a4553"
+  },
+  {
+   "name": "InFocus",
+   "type": "truth",
+   "at": "0x7a4570"
+  },
+  {
+   "name": "LocalShowTime",
+   "type": "number",
+   "at": "0x7a458d"
+  }
+ ],
+ "s_pulse": [
+  {
+   "name": "GamePulse",
+   "type": "integer",
+   "at": "0x7a465b"
+  },
+  {
+   "name": "UnderPulse",
+   "type": "integer",
+   "at": "0x7a4678"
+  },
+  {
+   "name": "UberPulse",
+   "type": "integer",
+   "at": "0x7a4695"
+  },
+  {
+   "name": "StayTime",
+   "type": "number",
+   "at": "0x7a46b2"
+  },
+  {
+   "name": "toHighPulses",
+   "type": "integer",
+   "at": "0x7a46cf"
+  }
+ ],
+ "s_particel_dam": [
+  {
+   "name": "at_entity",
+   "type": "Entity",
+   "at": "0x7a479d"
+  },
+  {
+   "name": "pos_offset",
+   "type": "vector",
+   "at": "0x7a47ba"
+  },
+  {
+   "name": "ParticleOwner",
+   "type": "Entity",
+   "at": "0x7a47d7"
+  },
+  {
+   "name": "ParticleSys",
+   "type": "Entity",
+   "at": "0x7a47f4"
+  },
+  {
+   "name": "at_pos",
+   "type": "vector",
+   "at": "0x7a4811"
+  },
+  {
+   "name": "LifeTime",
+   "type": "number",
+   "at": "0x7a482e"
+  }
+ ],
+ "s_list_dist": [
+  {
+   "name": "list_index",
+   "type": "integer",
+   "at": "0x7a48fc"
+  },
+  {
+   "name": "dist",
+   "type": "number",
+   "at": "0x7a4919"
+  }
+ ],
+ "s_neighborhood_config": [
+  {
+   "name": "PedestrianGroup",
+   "type": "integer",
+   "at": "0x7a49e7"
+  },
+  {
+   "name": "Minimum",
+   "type": "integer",
+   "at": "0x7a4a04"
+  },
+  {
+   "name": "Maximum",
+   "type": "integer",
+   "at": "0x7a4a21"
+  }
+ ],
+ "s_pedestrian_points": [
+  {
+   "name": "PathPoint",
+   "type": "Entity",
+   "at": "0x7a4ada"
+  },
+  {
+   "name": "Neighborhood",
+   "type": "Entity",
+   "at": "0x7a4af7"
+  }
+ ],
+ "s_fadeEntity": [
+  {
+   "name": "Object",
+   "type": "Entity",
+   "at": "0x7a4bba"
+  },
+  {
+   "name": "StartOpacity",
+   "type": "number",
+   "at": "0x7a4bd7"
+  },
+  {
+   "name": "OpaPerSec",
+   "type": "number",
+   "at": "0x7a4bf4"
+  },
+  {
+   "name": "DelayTimer",
+   "type": "number",
+   "at": "0x7a4c11"
+  }
+ ],
+ "s_target_cache_info": [
+  {
+   "name": "Valid",
+   "type": "truth",
+   "at": "0x7a4cd7"
+  },
+  {
+   "name": "Type",
+   "type": "integer",
+   "at": "0x7a4cf4"
+  },
+  {
+   "name": "Relation",
+   "type": "integer",
+   "at": "0x7a4d11"
+  }
+ ],
+ "s_Overall_Award": [
+  {
+   "name": "TargetScore",
+   "type": "integer",
+   "at": "0x7a4dd7"
+  },
+  {
+   "name": "OverallAwardType",
+   "type": "integer",
+   "at": "0x7a4df4"
+  },
+  {
+   "name": "AwardString",
+   "type": "integer",
+   "at": "0x7a4e11"
+  },
+  {
+   "name": "TutAwardString",
+   "type": "integer",
+   "at": "0x7a4e2e"
+  }
+ ],
+ "s_ScoreNotification": [
+  {
+   "name": "NotifyThis",
+   "type": "Entity",
+   "at": "0x7a4ef4"
+  },
+  {
+   "name": "RequiredScore",
+   "type": "integer",
+   "at": "0x7a4f11"
+  }
+ ],
+ "s_waiting_decal": [
+  {
+   "name": "position",
+   "type": "vector",
+   "at": "0x7a4fd7"
+  },
+  {
+   "name": "normal",
+   "type": "vector",
+   "at": "0x7a4ff4"
+  },
+  {
+   "name": "type",
+   "type": "integer",
+   "at": "0x7a5011"
+  }
+ ],
+ "s_waiting_particle": [
+  {
+   "name": "particle",
+   "type": "Entity",
+   "at": "0x7a50d7"
+  },
+  {
+   "name": "target",
+   "type": "Entity",
+   "at": "0x7a50f4"
+  },
+  {
+   "name": "impact_pos",
+   "type": "vector",
+   "at": "0x7a5111"
+  },
+  {
+   "name": "impact_orient",
+   "type": "quaternion",
+   "at": "0x7a512e"
+  }
+ ],
+ "s_waiting_blood_decal": [
+  {
+   "name": "position",
+   "type": "vector",
+   "at": "0x7a51f4"
+  },
+  {
+   "name": "normal",
+   "type": "vector",
+   "at": "0x7a5211"
+  },
+  {
+   "name": "impact_dir",
+   "type": "vector",
+   "at": "0x7a522e"
+  },
+  {
+   "name": "size",
+   "type": "number",
+   "at": "0x7a524b"
+  },
+  {
+   "name": "type",
+   "type": "integer",
+   "at": "0x7a5268"
+  },
+  {
+   "name": "probe",
+   "type": "Entity",
+   "at": "0x7a5285"
+  },
+  {
+   "name": "ignore",
+   "type": "Entity",
+   "at": "0x7a52a2"
+  }
+ ],
+ "s_traffic_section": [
+  {
+   "name": "dist",
+   "type": "number",
+   "at": "0x7a536f"
+  },
+  {
+   "name": "FromPoint",
+   "type": "Entity",
+   "at": "0x7a538c"
+  },
+  {
+   "name": "ToPoint",
+   "type": "Entity",
+   "at": "0x7a53a9"
+  },
+  {
+   "name": "OneOverLength",
+   "type": "number",
+   "at": "0x7a53c6"
+  },
+  {
+   "name": "Status",
+   "type": "integer",
+   "at": "0x7a53e3"
+  },
+  {
+   "name": "EndStatus",
+   "type": "integer",
+   "at": "0x7a5400"
+  },
+  {
+   "name": "Type",
+   "type": "integer",
+   "at": "0x7a541d"
+  },
+  {
+   "name": "Queue",
+   "type": "list(Entity)",
+   "at": "0x7a543a"
+  }
+ ],
+ "s_TutorialMenu": [
+  {
+   "name": "CaptionIndex",
+   "type": "integer",
+   "at": "0x7a5506"
+  },
+  {
+   "name": "Tutorials",
+   "type": "list(Entity)",
+   "at": "0x7a5523"
+  }
+ ],
+ "s_TutorialPopUp": [
+  {
+   "name": "obj_text",
+   "type": "integer",
+   "at": "0x7a55ef"
+  },
+  {
+   "name": "obj_text_alt",
+   "type": "integer",
+   "at": "0x7a560c"
+  },
+  {
+   "name": "use_pause_mode",
+   "type": "truth",
+   "at": "0x7a5629"
+  },
+  {
+   "name": "delay",
+   "type": "number",
+   "at": "0x7a5646"
+  },
+  {
+   "name": "justify",
+   "type": "truth",
+   "at": "0x7a5663"
+  }
+ ],
+ "s_PendingLogicCondition": [
+  {
+   "name": "logic_condition",
+   "type": "integer",
+   "at": "0x7a571d"
+  },
+  {
+   "name": "actor",
+   "type": "Entity",
+   "at": "0x7a573a"
+  }
+ ],
+ "s_TutorialIndex": [
+  {
+   "name": "TutorialText",
+   "type": "integer",
+   "at": "0x7a57f3"
+  },
+  {
+   "name": "index_list",
+   "type": "list(integer)",
+   "at": "0x7a5810"
+  }
+ ],
+ "s_Language": [
+  {
+   "name": "LanguageName",
+   "type": "string",
+   "at": "0x7a58ca"
+  },
+  {
+   "name": "Language",
+   "type": "integer",
+   "at": "0x7a58e7"
+  },
+  {
+   "name": "Flag",
+   "type": "Entity",
+   "at": "0x7a5904"
+  },
+  {
+   "name": "TextB",
+   "type": "Entity",
+   "at": "0x7a5921"
+  },
+  {
+   "name": "LanguageCode",
+   "type": "string",
+   "at": "0x7a593e"
+  }
+ ],
+ "element": [
+  {
+   "name": "unit",
+   "type": "Entity",
+   "at": "0x7a59f7"
+  },
+  {
+   "name": "unit_pos",
+   "type": "vector",
+   "at": "0x7a5a14"
+  },
+  {
+   "name": "unit_orient",
+   "type": "quaternion",
+   "at": "0x7a5a31"
+  },
+  {
+   "name": "unit_velocity",
+   "type": "vector",
+   "at": "0x7a5a4e"
+  }
+ ],
+ "hinge_element": [
+  {
+   "name": "unit",
+   "type": "Entity",
+   "at": "0x7a5b08"
+  },
+  {
+   "name": "hinge",
+   "type": "vector",
+   "at": "0x7a5b25"
+  },
+  {
+   "name": "unit_orient",
+   "type": "quaternion",
+   "at": "0x7a5b42"
+  },
+  {
+   "name": "unit_angle_velocity",
+   "type": "number",
+   "at": "0x7a5b5f"
+  },
+  {
+   "name": "unit_angle",
+   "type": "number",
+   "at": "0x7a5b7c"
+  },
+  {
+   "name": "unit_max_angle",
+   "type": "number",
+   "at": "0x7a5b99"
+  },
+  {
+   "name": "unit_zones",
+   "type": "integer",
+   "at": "0x7a5bb6"
+  },
+  {
+   "name": "unit_in_use",
+   "type": "integer",
+   "at": "0x7a5bd3"
+  },
+  {
+   "name": "unit_rotation_inverse",
+   "type": "number",
+   "at": "0x7a5bf0"
+  },
+  {
+   "name": "unit_bent_step",
+   "type": "integer",
+   "at": "0x7a5c0d"
+  },
+  {
+   "name": "unit_grav_direction",
+   "type": "number",
+   "at": "0x7a5c2a"
+  }
+ ],
+ "parameter": [
+  {
+   "name": "parameter_name",
+   "type": "string",
+   "at": "0x7a5ce2"
+  },
+  {
+   "name": "parameter_value",
+   "type": "number",
+   "at": "0x7a5cff"
+  }
+ ],
+ "crossblend_override": [
+  {
+   "name": "crossblend_speed",
+   "type": "number",
+   "at": "0x7a5dbb"
+  },
+  {
+   "name": "anim_slot",
+   "type": "Entity",
+   "at": "0x7a5dd8"
+  }
+ ]
+}

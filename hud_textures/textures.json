@@ -1,0 +1,975 @@
+{
+ "about": "HD HUD icons (data option hud_textures). One row per game texture replaced in overdose.main. enabled=false drops a texture from the data pack (re-run make_hud_textures.py, or edit art/manifest.json 'enabled' directly). source is relative to the art folder (default <repo>/work/hud_art_gen/v2). clean: none = use the file as is; square / crop = the sheets.py clean() step (pad square / no pad). size = new texture size (a power-of-two multiple of original, same aspect).",
+ "textures": [
+  {
+   "name": "LocoMove_Rewind",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Rewind.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Rewind/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_GoldenGun",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_GoldenGun.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_GoldenGun/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_Mariachi",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Mariachi.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Mariachi/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_Toro",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Toro.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Toro/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_Pinata",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Pinata.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Pinata/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_Tornado",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Tornado.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Tornado/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_Sombrero",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Sombrero.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Sombrero/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_Wrestler",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_Wrestler.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_Wrestler/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "LocoMove_MedKit",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/LocoMove_MedKit.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/LocoMove_MedKit/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "OneShot_TimeExtend",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/OneShot_TimeExtend.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/OneShot_TimeExtend/opt2_chosen.png",
+   "clean": "square",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "OneShot_Health_Small",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/OneShot_Health_Small.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/OneShot_Health_Small/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "OneShot_Health_Big",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/OneShot_Health_Big.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/OneShot_Health_Big/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Permanent_Health",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/Permanent_Health.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/Permanent_Health/opt2_chosen.png",
+   "clean": "square",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Permanent_Stamina",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/Permanent_Stamina.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/Permanent_Stamina/opt2_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Permanent_GunSkill",
+   "group": "pickups",
+   "resource": "/data/Textures/Hud/Permanent_GunSkill.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "pickups/Permanent_GunSkill/opt2.png",
+   "clean": "square",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Gun",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Gun.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Gun/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Shotgun",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Shotgun.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Shotgun/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Rifle",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Rifle.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Rifle/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_GrenadeTrown",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_GrenadeTrown.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_GrenadeTrown/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Molotov",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Molotov.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Molotov/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Dynamite",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Dynamite.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Dynamite/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_GrenadeLauncher",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_GrenadeLauncher.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_GrenadeLauncher/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Rocket",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Rocket.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Rocket/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_GoldenGun",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_GoldenGun.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_GoldenGun/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Mariachi",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Mariachi.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Mariachi/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Pinata",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Pinata.BMP",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Pinata/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletIcon_Fist",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletIcon_Fist.bmp",
+   "original": [
+    32,
+    32
+   ],
+   "size": [
+    256,
+    256
+   ],
+   "source": "ammo/BulletIcon_Fist/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "BulletLine_Bullet",
+   "group": "ammo",
+   "resource": "/data/Textures/Hud/BulletLine_Bullet.BMP",
+   "original": [
+    8,
+    16
+   ],
+   "size": [
+    128,
+    256
+   ],
+   "source": "ammo/BulletLine_Bullet/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "fist",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/fist.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/fist/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "melee_machete",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/melee_machete.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/melee_machete/final.png",
+   "clean": "crop",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Melee_BaseballBat",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_BaseballBat.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/Melee_BaseballBat/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Melee_IronBar",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_IronBar.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/Melee_IronBar/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Melee_Rake",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_Rake.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/Melee_Rake/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "Melee_Shovel",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/Melee_Shovel.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/Melee_Shovel/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "gun_Light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Light.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/gun_Light/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "gun_Light_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Light_Dubble.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/gun_Light_Dubble/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "gun_Heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Heavy.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/gun_Heavy/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "gun_Heavy_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/gun_Heavy_Dubble.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/gun_Heavy_Dubble/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "rifle_light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rifle_light.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/rifle_light/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "rifle_light_dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rifle_light_dubble.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/rifle_light_dubble/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "rifle_heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rifle_heavy.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/rifle_heavy/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "shotgun_sawedoff",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_sawedoff.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/shotgun_sawedoff/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "shotgun_sawedoff_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_sawedoff_Dubble.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/shotgun_sawedoff_Dubble/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "shotgun_combat",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_combat.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/shotgun_combat/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "shotgun_combat_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/shotgun_combat_Dubble.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/shotgun_combat_Dubble/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "sub_automatic_light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/sub_automatic_light.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/sub_automatic_light/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "sub_automatic_light_Dubble",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/sub_automatic_light_Dubble.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/sub_automatic_light_Dubble/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "sub_automatic_Heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/sub_automatic_Heavy.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/sub_automatic_Heavy/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "automatic_Light",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/automatic_Light.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/automatic_Light/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "automatic_Heavy",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/automatic_Heavy.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/automatic_Heavy/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "automatic_Gatling",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/automatic_Gatling.bmp",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/automatic_Gatling/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "thrown_grenate",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/thrown_grenate.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/thrown_grenate/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "thrown_molotov",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/thrown_molotov.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/thrown_molotov/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "thrown_dynamite",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/thrown_dynamite.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/thrown_dynamite/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "grenade_launcher",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/grenade_launcher.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/grenade_launcher/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "rocket_launcher",
+   "group": "weapons",
+   "resource": "/data/Textures/Hud/rocket_launcher.BMP",
+   "original": [
+    128,
+    64
+   ],
+   "size": [
+    512,
+    256
+   ],
+   "source": "weapons/rocket_launcher/final_clean.png",
+   "clean": "none",
+   "enabled": true,
+   "status": "approved"
+  },
+  {
+   "name": "hud_element_combotimer",
+   "group": "combo",
+   "resource": "/data/Models/props/effect/hud_element_combotimer.bmp",
+   "original": [
+    64,
+    256
+   ],
+   "size": [
+    128,
+    512
+   ],
+   "source": "combo/skull_H_fire_matched.png",
+   "clean": "additive",
+   "enabled": true,
+   "status": "approved",
+   "mapping": "disc"
+  }
+ ]
+}

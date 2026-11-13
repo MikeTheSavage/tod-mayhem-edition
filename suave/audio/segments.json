@@ -1,0 +1,14 @@
+{
+ "note": "Suave music segments, cut from 'Elvis Crespo - Suavemente.mp3' (not shipped; non-released showcase). Beat grid from suave/anim/work/bpm.json: t = first_beat_s + beat x beat_period_s, downbeats every 4 beats from beat 0. Each segment starts on a downbeat (a 0.25 s fade-in) and lasts 36 beats (9 bars, 17.4 s): the 6-beat intro, the 19-beat dance to the release, the push and the dive with the explosion in the air (about beat 32), then the tail. One segment per partner type (TODGameplay.ini [suave] music_soldier / music_civil / music_dea / music_other). Starts picked from analyze_song.py (loudness, band balance, onset strength); change start_beat here after listening and rerun make_segments.py.",
+ "rate": 44100,
+ "channels": 1,
+ "bitrate": "80k",
+ "fade_in_s": 0.25,
+ "fade_out_s": 0.45,
+ "segments": [
+  {"name": "suave_mus_1", "label": "soldier partner: first full groove after the intro (the preview start)", "start_beat": 32, "beats": 36},
+  {"name": "suave_mus_2", "label": "civil partner: bright brass-heavy section (high band, high centroid)", "start_beat": 64, "beats": 36},
+  {"name": "suave_mus_3", "label": "DEA partner: mid-heavy vocal section (low centroid, strong mids)", "start_beat": 192, "beats": 36},
+  {"name": "suave_mus_4", "label": "any other model (fallback): loudest, busiest stretch of the song (climax)", "start_beat": 448, "beats": 36}
+ ]
+}

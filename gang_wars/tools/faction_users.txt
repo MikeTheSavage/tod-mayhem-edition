@@ -1,0 +1,41 @@
+0    Destroyable_Object                          11  overdose.main
+0    character_placeholder                        3  mm055_ambush.mission, mm100_gettothedeahq.mission
+0    database_faction_relation                    1  overdose.main
+1    character_placeholder                        8  intermission_after_getthetrucks.mission, intermission_after_marco.mission
+1    database_faction_relation                    1  overdose.main
+10   Destroyable_Object                           1  submap01_map09_jungle.submap
+10   character_placeholder                       56  intermission_after_breakintosafe.mission, intermission_after_bridge.mission, intermission_after_elvez.mission, intermission_after_escape.mission, intermission_after_jungle.mission, intermission_after_tommy.mission ...
+10   database_faction_relation                    1  overdose.main
+10   target_dummy_root                           11  tutorial_01.mission
+10   vehicle_placeholder                         10  intermission_after_jungle.mission, mm020_contactmarco.mission, mm030_smashthestash.mission, mm050_escortthetrucks.mission
+11   character_placeholder                        8  subm_27_down_frevir_escort.mission, subm_31_harb_consho_race.mission
+11   database_faction_relation                    1  overdose.main
+12   database_faction_relation                    1  overdose.main
+13   character_placeholder                        2  overdose.main
+13   database_faction_relation                    1  overdose.main
+14   character_placeholder                      142  submap01_map02_lostoros_downtown.submap, submap01_map04_lostoros_train_harbour.submap, submap02_map02_lostoros_downtown.submap, submap02_map03_lostoros_industrial.submap, submap04_map03_lostoros_industrial.submap
+14   database_faction_relation                    1  overdose.main
+15   database_faction_relation                    1  overdose.main
+16   database_faction_relation                    1  overdose.main
+17   database_faction_relation                    1  overdose.main
+18   database_faction_relation                    1  overdose.main
+2    AA_chain_gun                                 6  mainmap_map10_runawaytrain.map, submap01_map09_jungle.submap
+2    Destroyable_Object                          29  mainmap_map03_lostoros_industrial.map, submap01_map02_lostoros_downtown.submap, submap01_map03_lostoros_industrial.submap, submap01_map06_virgillos_farm.submap, submap01_map07_meat_factory.submap, submap01_map09_jungle.submap ...
+2    database_faction_relation                    1  overdose.main
+2    vehicle_placeholder                        601  intermission_after_breakintosafe.mission, intermission_after_getthetrucks.mission, intermission_after_marco.mission, intermission_after_tommy.mission, mm010_ernestocruz.mission, mm013_tommycruz.mission ...
+2    vehicle_root                                32  gameover_intermission.mission, intermission_after_breakintosafe.mission, intermission_after_bridge.mission, intermission_after_elvez.mission, intermission_after_jungle.mission, mm120_runawaytrain.mission ...
+21   Destroyable_Object                           1  submap01_map09_jungle.submap
+29   character_placeholder                        8  mm040_getthetrucks.mission, mm055_ambush.mission
+3    database_faction_relation                    1  overdose.main
+4    database_faction_relation                    1  overdose.main
+5    database_faction_relation                    1  overdose.main
+6    character_placeholder                       64  intermission_after_breakintosafe.mission, mm020_contactmarco.mission, mm061_elmachobarmeeting.mission, mm066_brakeintosafe.mission, mm070_elvezcardealer.mission, mm080_highwaybridge.mission ...
+6    database_faction_relation                    1  overdose.main
+7    database_faction_relation                    1  overdose.main
+8    character_placeholder                      399  gameover_intermission.mission, intermission_after_breakintosafe.mission, intermission_after_bridge.mission, intermission_after_elvez.mission, intermission_after_escape.mission, intermission_after_getthecar.mission ...
+8    database_faction_relation                    1  overdose.main
+9    Destroyable_Object                           2  submap02_map06_virgillos_farm.submap
+9    character_placeholder                     2140  mainmap_map10_runawaytrain.map, mm010_ernestocruz.mission, mm013_tommycruz.mission, mm020_contactmarco.mission, mm030_smashthestash.mission, mm032_getthecar.mission ...
+9    database_faction_relation                    1  overdose.main
+9    target_dummy_root                           62  tutorial_01.mission
+9    vehicle_placeholder                         29  mm010_ernestocruz.mission, mm050_escortthetrucks.mission, mm058_escape.mission, mm070_elvezcardealer.mission, mm090_getmilitaryinfo.mission, mm092_escapejungle.mission ...

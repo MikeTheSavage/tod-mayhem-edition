@@ -1,0 +1,89 @@
+# TOD HD fx -- per-pixel lighting: one row per MATERIAL CLASS.
+#
+# The DLL re-reads this file live, on the same poll as tod_hd_fx.ini (reload_frames), so a row can be
+# tuned while the game runs.  Format, whitespace separated:
+#
+#   <class>  <roughness>  <metal>  <F0>  <specular>  <wrap>  [<reflect>]
+#
+#   roughness  0.02..1   how wide the sun's highlight is.  0.02 = a mirror, 1 = chalk.
+#   metal      0..1      1 tints the highlight with the surface's own colour, as a conductor does.
+#   F0         0..1      the reflectance straight on; the Fresnel rises to 1 at grazing angles.
+#   specular   0..4      how strong the highlight is (x the ini's own `specular`).
+#   wrap       0..1      how far past the terminator light reaches -- a leaf is not opaque.
+#   reflect    0..1      how much of the ENVIRONMENT this surface mirrors: the weight of the screen-space
+#                        reflection (`ssr = 1`) and of its HDRI fallback.  0 = never reflective.  OPTIONAL:
+#                        a six-column row (every row before 2026-09-20) reads as reflect = 0, which is
+#                        exactly `ssr = 0` for that class.
+#
+# WHICH TEXTURE IS WHICH CLASS is decided by tod_hd_fx\light\classes.txt (the key list, user-editable) turned
+# into tod_hd_fx\light\manifest.txt by the installer.  A texture in neither takes the `default` row, which is
+# also what `light_classes = 0` gives every draw -- the picture the 3A7EFDE4 release drew, byte for byte.
+#
+# The numbers are the project's own classification (work\wrapper\materials\data\class_params.md, 4,861 textures
+# over 41 classes); `reflect` is that table's "probe env" column.
+#
+# The `default` row is the `unclassified` row with a little more specular, because the game's world is
+# mostly concrete, dirt, wood and metal and a dead-matte default makes all of it look like paper.
+#
+# `metal` IS THE GAME'S LARGEST METAL CLASS AND IT IS MOSTLY PAINT AND RUST (2026-09-20 review).  Its 757
+# textures are containers, shutters, silos, corrugated roofing, painted doors, air-conditioner housings and
+# rusted fencing -- dielectrics, whose F0 is about 0.04 -- with a minority of bare steel.  It carried
+# metal = 0.60, which the conductor rule turned into F0 = 0.556: a fourteenfold rise in the straight-on
+# reflectance of the biggest surface in the world, which reads waxy and plastic-wrapped.  It is 0.12 now
+# (F0 = 0.143), roughness 0.50 rather than 0.45, `reflect` 0.25 rather than 0.35 -- and 0.50 is above the
+# shipped `ssr_roughness_cutoff` (0.40), so a metal panel no longer marches unless the tester raises that key.
+# `tyre` had metal = 0.20 as well; rubber is not a conductor and it is 0 now.
+#
+# WHY NO ROW IS A FULL CONDUCTOR ANY MORE.  `metal` does double duty here: it tints the highlight with the
+# surface's own colour, it raises F0 towards 0.90 (the conductor rule), and since 2026-09-20 it also REMOVES
+# that much diffuse, so raising F0 moves energy instead of adding it (`light_energy`).  In a real PBR renderer
+# a conductor's diffuse is zero and its whole appearance is the environment it reflects -- but this renderer's
+# environment term (`ssr_env`) ships OFF, and a screen-space march finds something on only a few per cent of
+# the pixels it runs on.  A row at metal = 1.00 would therefore be BLACK wherever the march found nothing.  So
+# `chrome` is 0.50 and `vehicle_detail` 0.25: the direction is kept and the darkening is bounded at half.  The
+# tester's two live knobs are `light_energy = 0` (put the diffuse back) and `ssr_env = 1` (put the HDRI back).
+#
+#                 rough  metal    F0   spec   wrap  reflect
+
+default           0.55   0.00   0.040   0.45   0.00   0.00
+
+unclassified      0.60   0.00   0.040   0.00   0.00   0.00
+# hud              (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+# sky              (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+# particle         (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+# fx_decal         (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+# shadow           (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+# envmap           (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+# caustics         (the DLL never relights this class: HUD, sky, particles, decals, shadows, env maps)
+flat_color        0.60   0.00   0.040   0.00   0.00   0.00
+water             0.06   0.00   0.020   1.00   0.00   1.00
+water_foam        0.50   0.00   0.020   0.20   0.00   0.10
+waterfall         0.25   0.00   0.020   0.60   0.00   0.40
+wet_ground        0.30   0.00   0.030   0.80   0.00   0.35
+glass             0.05   0.00   0.040   1.00   0.00   1.00
+car_paint         0.18   0.00   0.050   1.00   0.00   0.80
+vehicle_detail    0.25   0.25   0.040   0.80   0.00   0.60
+chrome            0.10   0.50   0.040   1.00   0.00   1.00
+metal             0.50   0.12   0.040   0.65   0.00   0.25
+tyre              0.80   0.00   0.030   0.30   0.00   0.10
+skin              0.45   0.00   0.028   0.40   0.25   0.10
+hair              0.40   0.00   0.046   0.50   0.30   0.10
+cloth             0.82   0.00   0.040   0.25   0.00   0.05
+character_atlas   0.62   0.00   0.035   0.35   0.00   0.08
+foliage           0.65   0.00   0.035   0.35   0.45   0.10
+grass             0.78   0.00   0.030   0.25   0.20   0.05
+bark              0.85   0.00   0.030   0.20   0.00   0.05
+wood              0.72   0.00   0.040   0.35   0.00   0.08
+concrete          0.82   0.00   0.040   0.35   0.00   0.08
+plaster           0.85   0.00   0.040   0.25   0.00   0.05
+brick             0.82   0.00   0.040   0.30   0.00   0.05
+stone             0.78   0.00   0.040   0.35   0.00   0.08
+tile              0.35   0.00   0.040   0.70   0.00   0.30
+asphalt           0.72   0.00   0.040   0.40   0.00   0.08
+dirt              0.80   0.00   0.035   0.25   0.00   0.05
+facade            0.70   0.00   0.040   0.45   0.00   0.20
+interior          0.60   0.00   0.040   0.40   0.00   0.15
+sign_text         0.55   0.00   0.040   0.40   0.00   0.10
+decal             0.80   0.00   0.040   0.10   0.00   0.00
+plastic           0.40   0.00   0.045   0.60   0.00   0.20
+emissive          0.30   0.00   0.040   0.40   0.00   0.20

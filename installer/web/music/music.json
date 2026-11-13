@@ -1,0 +1,37 @@
+{
+  "title": "La Llorona (traditional), arranged for Gameplay+",
+  "credit": "Traditional Mexican song, public domain. Arrangement: Gameplay+.",
+  "instruments_source": "Rendered with the GeneralUser GS SoundFont (S. Christian Collins); its licence allows free use of rendered audio and does not require a credit.",
+  "license": "Public-domain melody; arrangement and recording are part of Gameplay+.",
+  "bpm": 80,
+  "time_signature": "3/4",
+  "key": "E minor",
+  "bars": 48,
+  "sample_rate": 48000,
+  "loop_samples": 5184000,
+  "loop_seconds": 108.0,
+  "loopStart": 0.0,
+  "loopEnd": 108.0,
+  "mixing": "Start every stem on the same sample and sum at unity gain; the full mix peaks at about -1 dBFS. Each Mayhem toggle adds the next stem.",
+  "stems": [
+    {
+      "order": 1,
+          "instrument": "Nylon Guitar (GM 25 / bank 0 prog 24)"
+    },
+    {
+      "order": 2,
+      "file": "stem2_bass_perc.ogg",
+      "instrument": "Acoustic Bass as guitarron, doubled in octaves (bank 0 prog 32); Timpani heartbeat and roll (bank 0 prog 47); Standard kit low/high conga as cajon + maracas (ch 10); Orchestral kit concert bass drum (bank 120 prog 48)"
+    },
+    {
+      "order": 3,
+      "file": "stem3_trumpet.ogg",
+      "instrument": "Trumpet (bank 0 prog 56), pitch-bend vibrato and falls, CC11 phrasing, plus a filtered two-tap canyon echo"
+    },
+    {
+      "order": 4,
+      "file": "stem4_strings_choir.ogg",
+      "instrument": "Slow Strings (bank 0 prog 49), Tremolo Strings (bank 0 prog 44), Voice Oohs (bank 0 prog 53)"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# Preview videos carry a cut of the song: keep them local, never commit them.
+*.mp4
+*.webm

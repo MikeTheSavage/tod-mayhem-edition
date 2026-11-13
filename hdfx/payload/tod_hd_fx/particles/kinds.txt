@@ -1,0 +1,41 @@
+# TOD HD: which particle sprites are SMOKE (lit smoke, `part_lit`) and which are HEAT SOURCES (heat haze, `heat_haze`).
+#
+# One line per sprite:  <manifest key>  smoke|heat
+# The key is the sprite's name in manifest.txt beside this file (the texture's own leaf name). It is matched
+# EXACTLY (case ignored) against the manifest line whose SHA-256 matched the texture the game bound -- so a key here
+# is an identity, not a word to search for. A key that no manifest line has is reported in todhd_fx.log at start-up.
+# Read when the game starts. Delete this file and the DLL uses the same table, built in.
+#
+# The blend at the draw still decides: a `smoke` sprite is lit only where the game draws it ALPHA-BLENDED (never
+# additive: an additive sprite has no unlit level to scale), and a `heat` sprite makes heat only where the game draws
+# it ADDITIVE.
+#
+# Built 2026-09-22 (partfix, KEEP.md 22.7) from the 163 keys of the installed particle manifest and the draw census of
+# a real map09 session (work\research\vfx\data\draw_states.md). Census draw counts in brackets.
+#
+# smoke-like: soft, scattering puffs that should take the level's sun and sky
+smoke_white     smoke   # [28 alpha-blended, 253 additive -- the additive ones stay unlit] the air vents
+                        # (Smoke_AirVent), grey / brown / white smoke, dust clouds, exhaust, water spray
+#
+# NOT `smoke`: [1,788 alpha-blended, the busiest sprite] its installed texture is BLACK in RGB (every texel: only the
+# alpha carries the puff), so the dark plume over fires and explosions is black whatever light it is given --
+# lighting it would cost a shader swap per draw and change nothing. Add `smoke smoke` here if smoke.dds is ever
+# replaced by one with colour.
+a_smoke         smoke
+lumpysmoke      smoke
+impactsmoke     smoke
+dust            smoke
+sand_dust       smoke
+footpuff        smoke
+mist            smoke
+fog             smoke
+cold_breath     smoke
+cold_haze       smoke
+exhaust         smoke
+#
+# heat sources: fire and the explosion sheets (NOT fireflie, the firefly; NOT eksplosion_decal, the scorch mark)
+fire            heat    # [1,139 additive]
+explosion01     heat    # [144 additive]
+explosion03     heat    # [12 additive]
+explosion04     heat
+explotion       heat

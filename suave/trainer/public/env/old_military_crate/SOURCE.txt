@@ -1,0 +1,7 @@
+Old Military Crate
+Source: https://polyhaven.com/a/old_military_crate
+Licence: CC0 1.0 (public domain), Poly Haven
+Author(s): Jack Mava
+Downloaded: 2026-10-20 via api.polyhaven.com (md5-verified)
+Contents: glTF 2K + 4K (shared .bin, jpg/png textures in textures\)
+Use in TOD jungle: Green ammo crates (TOD WeaponAmmoCrateGreen look).

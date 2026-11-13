@@ -1,0 +1,315 @@
+{
+  "loop_samples": 5184000,
+  "loop_seconds": 108.0,
+  "shared_gain_dB": 10.74,
+  "decoded_lengths": {
+    "stem1_guitar": 5184000,
+    "stem2_bass_perc": 5184000,
+    "stem3_trumpet": 5184000,
+    "stem4_strings_choir": 5184000
+  },
+  "ogg_bytes": {
+    "stem1_guitar": 1530363,
+    "stem2_bass_perc": 1660040,
+    "stem3_trumpet": 1628276,
+    "stem4_strings_choir": 1597011
+  },
+  "levels_pcm": {
+    "stem1_guitar": {
+      "peak_dBFS": -4.21,
+      "rms_dBFS": -27.54,
+      "clipped_samples": 0
+    },
+    "stem2_bass_perc": {
+      "peak_dBFS": -3.37,
+      "rms_dBFS": -25.83,
+      "clipped_samples": 0
+    },
+    "stem3_trumpet": {
+      "peak_dBFS": -6.33,
+      "rms_dBFS": -25.2,
+      "clipped_samples": 0
+    },
+    "stem4_strings_choir": {
+      "peak_dBFS": -7.6,
+      "rms_dBFS": -28.51,
+      "clipped_samples": 0
+    },
+    "full": {
+      "peak_dBFS": -1.15,
+      "rms_dBFS": -20.55,
+      "clipped_samples": 0
+    }
+  },
+  "levels_ogg": {
+    "1": {
+      "peak_dBFS": -4.32,
+      "rms_dBFS": -27.53,
+      "clipped_samples": 0,
+      "seam": {
+        "seam_sample_jump": 0.0007259957492351532,
+        "p99.9_sample_step": 0.016218438956886565,
+        "max_sample_step": 0.055239200592041016,
+        "seam_d2": 0.0009980257600545883,
+        "p99.99_d2": 0.011629239596423924,
+        "rms10ms_around_seam_dB": [
+          -31.0,
+          -31.0,
+          -35.2,
+          -32.5,
+          -31.8,
+          -34.3,
+          -33.1,
+          -32.1
+        ],
+        "max_10ms_rms_step_at_seam_dB": 4.2022253801736476,
+        "p99_10ms_rms_step_dB_overall": 5.175046190253269
+      }
+    },
+    "1-2": {
+      "peak_dBFS": -1.68,
+      "rms_dBFS": -23.58,
+      "clipped_samples": 0,
+      "seam": {
+        "seam_sample_jump": 0.006595788523554802,
+        "p99.9_sample_step": 0.03125894306972784,
+        "max_sample_step": 0.15665554092265666,
+        "seam_d2": 0.006007419899106026,
+        "p99.99_d2": 0.11078036904133878,
+        "rms10ms_around_seam_dB": [
+          -23.0,
+          -24.9,
+          -24.8,
+          -22.8,
+          -21.1,
+          -16.5,
+          -16.7,
+          -16.4
+        ],
+        "max_10ms_rms_step_at_seam_dB": 4.656001373077483,
+        "p99_10ms_rms_step_dB_overall": 5.1121290529105385
+      }
+    },
+    "1-3": {
+      "peak_dBFS": -2.22,
+      "rms_dBFS": -21.28,
+      "clipped_samples": 0,
+      "seam": {
+        "seam_sample_jump": 0.005067229270935059,
+        "p99.9_sample_step": 0.11173270536586716,
+        "max_sample_step": 0.20496968179941177,
+        "seam_d2": 0.006190720712766051,
+        "p99.99_d2": 0.11100790205131718,
+        "rms10ms_around_seam_dB": [
+          -22.2,
+          -24.4,
+          -23.9,
+          -22.5,
+          -20.9,
+          -16.4,
+          -16.8,
+          -16.3
+        ],
+        "max_10ms_rms_step_at_seam_dB": 4.46639268073341,
+        "p99_10ms_rms_step_dB_overall": 5.018164846498397
+      }
+    },
+    "full": {
+      "peak_dBFS": -1.09,
+      "rms_dBFS": -20.55,
+      "clipped_samples": 0,
+      "seam": {
+        "seam_sample_jump": 0.0035745685454458,
+        "p99.9_sample_step": 0.1121958802361046,
+        "max_sample_step": 0.2061352003365755,
+        "seam_d2": 0.007296059280633926,
+        "p99.99_d2": 0.11131588330962865,
+        "rms10ms_around_seam_dB": [
+          -21.3,
+          -21.6,
+          -22.3,
+          -21.5,
+          -18.8,
+          -15.9,
+          -17.1,
+          -16.2
+        ],
+        "max_10ms_rms_step_at_seam_dB": 2.8690887526085014,
+        "p99_10ms_rms_step_dB_overall": 4.733999715730434
+      }
+    }
+  },
+  "seam_pcm_full": {
+    "seam_sample_jump": 0.005837993091547228,
+    "p99.9_sample_step": 0.11227189295043782,
+    "max_sample_step": 0.20636678551737828,
+    "seam_d2": 0.004368268116458879,
+    "p99.99_d2": 0.1216499383644696,
+    "rms10ms_around_seam_dB": [
+      -21.3,
+      -21.5,
+      -22.2,
+      -21.5,
+      -18.8,
+      -15.9,
+      -17.1,
+      -16.3
+    ],
+    "max_10ms_rms_step_at_seam_dB": 2.898655138115105,
+    "p99_10ms_rms_step_dB_overall": 4.817255637866962
+  },
+  "bands_full": {
+    "0-60Hz": 0.02131281350211071,
+    "60-100Hz": 0.14840802428197347,
+    "100-4000Hz": 0.823658304689204,
+    "4000-24001Hz": 0.0066208575267118945
+  },
+  "bands_per_stem": {
+    "stem1_guitar": {
+      "0-60Hz": 8.046658430863243e-06,
+      "60-100Hz": 0.006905147191027886,
+      "100-4000Hz": 0.9920128619102112,
+      "4000-24001Hz": 0.0010739442403304086
+    },
+    "stem2_bass_perc": {
+      "0-60Hz": 0.061266509056046664,
+      "60-100Hz": 0.4527593786662842,
+      "100-4000Hz": 0.48483069726106764,
+      "4000-24001Hz": 0.001143415016601636
+    },
+    "stem3_trumpet": {
+      "0-60Hz": 5.268978899976712e-08,
+      "60-100Hz": 2.3614410016042854e-07,
+      "100-4000Hz": 0.9829560546228294,
+      "4000-24001Hz": 0.017043656543281455
+    },
+    "stem4_strings_choir": {
+      "0-60Hz": 0.006563444145237421,
+      "60-100Hz": 0.0417855773029804,
+      "100-4000Hz": 0.9500065738584988,
+      "4000-24001Hz": 0.0016444046932833614
+    }
+  },
+  "section_rms_dB": {
+    "stem1_guitar": {
+      "intro 1-8": -27.5,
+      "couplet1 9-24": -29.5,
+      "couplet2a 25-32": -28.8,
+      "couplet2b 33-40": -26.7,
+      "outro 41-48": -25.1
+    },
+    "stem2_bass_perc": {
+      "intro 1-8": -28.8,
+      "couplet1 9-24": -27.3,
+      "couplet2a 25-32": -26.0,
+      "couplet2b 33-40": -24.3,
+      "outro 41-48": -23.5
+    },
+    "stem3_trumpet": {
+      "intro 1-8": -44.0,
+      "couplet1 9-24": -26.5,
+      "couplet2a 25-32": -24.2,
+      "couplet2b 33-40": -21.9,
+      "outro 41-48": -24.8
+    },
+    "stem4_strings_choir": {
+      "intro 1-8": -34.1,
+      "couplet1 9-24": -37.8,
+      "couplet2a 25-32": -33.0,
+      "couplet2b 33-40": -27.9,
+      "outro 41-48": -22.5
+    },
+    "full": {
+      "intro 1-8": -24.5,
+      "couplet1 9-24": -22.7,
+      "couplet2a 25-32": -20.9,
+      "couplet2b 33-40": -18.5,
+      "outro 41-48": -17.8
+    }
+  },
+  "preview_full_seam_at_s": 15.0,
+  "trumpet_melody": [
+    "bar 8 beat 3: B3 (1)",
+    "bar 9 beat 1: E4 (1)",
+    "bar 9 beat 2: E4 (1)",
+    "bar 9 beat 3: F#4 (1)",
+    "bar 10 beat 1: G4 (2)",
+    "bar 10 beat 3: F#4 (1)",
+    "bar 11 beat 1: F#4 (1)",
+    "bar 11 beat 2: E4 (1)",
+    "bar 11 beat 3: F#4 (1)",
+    "bar 12 beat 1: G4 (2)",
+    "bar 12 beat 3: F#4 (1)",
+    "bar 13 beat 1: F#4 (1)",
+    "bar 13 beat 2: F#4 (1)",
+    "bar 13 beat 3: G4 (1)",
+    "bar 14 beat 1: A4 (1)",
+    "bar 14 beat 2: G4 (1)",
+    "bar 14 beat 3: F#4 (1)",
+    "bar 15 beat 1: E4 (3)",
+    "bar 16 beat 3: B3 (1)",
+    "bar 17 beat 1: E4 (1)",
+    "bar 17 beat 2: E4 (1)",
+    "bar 17 beat 3: F#4 (1)",
+    "bar 18 beat 1: G4 (2)",
+    "bar 18 beat 3: F#4 (1)",
+    "bar 19 beat 1: F#4 (1)",
+    "bar 19 beat 2: E4 (1)",
+    "bar 19 beat 3: F#4 (1)",
+    "bar 20 beat 1: G4 (2)",
+    "bar 20 beat 3: F#4 (1)",
+    "bar 21 beat 1: F#4 (1)",
+    "bar 21 beat 2: F#4 (1)",
+    "bar 21 beat 3: G4 (1)",
+    "bar 22 beat 1: A4 (1)",
+    "bar 22 beat 2: F#4 (1)",
+    "bar 22 beat 3: D#4 (1)",
+    "bar 23 beat 1: E4 (3)",
+    "bar 24 beat 3: B3 (1)",
+    "bar 25 beat 1: E4 (1)",
+    "bar 25 beat 2: E4 (1)",
+    "bar 25 beat 3: F#4 (1)",
+    "bar 26 beat 1: G4 (2)",
+    "bar 26 beat 3: A4 (1)",
+    "bar 27 beat 1: B4 (1)",
+    "bar 27 beat 2: A4 (1)",
+    "bar 27 beat 3: G#4 (1)",
+    "bar 28 beat 1: A4 (2)",
+    "bar 28 beat 3: A4 (1)",
+    "bar 29 beat 1: A4 (1)",
+    "bar 29 beat 2: A4 (1)",
+    "bar 29 beat 3: G4 (1)",
+    "bar 30 beat 1: F#4 (1)",
+    "bar 30 beat 2: E4 (1)",
+    "bar 30 beat 3: D#4 (1)",
+    "bar 31 beat 1: E4 (3)",
+    "bar 32 beat 3: B3 (1)",
+    "bar 33 beat 1: E4 (1)",
+    "bar 33 beat 2: E4 (1)",
+    "bar 33 beat 3: F#4 (1)",
+    "bar 34 beat 1: G4 (2)",
+    "bar 34 beat 3: A4 (1)",
+    "bar 35 beat 1: B4 (1)",
+    "bar 35 beat 2: A4 (1)",
+    "bar 35 beat 3: G#4 (1)",
+    "bar 36 beat 1: A4 (2)",
+    "bar 36 beat 3: A4 (1)",
+    "bar 37 beat 1: C5 (1)",
+    "bar 37 beat 2: B4 (1)",
+    "bar 37 beat 3: A4 (1)",
+    "bar 38 beat 1: F#4 (1)",
+    "bar 38 beat 2: E4 (1)",
+    "bar 38 beat 3: D#4 (1)",
+    "bar 39 beat 1: E4 (3)",
+    "bar 43 beat 1: C5 (2)",
+    "bar 43 beat 3: B4 (1)",
+    "bar 44 beat 1: A4 (3)",
+    "bar 45 beat 1: G4 (1)",
+    "bar 45 beat 2: F#4 (1)",
+    "bar 45 beat 3: E4 (1)",
+    "bar 46 beat 1: F4 (3)",
+    "bar 47 beat 1: D#4 (2)",
+    "bar 47 beat 3: F#4 (1)",
+    "bar 48 beat 1: B3 (3)"
+  ]
+}

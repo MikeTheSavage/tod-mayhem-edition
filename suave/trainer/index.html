@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suave Trainer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%23ffc247%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2716%27 text-anchor=%27middle%27 font-family=%27Impact%27 fill=%27%233a1a06%27%3ES%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div id="stage">
+    <canvas id="view"></canvas>
+    <div id="freeze"></div>
+    <div id="flash"></div>
+    <div id="title"><div class="suave">SUAVE</div><div class="sub">loco move</div></div>
+    <div id="labels"></div>
+    <div id="hud">
+      <div class="phase"><span id="phaseName">Activate</span><span id="phaseTime">0.00 s</span></div>
+      <div class="meter"><div id="meterFill"></div></div>
+    </div>
+    <div id="brand">
+      <div class="logo">SUAVE <span>TRAINER</span></div>
+      <div class="tag">Total Overdose loco move preview, no game needed</div>
+    </div>
+    <div id="toast"></div>
+    <div id="loading"><div class="spin"></div><div id="loadingText">Loading the yard…</div></div>
+    <div id="playhint" class="hidden"></div>
+  </div>
+
+  <aside id="panel">
+    <section>
+      <h3>Move setup</h3>
+      <label class="row">Pairing
+        <select id="pairing">
+          <option value="soldier">Ram + soldier</option>
+          <option value="civil">Ram + civil</option>
+          <option value="dea">Ram + DEA</option>
+        </select>
+      </label>
+      <label class="row">Timing
+        <select id="timing">
+          <option value="game">Game: segment beat grid (boom on beat 28)</option>
+          <option value="design">Design doc: 18 s phases</option>
+        </select>
+      </label>
+      <label class="row">Music
+        <select id="music"></select>
+      </label>
+      <label class="row check"><input id="useSA" type="checkbox" checked /> Use the Suave clips when available</label>
+      <label class="row">Ring size <b id="ringVal">8</b>
+        <input id="ring" type="range" min="0" max="8" step="1" value="8" />
+      </label>
+      <label class="row">Ring radius <b id="radiusVal">3.0 m</b>
+        <input id="radius" type="range" min="1.5" max="8" step="0.5" value="3" />
+      </label>
+      <label class="row">Circle dance speed
+        <select id="circleSpeed">
+          <option value="auto">Auto (one sway per beat)</option>
+          <option value="1">1× (as exported)</option><option value="2">2×</option><option value="4">4×</option>
+        </select>
+      </label>
+      <label class="row check"><input id="shooters" type="checkbox" checked /> Outside shooters</label>
+      <label class="row check"><input id="mute" type="checkbox" /> Mute music</label>
+    </section>
+    <section>
+      <h3>Camera</h3>
+      <div class="chips" id="cams"></div>
+    </section>
+    <section>
+      <h3>Debug</h3>
+      <label class="row check"><input id="debug" type="checkbox" /> Radius rings, skeletons, contacts</label>
+      <div id="debugOut" class="readout"></div>
+    </section>
+    <section>
+      <h3>Play as Ram</h3>
+      <button id="playMode" class="btn wide">Enter the yard</button>
+      <p class="hint">WASD walk, Shift run, drag to look, <b>E</b> Suave on the nearest enemy (within 5 m), <b>Esc</b> back to the trainer.</p>
+    </section>
+    <section>
+      <h3>Clips</h3>
+      <div id="clipStatus" class="readout"></div>
+    </section>
+    <section>
+      <h3>Record</h3>
+      <button id="recWebm" class="btn wide">Record this camera (WebM)</button>
+      <p class="hint">Deterministic MP4s: <code>npm run record</code> (see README).</p>
+    </section>
+  </aside>
+
+  <footer id="timeline">
+    <div class="controls">
+      <button id="restart" class="btn icon" title="Restart (R)">&#x23EE;</button>
+      <button id="play" class="btn icon primary" title="Play / pause (Space)">&#x25B6;</button>
+      <span id="tread" class="tread">0.00 / 18.00</span>
+      <select id="speed" title="Speed">
+        <option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="0.75">0.75×</option>
+        <option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option>
+      </select>
+    </div>
+    <div id="track">
+      <div id="phases"></div>
+      <div id="beats"></div>
+      <div id="cursor"></div>
+      <input id="scrub" type="range" min="0" max="18" step="0.001" value="0" />
+    </div>
+  </footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
