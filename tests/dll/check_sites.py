@@ -34,6 +34,7 @@ HUD_CPP = os.path.join(ROOT, "dll", "src", "gp_hud.cpp")                # [minim
 HT_CPP = os.path.join(ROOT, "dll", "src", "gp_heat.cpp")                # [mayhem_heat] (R_HT_*)
 MH_CPP = os.path.join(ROOT, "mayhem", "code", "mh_game.cpp")             # [mayhem] chain reactions / cover (R_MH_*)
 RD_CPP = os.path.join(ROOT, "ragdoll", "code", "rd_game.cpp")          # [ragdoll] (R_CHARUPD, R_HITSEND)
+MU_CPP = os.path.join(ROOT, "dll", "src", "gp_music.cpp")               # [fixes] stream_limits (R_MU_*)
 EXPECTED_MD5 = "d9beb351b3c78ee9f14a766a368f3ff9"
 
 # stub return / tail constants in gp_game.cpp that must match the sites
@@ -70,6 +71,7 @@ STUB_CONST = {   # site id -> (name of the DWORD constant in gp_game.cpp, "end" 
     "DS_MM_OLDGET": ("R_DM_MGET", "target"), "DS_MM_STORE": ("R_DM_MSET", "target"), "DS_MM_SETTEXT": ("R_DM_SETIDX", "end"),
     "MH_CAR_A": ("R_MH_CAR", "target"), "MH_CAR_B": ("R_MH_CAR", "target"), "MH_DO_HIT": ("R_MH_DOHIT", "target"), "MH_DRAW": ("R_MH_BLUR", "target"), "MH_DO_QUERY": ("R_MH_QUERY", "target"),
     "RD_CHARUPD": ("R_CHARUPD", "target"), "RD_HIT": ("R_HITSEND", "target"), "RD_CORPSE": ("R_CORPSE_BACK", "end"),
+    "MU_REFUSE": ("R_MU_FAIL", "end"), "MU_POOL": ("R_MU_POOL_FAIL", "end"), "MU_DUP": ("R_MU_DUP_EXIT", "end"),
     "MN_GET_INIT": ("R_MN_GETTER", "target"), "MN_GET_RESET": ("R_MN_GETTER", "target"), "MN_SET": ("R_MN_SET", "end"),
 }
 # OPER sites that replace an immediate code address: the shipped immediate must equal the constant the wrapper calls
@@ -82,7 +84,9 @@ JUMP_REF = {"R_SL_LS_EXIT": "SL_LS_EXIT84", "R_SL_POST_HUD": "SL_POST_HUD", "R_S
             "R_DS_MOUSE": "DS_MOUSE_J", "R_DS_QUAD": "DS_QUAD", "R_DS_MATRIX": "DS_MATRIX", "R_DS_FONTSCALE": "DS_FONTSCALE",
             "R_DS_ISWIDE": "DS_ISWIDE", "R_DS_MODEFIND": "DS_MODEFIND", "R_DS_WININIT": "DS_WININIT", "R_DS_WINSIZE": "DS_WINSIZE",
             "P_DM_RESET": "DS_MM_RESET", "P_DM_VHUD": "DS_MM_VHUD", "P_DM_ALLOC": "DS_MM_ALLOC",
-            "P_DM_SENDCMD": "F_CMD", "P_DM_FIND": "F_FINDCHILD"}
+            "P_DM_SENDCMD": "F_CMD", "P_DM_FIND": "F_FINDCHILD",
+            "R_MU_OK": "MU_OK_TARGET", "R_MU_FAIL": "MU_FAIL_TARGET", "R_MU_POOL_CREATE": "MU_POOL_CREATE", "R_MU_POOL_FAIL": "MU_POOL_FAIL",
+            "R_MU_DUP_CONT": "MU_DUP_CONT", "R_MU_DUP_EXIT": "MU_DUP_EXIT"}
 # renderer bridge (todbridge.cpp, not included) patch ranges: va -> length
 BRIDGE = {0x93D027: 5, 0x884EB0: 6, 0x911EA0: 6, 0x746C40: 8, 0x748840: 8, 0x8986E0: 6, 0x7478E0: 5, 0x421B30: 5,
           0x421530: 8, 0x434290: 6, 0x44F940: 6, 0x45D5E0: 5, 0x748AAC: 4, 0x445E8F: 4, 0x441837: 4, 0x44CFF0: 3,
@@ -98,6 +102,7 @@ OPER_WANT = {"CAM_VIEW": ("mov eax, dword ptr [0x10002000]; nop", 2), "CAM_CULL"
 for _i, _v in enumerate((1280, 720, 1600, 900, 1920, 1080, 2560, 1440, 1920, 1080)):
     _id = "DS_RES_%s%d" % ("W" if _i % 2 == 0 else "H", _i // 2)
     OPER_NEW[_id] = _v.to_bytes(4, "little").hex(); OPER_WANT[_id] = ("mov dword ptr [esp + %d], 0x%x" % (4 if _i % 2 == 0 else 8, _v), 1)
+OPER_NEW["MU_WARN"] = "7f"; OPER_WANT["MU_WARN"] = ("cmp eax, 0x7f", 1)
 OPER_NEW["PD_CTLSTART"] = DUMMY; OPER_WANT["PD_CTLSTART"] = ("mov eax, 0x10002000", 1)
 OPER_NEW["DS_WH_H480"] =(480).to_bytes(4, "little").hex(); OPER_WANT["DS_WH_H480"] = ("mov dword ptr [esp + 0xc], 0x1e0", 1)
 OPER_NEW["DS_WH_W853"] = (853).to_bytes(4, "little").hex(); OPER_WANT["DS_WH_W853"] = ("mov dword ptr [esp + 0xc], 0x355", 1)
@@ -124,6 +129,7 @@ def parse():
     src += "\n" + open(HT_CPP, encoding="utf-8").read()   # [mayhem_heat] (R_HT_*)
     src += "\n" + open(MH_CPP, encoding="utf-8").read()
     src += "\n" + open(RD_CPP, encoding="utf-8").read()
+    src += "\n" + open(MU_CPP, encoding="utf-8").read()
     for m in re.finditer(r'\b(R_\w+|P_\w+)\s*=\s*(0x[0-9A-Fa-f]+|P_\w+)', src):
         consts[m[1]] = m[2]
     for k, v in list(consts.items()):

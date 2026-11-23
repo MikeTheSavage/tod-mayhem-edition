@@ -249,6 +249,7 @@ void gp_debug_post_input(BYTE* edges, BYTE* state, double now) {
         gp_log("debug keys: mark %s (game window %s, keyboard acquired %u)\n", o.mark,
                fpid == GetCurrentProcessId() ? "in front" : "NOT in front", (unsigned)edges[0x200]);
         strncpy_s(g_marks[g_nmarks % 16], o.mark, _TRUNCATE); ++g_nmarks;
+        music_debug_mark(o.mark);   // "mu_hog IDX [aux]" / "mu_free IDX": streams held on purpose (dll/src/gp_music.cpp, test copy only)
     }
     // the keyboard object's "acquired" byte (+200h): without the window in front DirectInput is not acquired and the
     // menus ignore the arrays; while the script runs it is set so the injected keys count (the next poll resets it)

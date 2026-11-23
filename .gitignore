@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 *.part
 build/
+music/proof/*/audio/
+music/proof/*/clips/*.mkv
+music/proof/*/shots/
 pack_out/
 *.7z
 *.zip

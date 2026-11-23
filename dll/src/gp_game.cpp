@@ -12,6 +12,7 @@
 #include <string.h>
 #include <math.h>
 #include <share.h>
+#include <string>
 #include "gp_logic.h"
 #include "todgameplay_shared.h"
 #include "gp_glue.h"
@@ -203,6 +204,7 @@ static void load_config() {
     phys_load_config();                          // [physics] (physics/code/phys_game.cpp)
     mprops_load_config();                        // [mayhem] chain reactions / breakable cover (mayhem/code/mh_game.cpp)
     gp_fix_load_config();
+    music_load_config();                         // [fixes] stream_limits, [debug] music_trace (dll/src/gp_music.cpp)
     display_load_config();                       // [display] (dll/src/gp_display.cpp)
     pad_load_config();                           // [pad] controller support (dll/src/gp_pad.cpp)
     difficulty_load_config();                    // [difficulty] (dll/src/gp_difficulty.cpp)
@@ -486,6 +488,7 @@ static void post_input() {
                      g_last_tick > 0.0 && now - g_last_tick < 0.4);
     publish(g, pm);
     if (p.ok) hang_post_input(kb);   // [debug] debug_stall_key (test copy only)
+    music_post_input(now);           // [debug] music_stress (test copy only)
     hang_where("game (after POST_INPUT)");
 }
 
@@ -796,7 +799,7 @@ static void install() {
     // per-pass hook and input tick
     bool post_ok = false, tick_ok = false;
     bool pdw = pad_wants_post() && refs_input;                     // [pad] per-frame work
-    if (bt || restart || remap || ynorm || sv || smt || slt || dbi || pdw || phy || dft || psy || gwt || hdw || htt || bft || lot) post_ok = patch_site("POST_INPUT", (void*)&PostInputStub);
+    if (bt || restart || remap || ynorm || sv || smt || slt || dbi || pdw || phy || dft || psy || gwt || hdw || htt || bft || lot || music_wants_post()) post_ok = patch_site("POST_INPUT", (void*)&PostInputStub);
     if ((bt || restart || sv || smt || slt || dbi || phy || dft || psy || gwt || htt || bft || lot) && post_ok) {
         bool k = site_ok("KB_PROC") && site_ok("PAD_PROC");
         if (k) { patch_site("KB_PROC", (void*)&KbProcWrap); patch_site("PAD_PROC", (void*)&PadProcWrap); tick_ok = true; }
@@ -816,6 +819,7 @@ static void install() {
     if (phy) phys_install(tick_ok);              // [physics] Box3D props (physics/code/phys_game.cpp)
     if (phy) mprops_install(tick_ok);            // [mayhem] chain reactions / breakable cover on top of it (mayhem/code/mh_game.cpp)
     gp_fix_install();                            // engine fixes ([fixes], dll/src/gp_fix.cpp): the border-swap double free
+    music_install(g_patch_allowed);                          // [fixes] stream_limits: the streamed-sound quotas (dll/src/gp_music.cpp)
     display_install();                           // [display]: 16:9 table, wide HUD, pillarboxed menus (dll/src/gp_display.cpp)
     if (pad_enabled()) pad_install(post_ok && refs_input);   // [pad]: controller support (dll/src/gp_pad.cpp)
     if (hdw || !hud_enabled()) hud_install();     // [minimap]: overlay clients (dll/src/gp_hud.cpp); before heat: the map ink is drawn under its rim pulse
@@ -963,7 +967,7 @@ static bool any_feature() {
            c.mouse_turn || c.sens_x != 1.0f || c.sens_y != 1.0f || c.invert_y || c.y_fps_norm || c.diagonal ||
            c.fov > 0.0f || c.cull_fix || c.restart || c.remap.any || c.steer_return > 0.0f || c.brake_parity ||
            suave_enabled() || smart_enabled() || seam_enabled() || gp_debug_on() || display_enabled() || pad_enabled() ||
-           phys_enabled() || difficulty_enabled() || mayhem_enabled() || psycho_enabled() || loot_enabled() || gw_enabled() || hud_enabled() || heat_enabled() || bf_enabled();
+           phys_enabled() || difficulty_enabled() || mayhem_enabled() || psycho_enabled() || loot_enabled() || gw_enabled() || hud_enabled() || heat_enabled() || bf_enabled() || music_trace_wanted();
 }
 static void init_common(bool allow_patch, const char* how) {
     load_config();
@@ -1001,7 +1005,10 @@ extern "C" __declspec(dllexport) DWORD __cdecl TODGameplay_TestInstall(const cha
     char exe[MAX_PATH]; GetModuleFileNameA(nullptr, exe, MAX_PATH);
     const char* base = strrchr(exe, '\\'); base = base ? base + 1 : exe;
     if (!_stricmp(base, "TOD.exe") || g_patch_allowed) return 0xFFFFFFFE;
-    g_ini.parse(ini_text ? ini_text : "");
+    // the host tests count patches per feature: [fixes] stream_limits (3 more sites, default on in the game) is only on when a test asks
+    std::string host_ini = ini_text ? ini_text : "";
+    if (host_ini.find("stream_limits") == std::string::npos) host_ini += "\n[fixes]\nstream_limits = 0\n";
+    g_ini.parse(host_ini.c_str());
     g_status = 0; g_patched = 0;
     init_common(true, "test host");
     return (DWORD)g_patched;
@@ -1014,6 +1021,7 @@ extern "C" __declspec(dllexport) void* __cdecl TODGameplay_TestStub(const char* 
     if (void* p = suave_test_stub(name)) return p;
     if (void* p = seam_test_stub(name)) return p;
     if (void* p = gp_fix_test_stub(name)) return p;
+    if (void* p = music_test_stub(name)) return p;
     if (void* p = display_test_stub(name)) return p;
     if (void* p = pad_test_stub(name)) return p;
     if (void* p = phys_test_stub(name)) return p;

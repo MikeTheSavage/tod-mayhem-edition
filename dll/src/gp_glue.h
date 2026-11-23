@@ -96,6 +96,15 @@ bool  gp_fix_wanted();
 int   gp_fix_install();                              // number of patched sites
 void* gp_fix_test_stub(const char* name);             // test host only
 
+// ---- provided by dll/src/gp_music.cpp ([fixes] stream_limits: the streamed-sound quotas; [debug] music_trace)
+void  music_load_config();
+bool  music_trace_wanted();                          // [debug] music_trace (counts as a feature: it patches / starts a thread)
+int   music_install(bool real_exe);                  // number of patched sites (the fix is installed with any other feature); real_exe: the GOG exe (the trace thread starts)
+void* music_test_stub(const char* name);             // test host only
+bool  music_wants_post();                            // [debug] music_stress: needs the per-frame hook (POST_INPUT)
+void  music_post_input(double now);                  // game thread, every frame: the stress cycles
+void  music_debug_mark(const char* text);            // key script marks "mu_hog IDX [aux]" / "mu_free IDX" (test copy only): hold / release a SoundDict slot's stream
+
 // ---- provided by dll/src/gp_display.cpp ([display]: 16:9 resolution table, wide HUD, pillarboxed menus; off by default)
 void  display_load_config();
 bool  display_enabled();                             // the ini asks for it (before install)

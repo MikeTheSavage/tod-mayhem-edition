@@ -36,7 +36,7 @@ PSYCHO menu texts). It is built on the player's PC from his own game files, so n
 
 | Option | Levels | What changes |
 |---|---|---|
-| `driving` | vanilla, better_feel | sedan turn_rate 0.12, 25 VehicleDict rows: cornering x0.9, control_speed x0.5 |
+| `driving` | vanilla, better_feel, drift, grip, heavy | better_feel: sedan turn_rate 0.12, 25 VehicleDict rows: cornering x0.9, control_speed x0.5. drift / grip / heavy: the Mod Studio driving presets for all cars (see below) |
 | `difficulty` | normal, easy, hard, brutal | static damage / spread / reaction / ammo factors. Keep `normal` with the DLL: the DLL applies the levels at run time ([difficulty.md](difficulty.md)) |
 | `camera_distance` | default, near, far, farther | player camera -0.5 / +0.75 / +1.5 m along its line of sight (new games only) |
 | `vehicle_camera` | default, far | every vehicle camera 1.5 m back |
@@ -51,6 +51,23 @@ PSYCHO menu texts). It is built on the player's PC from his own game files, so n
 | `difficulty_menu` | off, on, on_all_languages | BRUTAL / PSYCHO texts in unused Menu text slots #77 / #101 ([difficulty.md](difficulty.md)) |
 
 `python build_gameplay_mod.py --list` prints the same table.
+
+### Driving levels
+
+The values of drift, grip and heavy are the built-in presets of TOD Mod Studio (`backend/data/driving_presets.json`,
+target "All cars"), copied as numbers. Per vehicle row (the same 25 rows as better_feel) the factors act on the value
+the game shipped; the car-wide fields are absolute values on the VehicleSedan `MoveCtrl`. Results are clamped to the
+Mod Studio ranges, a value equal to the shipped one writes nothing, and no suspension field is touched.
+
+| Level | VehicleDict rows (x shipped value) | MoveCtrl (all cars) |
+|---|---|---|
+| drift | cornering_stiffness x1.25, lateral_slide_speed x0.55, slide_factor x3, front_slide_factor x2, control_speed x0.6, time_to_slide_factor x6, handbrake_boost x1.5 | turn_rate 0.25, slide_angle 0.1, standard_sideways_slide_resistance 0.85 |
+| grip | cornering_stiffness x0.7, lateral_slide_speed x1.6, slide_factor x0.6, time_to_slide_factor x2, spinning_angular_friction x1.5, BrakeForce x1.3 | turn_rate 0.22 |
+| heavy | Mass x1.4, BrakeForce x0.9, cornering_stiffness x1.1, slide_factor x1.3, time_to_slide_factor x0.8 | turn_rate 0.12, standard_sideways_slide_resistance 0.75 |
+
+Same save rules as better_feel: driving values are not stored in saves, and the block only changes existing values or
+adds the missing `MoveCtrl` property records (nothing is created mid-block). The installer offers the five levels as
+"Driving feel" (Vanilla, Mayhem feel, Drift, Grip, Heavy; default Mayhem feel) in the Better Driving group.
 
 ## Commands
 

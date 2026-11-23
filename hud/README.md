@@ -26,6 +26,13 @@ collision and the placed models of every map, `TODMinimapBake.exe` draws them, a
 gets one tile pack `.mmp` + one `.occ` per map, `minimap.txt`, `bake.json`. Without that folder the radar stays a radar
 and the objective markers still work.
 
+**A map from a mod (new map package).** `bake_minimap.py --extra-archive PKG.zip --maps map11` bakes a map that is not in the game's
+own archives yet, straight from a `make_new_map.py` recipe build (its `stream_override.zip` is searched before the game archives, so the
+new `mainmap_mapNN_x.map` + `submapNN_mapNN_x.submap` are listed like the shipped nine). Bake only the new map (`--maps`; the zip also
+rewrites blocks of the maps it connects to) into the player's `TODGameplay_minimap` (every map stays listed in `minimap.txt`) or into an own
+folder (`--out`, then `[minimap] map_dir = ...`). The DLL picks a pack by the player's POSITION, so the new map's coordinates must not lie
+inside another pack's rectangle (the recipe's mesa is x 720-880, z 720-880: pack 679..931 / 669..921). Checked on a TOD Mod Studio new map (Map11, Mesa Compound).
+
 ## How it works (the RE behind it; addresses = GOG exe)
 
 ### The radar (HUD_radar, `HUDAuxCtrl.fragment` node `Radar`)

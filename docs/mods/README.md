@@ -13,6 +13,7 @@ shares (the loader, the exe check, hook sites, the build, in-game testing and th
 |---|---|---|
 | Core gameplay | Manual bullet time with a meter, dive slow motion off, frame-rate fixes for timers, pickups and mouse turning, FOV, key rebinding, quick restart, two driving tweaks | [core_gameplay.md](core_gameplay.md) |
 | Crash fixes | Fixes two vanilla engine crashes: the block-swap double free and the empty-weapon reload | [crash_fixes.md](crash_fixes.md) |
+| Sound streams | Music, ambience and speech no longer go silent for good when the engine hits its console-era stream quotas ("the music is missing until I load another level") | [sound_streams.md](sound_streams.md) |
 | Data zip | Driving feel, camera distance, slow-motion meter, cut-scene skips and the data halves of other mods, built from the player's own game files | [data_zip.md](data_zip.md) |
 | Display fix (16:9) | The game stays at the wide size you chose; HUD at the screen edges; menus and text no longer stretched | [display_fix.md](display_fix.md) |
 | In-game resolution | SETTINGS > SCREEN RESOLUTION lists the monitor's real windowed, borderless and fullscreen modes and switches live | [resolution_menu.md](resolution_menu.md) |

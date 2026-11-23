@@ -160,38 +160,57 @@ class App:
             self.job_thread.start()
             return dict(job=job.snapshot())
 
+    # A picker window is owned by an invisible form that is SHOWN topmost and activated first: an owner that is never
+    # shown left the dialog behind the installer's window (it looked like the button did nothing). Only one picker
+    # can be open at a time: a second request while one is open is refused (busy) instead of opening another window.
+    _pick_lock = threading.Lock()
+    PICK_OWNER = ("Add-Type -AssemblyName System.Windows.Forms;"
+                  "[System.Windows.Forms.Application]::EnableVisualStyles();"
+                  "$f = New-Object System.Windows.Forms.Form; $f.TopMost = $true; $f.ShowInTaskbar = $false;"
+                  "$f.FormBorderStyle = 'None'; $f.Opacity = 0; $f.StartPosition = 'CenterScreen';"
+                  "$f.Size = New-Object System.Drawing.Size(1, 1); $f.Show(); $f.Activate(); $f.BringToFront();")
+
+    def _run_picker(self, ps, env):
+        if not self._pick_lock.acquire(blocking=False):
+            return None, True
+        try:
+            r = subprocess.run(['powershell', '-NoProfile', '-STA', '-Command', ps], capture_output=True, env=env,
+                               creationflags=0x08000000)
+            return r.stdout.decode('utf-8', 'replace').strip() or None, False
+        finally:
+            self._pick_lock.release()
+
     def browse(self, d):
         """A native folder picker (PowerShell + WinForms, so it also works from a packed exe)."""
         start = d.get('start') or ''
-        ps = ("Add-Type -AssemblyName System.Windows.Forms;"
-              "$f = New-Object System.Windows.Forms.Form; $f.TopMost = $true;"
+        ps = (self.PICK_OWNER +
               "$d = New-Object System.Windows.Forms.FolderBrowserDialog;"
               "$d.Description = '%s'; $d.ShowNewFolderButton = $true;"
               "if (Test-Path -LiteralPath $env:GPI_START) { $d.SelectedPath = $env:GPI_START };"
-              "if ($d.ShowDialog($f) -eq 'OK') { [Console]::Out.Write($d.SelectedPath) }"
+              "$r = $d.ShowDialog($f); $f.Close();"
+              "if ($r -eq 'OK') { [Console]::OutputEncoding = [Text.Encoding]::UTF8; "
+              "[Console]::Out.Write($d.SelectedPath) }"
               % (d.get('title', 'Pick a folder').replace("'", "''")))
         env = dict(os.environ, GPI_START=start)
-        r = subprocess.run(['powershell', '-NoProfile', '-STA', '-Command', ps], capture_output=True, text=True,
-                           env=env, creationflags=0x08000000)
-        return dict(path=r.stdout.strip() or None)
+        path, busy = self._run_picker(ps, env)
+        return dict(path=path, busy=busy)
 
     def browse_file(self, d):
         """A native file picker (PowerShell + WinForms OpenFileDialog; read only: nothing is opened or copied)."""
         start = d.get('start') or ''
-        ps = ("Add-Type -AssemblyName System.Windows.Forms;"
-              "$f = New-Object System.Windows.Forms.Form; $f.TopMost = $true;"
+        ps = (self.PICK_OWNER +
               "$d = New-Object System.Windows.Forms.OpenFileDialog;"
               "$d.Title = $env:GPI_TITLE; $d.Filter = $env:GPI_FILTER; $d.CheckFileExists = $true;"
               "if ($env:GPI_START -and (Test-Path -LiteralPath $env:GPI_START)) { $d.FileName = $env:GPI_START }"
               "elseif ($env:GPI_DIR -and (Test-Path -LiteralPath $env:GPI_DIR)) { $d.InitialDirectory = $env:GPI_DIR };"
-              "if ($d.ShowDialog($f) -eq 'OK') { [Console]::OutputEncoding = [Text.Encoding]::UTF8; "
+              "$r = $d.ShowDialog($f); $f.Close();"
+              "if ($r -eq 'OK') { [Console]::OutputEncoding = [Text.Encoding]::UTF8; "
               "[Console]::Out.Write($d.FileName) }")
         env = dict(os.environ, GPI_START=start, GPI_TITLE=d.get('title', 'Pick a file'),
                    GPI_FILTER=d.get('filter') or 'All files|*.*',
                    GPI_DIR=os.path.join(os.path.expanduser('~'), 'Downloads'))
-        r = subprocess.run(['powershell', '-NoProfile', '-STA', '-Command', ps], capture_output=True, env=env,
-                           creationflags=0x08000000)
-        return dict(path=r.stdout.decode('utf-8', 'replace').strip() or None)
+        path, busy = self._run_picker(ps, env)
+        return dict(path=path, busy=busy)
 
     def song_check(self, d):
         """Does this file hold the song? (read + match only; the same refusals as the install, in plain words)"""

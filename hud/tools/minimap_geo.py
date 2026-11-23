@@ -155,8 +155,12 @@ def model_extent(info, R):
 
 def list_maps(fs):
     """{map key: [map block, submap blocks...]} of the shared folder (map key = 'map02_lostoros_downtown')."""
-    naz = fs.naz()
-    names = [n for n in naz.names if n.startswith(SHARED)]
+    names = set()                          # every archive of the filesystem order (an extra map package adds maps)
+    for an in fs.order:
+        a = fs.archive(an)
+        if a is not None:
+            names.update(n for n in a.names if n.startswith(SHARED))
+    names = sorted(names)
     maps = {}
     for n in sorted(names):
         base = n[len(SHARED):]

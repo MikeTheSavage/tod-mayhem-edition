@@ -11,7 +11,9 @@ What ships instead of audio (`fingerprint.json`, made once from the reference mp
   * a coarse loudness envelope (3 ms hop, 10 ms window, 1 dB steps, an int8 per frame) of the first 60 s and of the
     windows around the two late segments. It holds no phase and no spectrum, so it cannot be turned back into audio.
 Import steps:
-  1. soundfile (libsndfile 1.2.x: mp3, wav, flac, ogg/vorbis/opus, aiff, w64, caf ...) reads the file; stereo is mixed
+  1. soundfile (libsndfile 1.2.x: mp3, wav, flac, ogg/vorbis/opus, aiff, w64, caf ...) reads the file, or, when its
+     first bytes say m4a / aac / alac / wma / mp4 / webm (whatever its name), Windows Media Foundation (mf_decode,
+     ctypes, nothing written to disk); stereo is mixed
      to mono as ffmpeg does (0.7071 * (L + R)); other rates are resampled to 44,100 Hz (windowed-sinc polyphase,
      Kaiser beta 9, 36+ taps: no scipy).
   2. the player's envelope is cross-correlated with the shipped one: the offset of the song inside the player's file.
@@ -64,18 +66,196 @@ def _sf():
     return sf
 
 
+def sniff(path):
+    """What the file really holds, from its first bytes (the name can lie: downloaders save m4a / webm as .mp3).
+    -> (kind, plain name). kind: mp3 wav flac ogg aiff caf mp4 mp4_protected webm asf html empty unknown."""
+    try:
+        with open(path, 'rb') as fh:
+            h = fh.read(64)
+    except OSError:
+        return 'unknown', 'an unreadable file'
+    if not h.strip(b'\0'):
+        return 'empty', 'an empty file'
+    if h[4:8] == b'ftyp':
+        brand = h[8:12]
+        if brand == b'M4P ':
+            return 'mp4_protected', 'a copy-protected iTunes file (.m4p)'
+        return 'mp4', 'an M4A / AAC (MP4) file'
+    if h[:4] == b'\x1aE\xdf\xa3':
+        return 'webm', 'a WebM / Matroska file'
+    if h[:8] == b'\x30\x26\xb2\x75\x8e\x66\xcf\x11':
+        return 'asf', 'a WMA (Windows Media) file'
+    if h[:4] == b'OggS':
+        return 'ogg', 'an Ogg file'
+    if h[:4] in (b'RIFF', b'RF64') or h[:4] == b'riff':
+        return 'wav', 'a WAV file'
+    if h[:4] == b'fLaC':
+        return 'flac', 'a FLAC file'
+    if h[:4] == b'FORM':
+        return 'aiff', 'an AIFF file'
+    if h[:4] == b'caff':
+        return 'caf', 'a CAF file'
+    if h[0] == 0xFF and (h[1] & 0xF6) == 0xF0:                    # ADTS AAC (layer bits 00: never MP3)
+        return 'aac', 'an AAC file'
+    if h[:3] == b'ID3' or (h[0] == 0xFF and (h[1] & 0xE0) == 0xE0):
+        return 'mp3', 'an MP3 file'
+    low = h.lstrip().lower()
+    if low.startswith((b'<!doctype', b'<html', b'<?xml', b'{')):
+        return 'html', 'a web page or text file, not audio (the download probably failed)'
+    return 'unknown', 'a file in an unknown format'
+
+
+# Windows Media Foundation (part of Windows 10 / 11): reads what libsndfile cannot - M4A / AAC, Apple Lossless,
+# WMA, MP4 audio, and WebM / Opus where the "Web Media Extensions" are installed. ctypes only: no extra packages.
+# Decoded to 32-bit float PCM in memory; nothing is written to disk.
+_MF_GUIDS = dict(
+    MT_MAJOR_TYPE='48eba18e-f8c9-4687-bf11-0a74c9f96a8f', MT_SUBTYPE='f7e34c9a-42e8-4714-b74b-cb29d72c35e5',
+    Audio='73647561-0000-0010-8000-00aa00389b71', Float='00000003-0000-0010-8000-00aa00389b71',
+    NUM_CHANNELS='37e48bf5-645e-4c5b-89de-ada9e29b696a', SAMPLES_PER_SECOND='5faeeae7-0290-4c31-9e8a-c534f68d9dba')
+MF_MAX_SECONDS = 20 * 60
+
+
+def mf_decode(path):
+    """-> (float32 array frames x channels, rate, channels). Raises OSError when Windows cannot decode the file."""
+    if os.name != 'nt':
+        raise OSError('Windows Media Foundation is only on Windows')
+    import ctypes
+    import uuid
+    from ctypes import POINTER, byref, c_long, c_uint32, c_int64, c_void_p
+
+    class GUID(ctypes.Structure):
+        _fields_ = [('b', ctypes.c_ubyte * 16)]
+
+    def guid(name):
+        g = GUID()
+        ctypes.memmove(byref(g), uuid.UUID(_MF_GUIDS[name]).bytes_le, 16)
+        return g
+
+    def vcall(obj, idx, argtypes, *args):
+        vtbl = ctypes.cast(obj, POINTER(c_void_p))[0]
+        fn = ctypes.WINFUNCTYPE(c_long, c_void_p, *argtypes)(ctypes.cast(vtbl, POINTER(c_void_p))[idx])
+        hr = fn(obj, *args)
+        if hr < 0:
+            raise OSError('Media Foundation error 0x%08X' % (hr & 0xFFFFFFFF))
+        return hr
+
+    def release(obj):
+        if obj and obj.value:
+            vtbl = ctypes.cast(obj, POINTER(c_void_p))[0]
+            ctypes.WINFUNCTYPE(c_uint32, c_void_p)(ctypes.cast(vtbl, POINTER(c_void_p))[2])(obj)
+
+    ole32, mfplat, mfrw = ctypes.WinDLL('ole32'), ctypes.WinDLL('mfplat'), ctypes.WinDLL('mfreadwrite')
+    ole32.CoInitializeEx.argtypes = [c_void_p, c_uint32]
+    co = ole32.CoInitializeEx(None, 0)                       # MTA; S_FALSE / RPC_E_CHANGED_MODE are fine
+    mfplat.MFStartup.argtypes = [c_uint32, c_uint32]
+    hr = mfplat.MFStartup(0x00020070, 1)                     # MF_VERSION, MFSTARTUP_NOSOCKET
+    if hr < 0:
+        if co >= 0:
+            ole32.CoUninitialize()
+        raise OSError('Media Foundation is not available (0x%08X)' % (hr & 0xFFFFFFFF))
+    reader, mt, cur = c_void_p(), c_void_p(), c_void_p()
+    FIRST_AUDIO, ALL = 0xFFFFFFFD, 0xFFFFFFFE
+    try:
+        mfrw.MFCreateSourceReaderFromURL.argtypes = [ctypes.c_wchar_p, c_void_p, POINTER(c_void_p)]
+        hr = mfrw.MFCreateSourceReaderFromURL(os.path.abspath(path), None, byref(reader))
+        if hr < 0:
+            raise OSError('Windows cannot open this file (0x%08X)' % (hr & 0xFFFFFFFF))
+        vcall(reader, 4, [c_uint32, c_long], ALL, 0)                         # SetStreamSelection: none ...
+        vcall(reader, 4, [c_uint32, c_long], FIRST_AUDIO, 1)                 # ... but the first audio stream
+        mfplat.MFCreateMediaType.argtypes = [POINTER(c_void_p)]
+        if mfplat.MFCreateMediaType(byref(mt)) < 0:
+            raise OSError('MFCreateMediaType failed')
+        vcall(mt, 24, [POINTER(GUID), POINTER(GUID)], byref(guid('MT_MAJOR_TYPE')), byref(guid('Audio')))
+        vcall(mt, 24, [POINTER(GUID), POINTER(GUID)], byref(guid('MT_SUBTYPE')), byref(guid('Float')))
+        vcall(reader, 7, [c_uint32, c_void_p, c_void_p], FIRST_AUDIO, None, mt)   # SetCurrentMediaType
+        vcall(reader, 6, [c_uint32, POINTER(c_void_p)], FIRST_AUDIO, byref(cur))  # GetCurrentMediaType
+        ch, sr = c_uint32(), c_uint32()
+        vcall(cur, 7, [POINTER(GUID), POINTER(c_uint32)], byref(guid('NUM_CHANNELS')), byref(ch))
+        vcall(cur, 7, [POINTER(GUID), POINTER(c_uint32)], byref(guid('SAMPLES_PER_SECOND')), byref(sr))
+        ch, sr = int(ch.value), int(sr.value)
+        if ch < 1 or sr < 8000:
+            raise OSError('unusable audio format (%d Hz, %d channels)' % (sr, ch))
+        limit = MF_MAX_SECONDS * sr * ch * 4
+        parts, total = [], 0
+        while True:
+            idx, flags, ts, sample = c_uint32(), c_uint32(), c_int64(), c_void_p()
+            vcall(reader, 9, [c_uint32, c_uint32, POINTER(c_uint32), POINTER(c_uint32), POINTER(c_int64),
+                              POINTER(c_void_p)], FIRST_AUDIO, 0, byref(idx), byref(flags), byref(ts), byref(sample))
+            if flags.value & 0x1:                                  # MF_SOURCE_READERF_ERROR
+                release(sample)
+                raise OSError('Windows could not decode this file')
+            if sample.value:
+                buf = c_void_p()
+                try:
+                    vcall(sample, 41, [POINTER(c_void_p)], byref(buf))          # ConvertToContiguousBuffer
+                    data, mx, ln = c_void_p(), c_uint32(), c_uint32()
+                    vcall(buf, 3, [POINTER(c_void_p), POINTER(c_uint32), POINTER(c_uint32)],
+                          byref(data), byref(mx), byref(ln))                     # Lock
+                    try:
+                        parts.append(ctypes.string_at(data, ln.value))
+                        total += ln.value
+                    finally:
+                        vcall(buf, 4, [])                                        # Unlock
+                finally:
+                    release(buf)
+                    release(sample)
+            if flags.value & 0x2 or total > limit:                 # MF_SOURCE_READERF_ENDOFSTREAM / too long
+                break
+        raw = b''.join(parts)
+        raw = raw[:len(raw) - len(raw) % (4 * ch)]
+        return np.frombuffer(raw, dtype=np.float32).reshape(-1, ch), sr, ch
+    finally:
+        release(cur)
+        release(mt)
+        release(reader)
+        mfplat.MFShutdown()
+        if co >= 0:
+            ole32.CoUninitialize()
+
+
+def _unreadable(path, kind, name, err):
+    ext = os.path.splitext(path)[1].lower().lstrip('.') or 'no'
+    if kind == 'mp4_protected':
+        return ('This is %s. It is copy-protected, so no program can read it. Use an MP3, WAV, FLAC or M4A copy '
+                'that is not protected.' % name)
+    if kind in ('empty', 'html'):
+        return 'This is %s. Download the song again.' % name
+    looks = '' if kind in ('unknown', ext) else ' (it has a .%s name, but it is really %s)' % (ext, name)
+    tail = (' On Windows, WebM / Opus needs the free "Web Media Extensions" from the Microsoft Store.'
+            if kind == 'webm' else '')
+    return ('This file cannot be read as audio%s. Use an MP3, WAV, FLAC, OGG, M4A or WMA copy of the song.%s '
+            '(%s)' % (looks, tail, str(err).strip()))
+
+
 def read_song(path, progress=None):
-    """-> (mono float64 samples at 44,100 Hz, info dict). Raises SongImportError."""
+    """-> (mono float64 samples at 44,100 Hz, info dict). Raises SongImportError.
+    libsndfile first (mp3, wav, flac, ogg/opus, aiff, caf ...); what it cannot read (m4a / aac, alac, wma, mp4,
+    webm) goes through Windows Media Foundation."""
     sf = _sf()
     if not path or not os.path.isfile(path):
         raise SongImportError('The song file was not found: %s' % path)
+    kind, name = sniff(path)
     try:
+        if kind in ('mp4', 'aac', 'asf', 'webm'):
+            # never libsndfile: an m4a named .mp3 can "open" as mp3 (mpg123 finds a false frame sync inside the aac
+            # data) and decode a fraction of a second of noise
+            raise OSError('%s: Windows Media Foundation reads it' % kind)
         f = sf.SoundFile(path)
     except Exception as e:                                       # noqa: BLE001
-        ext = os.path.splitext(path)[1].lower()
-        hint = ' (m4a / aac / wma files are not supported: convert it to mp3, flac or wav first)' if ext in (
-            '.m4a', '.aac', '.wma', '.mp4', '.opus') and ext != '.opus' else ''
-        raise SongImportError('This file cannot be read as audio%s: %s' % (hint, str(e).strip()))
+        if kind in ('empty', 'html', 'mp4_protected'):
+            raise SongImportError(_unreadable(path, kind, name, e))
+        try:
+            data, sr, ch = mf_decode(path)
+        except Exception as e2:                                  # noqa: BLE001
+            raise SongImportError(_unreadable(path, kind, name, e2))
+        x = np.concatenate([_mono(data[i:i + (1 << 20)]) for i in range(0, len(data), 1 << 20)]).astype(
+            np.float64) if len(data) else np.zeros(0)
+        if progress:
+            progress(len(data), max(len(data), 1))
+        info = dict(path=os.path.basename(path), rate=sr, channels=ch, frames=int(len(x)),
+                    format={'mp4': 'M4A', 'asf': 'WMA', 'aac': 'AAC', 'webm': 'WEBM'}.get(kind, kind.upper()),
+                    subtype='WINDOWS_MF', seconds=len(x) / sr)
+        return _finish(x, sr, info)
     with f:
         sr, ch, frames = f.samplerate, f.channels, f.frames
         if sr < 8000 or ch < 1:
@@ -90,6 +270,10 @@ def read_song(path, progress=None):
     x = np.concatenate(parts).astype(np.float64) if parts else np.zeros(0)
     info = dict(path=os.path.basename(path), rate=sr, channels=ch, frames=int(len(x)), format=f.format,
                 subtype=f.subtype, seconds=len(x) / sr)
+    return _finish(x, sr, info)
+
+
+def _finish(x, sr, info):
     if len(x) < sr * 5:
         raise SongImportError('The file is only %.1f s long: not the song.' % (len(x) / sr))
     if sr != RATE:

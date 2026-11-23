@@ -110,6 +110,11 @@ The tests ran through an in-game test harness on a copy of the game (not include
 * The scan and the level mesh build cost 10-25 ms once per rescan (a hitch). It is not threaded.
 * Only Model props with collision are simulated. Character-held items, pickups (they have their own prop_move_ctrl),
   vehicles and their parts are never touched.
+* **Hull builder hang (fixed)**: Box3D's `b3CreateHull` could loop forever on a degenerate point cloud (the game
+  thread froze, and the hang watchdog reported `b3HullBuilder_ConnectFaces+0x60`). `hull.c` now gives up instead (patch
+  `third_party/box3d_hull_hang.patch`), `make_hull` falls back to a box, and the `physics: stats` line counts the hulls the
+  builder gave up on (`hull builder: N gave up (loop guard), N retried, N boxes`). `TODPHYS_API_VERSION` is 2 (PhCounts grew):
+  install `TODPhysics.dll` and `TODGameplay.dll` together. Offline hunt: `tools/hull_fuzz.bat`.
 * Box3D is alpha (2026); x86 needs the two-line intrinsic patch in `third_party/box3d_x86.patch`. One Box3D hull of a
   near-coplanar level patch let a crate fall through the plaza (in game and in an offline replay of the exact floats),
   which is why the level is a triangle mesh (there is a regression test with those points).

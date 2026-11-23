@@ -38,10 +38,10 @@ not included. In the installer's Piñata Loco card, press **Choose file** and pi
 
 | Group | What you get |
 |---|---|
-| Essentials and fixes | Fixes for two engine crashes, frame-rate fixes for timers, pickups and mouse turning, a hang watchdog |
+| Essentials and fixes | Fixes for two engine crashes, music that no longer goes missing until the next level load, frame-rate fixes for timers, pickups and mouse turning, a hang watchdog |
 | Display | A real 16:9 picture with the HUD at the screen edges, unstretched menus, and an in-game resolution menu with windowed, borderless and fullscreen modes |
 | Controller | Xbox and PlayStation pads through the game's own console controls, with button prompts and rumble |
-| Better driving | Reworked driving feel and camera distance |
+| Better driving | A Driving feel choice (Vanilla, Mayhem feel, Drift, Grip, Heavy) and a farther chase camera |
 | Bullet time and quick restart | Manual bullet time with a meter, dive slow motion off, FOV, key rebinding, quick restart |
 | Seamless world (experimental) | Walk across a map border without a loading screen |
 | Smart AI | Enemies take roles, stagger their reactions, take turns closing in, and can break and run |

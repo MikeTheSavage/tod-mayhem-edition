@@ -5,7 +5,7 @@
 #pragma once
 #include <stdint.h>
 
-#define TODPHYS_API_VERSION 1
+#define TODPHYS_API_VERSION 2   // 2 (hull_hang): PhCounts gained the hull builder statistics
 
 typedef struct PhBodyDesc {
     float pos[3], rot[4];
@@ -14,7 +14,8 @@ typedef struct PhBodyDesc {
     void* user;              // the caller's handle (returned by raycasts)
 } PhBodyDesc;
 
-typedef struct PhCounts { int bodies, awake, static_shapes, static_failed; } PhCounts;
+typedef struct PhCounts { int bodies, awake, static_shapes, static_failed;
+                          int hull_gave_up, hull_retries, hull_boxes; } PhCounts;   // hull builder: gave up (loop guard) / 5 mm retry / box fallback
 
 typedef struct PhApi {
     int  version;

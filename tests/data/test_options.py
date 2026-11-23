@@ -74,6 +74,39 @@ class Options(unittest.TestCase):
         # research package P1 (builds/proposal, overdose.main sha256 ab6dfe7e65f3e06e...)
         self.assertTrue(hashlib.sha256(blocks[0][1]).hexdigest().startswith('ab6dfe7e65f3e06e'))
 
+    def test_driving_presets(self):
+        import json
+        ref = 'C:/tmsw/drive_data/driving_preset_values.json'      # Mod Studio's own numbers, when present
+        want = json.load(open(ref)) if os.path.exists(ref) else {}
+        self.assertEqual(opt.gen_driving(ctx(), 'vanilla'), [])
+        for level, pid in (('drift', 'drift'), ('grip', 'arcade'), ('heavy', 'heavy')):
+            rep, blocks = run({'driving': level})
+            self.assertEqual(len(blocks), 1)
+            self.assertEqual({c['option'] for c in rep['changes']}, {'driving'})
+            self.assertEqual({c['level'] for c in rep['changes']}, {level})
+            pr = opt.DRIVING_PRESETS[level]
+            props = {c['prop'] for c in rep['changes']}
+            self.assertEqual(props, set(pr['type']) | set(pr['car']))
+            self.assertFalse(any(c['path'] in ('Dirtbike', 'Chopper', 'AITest', 'Door_Left_Front') for c in rep['changes']))
+            # no suspension / body-roll field is ever written
+            self.assertFalse(props & {'spring_k', 'spring_damping', 'stiffness'})
+            for c in rep['changes']:
+                rng = opt.DRIVING_CAR_RANGE if c['path'] == 'MoveCtrl' else opt.DRIVING_TYPE_RANGE
+                lo, hi = rng[c['prop']]
+                self.assertTrue(lo - 1e-6 <= c['new'] <= hi + 1e-6, (c['path'], c['prop'], c['new']))
+            got = {}
+            for c in rep['changes']:
+                got[('car.' if c['path'] == 'MoveCtrl' else 'type.%s.' % c['path']) + c['prop']] = c['new']
+            if want:
+                exp = want[pid]
+                self.assertEqual(set(got), set(exp))
+                for k, v in exp.items():
+                    self.assertAlmostEqual(got[k], v, places=4, msg=k)
+        rep, _ = run({'driving': 'drift'})
+        self.assertAlmostEqual(value(rep, 'MoveCtrl', 'turn_rate')['new'], 0.25, places=6)
+        self.assertAlmostEqual(value(rep, 'Sedan', 'slide_factor')['new'], 3.0, places=5)
+        self.assertAlmostEqual(value(rep, 'Sedan', 'handbrake_boost')['new'], 1.65, places=5)
+
     def test_difficulty_presets(self):
         base = {}
         ess = ctx().doc(MAIN, opt.F_ESS)

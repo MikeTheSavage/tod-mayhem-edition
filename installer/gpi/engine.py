@@ -321,6 +321,19 @@ def check(game_dir, selection, backup_root, kind, registry=True, lister=procs.li
                 display_kept=GS.display_side_info(side_file(documents)))
 
 
+def ensure_configpc(config, log):
+    """A game that never ran (or lost the file) has no configpc.txt: write the vanilla one, the game's own default
+    archive order, so the data zip and the display lines have a file to go into. Runs after the backup, which lists
+    the file as absent, so a restore removes it again."""
+    if os.path.exists(config):
+        return False
+    gfs = repo.gamefs()
+    igm = repo.data_installer()
+    igm.write_lines(config, ['filesystem = ' + ', '.join(gfs.DEFAULT_ARCHIVES)], '\r\n', True)
+    log('configpc.txt was missing: created with the game\'s default archives')
+    return True
+
+
 def write_configpc_display(config, fullscreen, w, h, log):
     gfs = repo.gamefs()
     igm = repo.data_installer()
@@ -553,6 +566,7 @@ def run_install(job, game_dir, selection, backup_root, kind, registry=True, list
         igm = repo.data_installer()
         igm.game_running = lambda: bool(procs.game_processes(game_dir, lister))
         config = os.path.join(game_dir, 'configpc.txt')
+        ensure_configpc(config, job.log)
         if plan['data_needed']:
             igm.install(config, zip_out, log=job.log)
             step('data', 'done', 'todgameplay_data.zip first on the filesystem line')

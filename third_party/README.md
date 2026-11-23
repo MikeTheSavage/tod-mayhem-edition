@@ -30,5 +30,20 @@ world) passes as a 32-bit x86 executable: `physics/tools/box3d_selftest.bat`.
   `physics/code/test_phys.cpp` `test_nan_no_hang` runs 400 such trees on a worker thread with a time limit. TODPhysics.dll
   also never passes a non-finite float in (`phys_sim_internal.h` `phsim_v` / `phsim_q`).
 
-To update: clone the official repository at the new commit, apply `box3d_x86.patch` and `box3d_tree_hang.patch` (check that the two functions still
+* `src/hull.c` (all platforms, `box3d_hull_hang.patch`, marked `TOD Gameplay+ patch (hull_hang)`): a `failed` flag, a step counter
+  (`work` / `workCap`) and bounds on every pointer-chasing walk of the hull builder. Upstream, `b3HullBuilder_ConnectFaces` follows
+  the run of edges shared by two faces with no bound; when the two faces share EVERY edge (a degenerate cloud: nearly collinear
+  points, a flat patch far from the origin, duplicated points) the walk goes round the face ring forever. A player's game froze
+  there (mission MM030 Smash the Stash, Map06: EIP `ConnectFaces+0x60`, stack `MergeFaces <- AddVertexToHull <- Construct <-
+  b3CreateHull`); the offline fuzz (`physics/tools/hull_fuzz.bat`) hangs the original at exactly that address on about 2 % of its
+  degenerate inputs, and also found 4 of 12,000 that crash it (NULL dereference in `b3NewellPlane` on a ring that runs into a
+  retired half-edge). Now: the walks stop before changing anything when they come back to their start or run past the edge pool,
+  the pools never write past their end, `b3NewellPlane` and the merge loops are bounded, `Construct` returns false and
+  `b3CreateHull` returns NULL (`make_hull` in `phys_sim.cpp` already retries on a 5 mm grid and then falls back to a box).
+  `b3HullBuilderGaveUp` counts the abandoned builds (logged in the `physics: stats` line). On every input where the original
+  returns, the patched builder returns the identical hull (hash compared, 12,000 cases). Regression: `physics/code/test_phys.cpp`
+  `test_hull_hang` (three real hanging inputs, 6000 random degenerate clouds, the game's function table) and
+  `physics/tools/hull_fuzz.bat` (original vs patched; replays `physics/tools/hull_hang_cases/*.pts`).
+
+To update: clone the official repository at the new commit, apply `box3d_x86.patch`, `box3d_tree_hang.patch` and `box3d_hull_hang.patch` (check that the functions still
 need it), copy the kept folders over, run `dll\build.bat` and `physics\tools\box3d_selftest.bat`, update the commit here.

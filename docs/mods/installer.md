@@ -53,7 +53,7 @@ The full table (group -> data options, ini keys, files, what "off" writes) is in
 | Essentials / Fixes | `[fixes]`, `[timing] clock_fix, pickup_step_fix`, `[controls] mouse_turn_fix, diagonal_normalize` |
 | Display | `[display] enabled, mode_menu, borderless`; configpc + registry start size |
 | Controller | data `controller = menu`; `[pad] enabled, prompts, rumble, rumble_strength` |
-| Better Driving | data `driving`, `vehicle_camera`; optional `[vehicles]` keys |
+| Better Driving | data `driving` (the Driving feel choice: vanilla, better_feel, drift, grip, heavy), `vehicle_camera`; optional `[vehicles]` keys |
 | Seamless World | data `seamless`; `[seamless] enabled, prefetch`; prefetch table |
 | Suave | data `suave_anims`, `suave`; `[suave] enabled, slot` |
 | Smart AI | `[smart_ai] enabled, squad, morale` |

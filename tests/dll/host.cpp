@@ -143,6 +143,59 @@ static volatile DWORD g_wo_hit = 0, g_wo_ecx = 0;
 __declspec(naked) static void HostWoCont() { __asm mov g_wo_ecx, ecx __asm mov g_wo_hit, 1 __asm ret }
 __declspec(naked) static void HostWoSkip() { __asm mov g_wo_hit, 2 __asm ret }
 
+// [fixes] stream_limits (test 12c): the stubs end in a jump to the engine code; the test lands here instead and goes back
+static volatile DWORD g_mu_hit = 0, g_mu_back = 0;
+__declspec(naked) static void HostMuOk()         { __asm { mov g_mu_hit, 1
+                                                          jmp dword ptr [g_mu_back] } }
+__declspec(naked) static void HostMuFail()       { __asm { mov g_mu_hit, 2
+                                                          jmp dword ptr [g_mu_back] } }
+__declspec(naked) static void HostMuPoolCreate() { __asm { mov g_mu_hit, 3
+                                                          jmp dword ptr [g_mu_back] } }
+__declspec(naked) static void HostMuPoolFail()   { __asm { mov g_mu_hit, 4
+                                                          jmp dword ptr [g_mu_back] } }
+__declspec(naked) static void HostMuDupCont()    { __asm { mov g_mu_hit, 5
+                                                          jmp dword ptr [g_mu_back] } }
+__declspec(naked) static void HostMuDupExit()    { __asm { mov g_mu_hit, 6
+                                                          jmp dword ptr [g_mu_back] } }
+// one call of a stub with the ctor's frame: [esp+2Ch] message length, [esp+88h] sound file, [esp+98h] prealloc byte,
+// [esp+9Ch] aux byte; ebx = 0, ebp = the new buffer; the landing code is g_mu_hit, g_mu_out[3] the length left in [esp+2Ch]
+static DWORD g_mu_in[5], g_mu_out[6], g_mu_stub, g_mu_eax;
+static void mu_call(void* stub, DWORD len, DWORD sf, DWORD prealloc, DWORD aux, DWORD self, DWORD eax_in) {
+    g_mu_in[0] = len; g_mu_in[1] = sf; g_mu_in[2] = prealloc; g_mu_in[3] = aux; g_mu_in[4] = self; g_mu_stub = (DWORD)(uintptr_t)stub;
+    g_mu_hit = 0; g_mu_eax = eax_in;
+    __asm {
+        pushad
+        sub esp, 0xB0
+        mov edx, esp
+        mov eax, g_mu_in[0]
+        mov dword ptr [edx + 0x2C], eax
+        mov eax, g_mu_in[4 * 1]
+        mov dword ptr [edx + 0x88], eax
+        mov eax, g_mu_in[4 * 2]
+        mov dword ptr [edx + 0x98], eax
+        mov eax, g_mu_in[4 * 3]
+        mov dword ptr [edx + 0x9C], eax
+        mov g_mu_out[4 * 4], esp
+        mov g_mu_back, offset back
+        mov ebp, g_mu_in[4 * 4]
+        xor ebx, ebx
+        mov esi, 0x51515151
+        mov edi, 0x7D7D7D7D
+        mov eax, g_mu_eax
+        mov ecx, g_mu_stub
+        jmp ecx
+    back:
+        mov g_mu_out[4 * 0], esi
+        mov g_mu_out[4 * 1], edi
+        mov g_mu_out[4 * 2], ebx
+        mov g_mu_out[4 * 5], esp
+        mov edx, dword ptr [esp + 0x2C]
+        mov g_mu_out[4 * 3], edx
+        add esp, 0xB0
+        popad
+    }
+}
+
 // [physics] stand-ins for the three wrapped originals (test 14): record the arguments, return a marker
 static volatile DWORD g_ph_a[4];
 // [ragdoll] stand-ins (test 23): Character::Update (thiscall, no arguments) and SendCommand (thiscall, 2 args, ret 8)
@@ -254,7 +307,9 @@ static const char* INI_ALL =
     "[mayhem]\nchain_reactions = 1\nbreakable_cover = 1\n"
     "[car_physics]\nenabled = 1\n"
     "[ragdoll]\nenabled = 1\n"
-    "[bigger_fights]\nenabled = 1\n";
+    "[bigger_fights]\nenabled = 1\n"
+    "[fixes]\nstream_limits = 1\n"
+    "[debug]\nmusic_trace = 1\n";
 // ---- [difficulty] test doubles (test 16)
 static volatile DWORD g_mn_eax = 0, g_mn_type = 0, g_mn_val = 0, g_mn_hit = 0;
 __declspec(naked) static void HostMnSetCont() {   // stands for 0x6BA428 (the setter after sub esp,28h / mov eax,[cache])
@@ -364,6 +419,8 @@ static void check_patched_site(const Site& s) {
         static const int want[5][2] = {{1280, 720}, {1600, 900}, {1920, 1080}, {2560, 1440}, {1920, 1080}};
         CHECK(i >= 0 && i < 5 && v == want[i][w ? 0 : 1]);
         CHECK(*(const DWORD*)(uintptr_t)s.va == 0x042444C7 || *(const DWORD*)(uintptr_t)s.va == 0x082444C7);   // still mov [esp+N], imm32
+    } else if (!strcmp(s.id, "MU_WARN")) {         // [fixes] stream_limits: cmp eax, 7 -> cmp eax, 7Fh (the manager's per-frame warning)
+        CHECK(p[0] == 0x7F && *(const BYTE*)(uintptr_t)(s.va + 3) == 0x83);
     } else if (!strcmp(s.id, "DS_WH_H480")) {
         CHECK(*(int*)p == 480);
     } else if (!strcmp(s.id, "DS_WH_W853")) {
@@ -1211,6 +1268,95 @@ int main(int argc, char** argv) {
                 CHECK(okw == 2 && wskips() == 1);
                 printf("12b. fixes: weapon_owner stub: pOwner 0 -> skip target (logged), owner -> ecx = owner + continuation (%d/2, registers and stack kept)\n", okw);
             }
+        }
+    }
+    // ---- 12c. [fixes] stream_limits: off = no site, on = 3 sites; the refusal / pool / dup stubs on the ctor's frame
+    unload_dll(); CHECK(map_image()); CHECK(diff_count(&dva) == 0);
+    CHECK(load_dll());
+    {
+        TestInstall_t tim = (TestInstall_t)GetProcAddress(g_dll, "TODGameplay_TestInstall");
+        DWORD n0 = tim("simulated-image-not-the-game", "[timing]\nclock_fix = 1\n[fixes]\nstream_limits = 0\n");
+        CHECK(n0 == 5 && *(DWORD*)(uintptr_t)0x445AE2 == 0x2C245C39 && *(BYTE*)(uintptr_t)0x43E717 == 0x07);   // off: the sites untouched
+        unload_dll(); CHECK(map_image()); CHECK(load_dll());
+        tim = (TestInstall_t)GetProcAddress(g_dll, "TODGameplay_TestInstall");
+        TestStub_t tsm = (TestStub_t)GetProcAddress(g_dll, "TODGameplay_TestStub");
+        DWORD n1 = tim("simulated-image-not-the-game", "[timing]\nclock_fix = 1\n[fixes]\nstream_limits = 1\n");
+        CHECK(n1 == 8 && *(BYTE*)(uintptr_t)0x445AE2 == 0xE9 && in_dll(0x445AE7 + *(DWORD*)(uintptr_t)0x445AE3) && *(BYTE*)(uintptr_t)0x445AE7 == 0x90);
+        CHECK(*(BYTE*)(uintptr_t)0x445EDE == 0xE9 && in_dll(0x445EE3 + *(DWORD*)(uintptr_t)0x445EDF) && *(BYTE*)(uintptr_t)0x43E717 == 0x7F);
+        CHECK(*(BYTE*)(uintptr_t)0x4458E6 == 0x84);   // the dup site belongs to the trace: untouched
+        void* refuse = tsm("music_refuse"); void* pool = tsm("music_pool"); void* dup = tsm("music_dup");
+        typedef void(__cdecl* MuRedir_t)(DWORD, DWORD, DWORD, DWORD, DWORD, DWORD); typedef LONG(__cdecl* MuCount_t)();
+        MuRedir_t mred = (MuRedir_t)tsm("music_redirect"); MuCount_t mrelaxed = (MuCount_t)tsm("music_relaxed");
+        CHECK(refuse && pool && dup && mred && mrelaxed);
+        if (refuse && pool && dup && mred && mrelaxed) {
+            mred((DWORD)(uintptr_t)&HostMuOk, (DWORD)(uintptr_t)&HostMuFail, (DWORD)(uintptr_t)&HostMuPoolCreate, (DWORD)(uintptr_t)&HostMuPoolFail,
+                 (DWORD)(uintptr_t)&HostMuDupCont, (DWORD)(uintptr_t)&HostMuDupExit);
+            DWORD op1 = 0, op2 = 0;
+            VirtualProtect((void*)(uintptr_t)0xA35000, 0x1000, PAGE_READWRITE, &op1);
+            VirtualProtect((void*)(uintptr_t)0xA09000, 0x1000, PAGE_READWRITE, &op2);
+            DWORD keep_mgr = *(DWORD*)(uintptr_t)0xA35EC0; BYTE keep_movie = *(BYTE*)(uintptr_t)0xA35ED4;
+            DWORD keep_pn = *(DWORD*)(uintptr_t)0xA09318;
+            static DWORD mgr[0x40], wav[0x10], buf[0x40], sf[0x20]; static char fname[] = "/data/sounds/mission/test/music_loop.ogg";
+            *(DWORD*)(uintptr_t)0xA35EC0 = (DWORD)(uintptr_t)mgr;
+            buf[0x74 / 4] = (DWORD)(uintptr_t)wav; sf[0x2C / 4] = (DWORD)(uintptr_t)fname;
+            // present streams: the manager's list (+6Ch data / +70h size), each buffer channels (+8) and state flags (+50h); the engine's
+            // own counters (+38h / +3Ch / +40h) count every one of them, the fix only the playing / pending ones
+            struct Pres { int ch; DWORD aux; DWORD flags; };
+            const DWORD PL = 0xA0, STP = 0x30, NONE_ = 0;
+            struct Case { int ch; DWORD aux; BYTE movie; DWORD len; DWORD want_hit; DWORD want_len; int n; Pres p[6]; };
+            Case cases[] = {
+                {2, 0, 0, 5, 1, 0, 1, {{2, 0, STP}}},                                    // the previous stereo cue was stopped, still allocated: created, length cleared
+                {2, 0, 0, 5, 2, 5, 1, {{2, 0, PL}}},                                     // the music really plays: refused as in vanilla (no overlap)
+                {2, 0, 0, 5, 1, 0, 1, {{1, 1, STP}}},                                    // stereo next to a stopped aux mono: allowed
+                {2, 0, 0, 5, 2, 5, 1, {{1, 1, PL}}},                                     // next to a playing aux mono: refused
+                {2, 0, 0, 0, 1, 0, 0, {}},                                               // the engine allowed it: untouched
+                {1, 0, 0, 7, 1, 0, 5, {{1, 0, STP}, {1, 0, STP}, {1, 0, STP}, {1, 0, STP}, {1, 0, STP}}},   // 6th mono, five stopped: allowed
+                {1, 0, 0, 7, 2, 7, 5, {{1, 0, PL}, {1, 0, PL}, {1, 0, PL}, {1, 0, PL}, {1, 0, PL}}},         // five playing monos: refused (vanilla 5)
+                {1, 1, 0, 9, 2, 9, 2, {{1, 1, PL}, {1, 1, PL}}},                         // a 3rd aux mono while two play: refused
+                {1, 0, 1, 11, 2, 11, 1, {{1, 0, STP}}},                                  // a fullscreen movie and another (stopped) stream: refused, the movie rule stays
+            };
+            static DWORD blist[8], bufs[8][0x40];
+            int okc = 0, i = 0;
+            for (const Case& c : cases) {
+                memset(mgr, 0, sizeof mgr);
+                int st = 0, mono = 0, auxn = 0;
+                for (int k = 0; k < c.n; ++k) {
+                    memset(bufs[k], 0, sizeof bufs[k]);
+                    *(BYTE*)&bufs[k][8 / 4] = (BYTE)c.p[k].ch; bufs[k][0x50 / 4] = c.p[k].flags | (c.p[k].aux ? 2 : 0);
+                    blist[k] = (DWORD)(uintptr_t)bufs[k];
+                    if (c.p[k].ch > 1) ++st; else if (c.p[k].aux) ++auxn; else ++mono;
+                }
+                mgr[0x70 / 4] = c.n; mgr[0x6C / 4] = (DWORD)(uintptr_t)blist; mgr[0x38 / 4] = st; mgr[0x3C / 4] = mono; mgr[0x40 / 4] = auxn;
+                wav[0x14 / 4] = c.ch; *(BYTE*)(uintptr_t)0xA35ED4 = c.movie;
+                mu_call(refuse, c.len, (DWORD)(uintptr_t)sf, 0, c.aux, (DWORD)(uintptr_t)buf, 0xE0E0E0E0);
+                bool regs = g_mu_out[0] == 0x51515151 && g_mu_out[1] == 0x7D7D7D7D && g_mu_out[2] == 0 && g_mu_out[5] == g_mu_out[4];
+                if (g_mu_hit == c.want_hit && g_mu_out[3] == c.want_len && regs) ++okc;
+                else printf("    refuse case %d: landing %u (want %u), length %u (want %u), registers %d\n", i, g_mu_hit, c.want_hit, g_mu_out[3], c.want_len, regs);
+                ++i;
+            }
+            (void)NONE_;
+            CHECK(okc == 9 && mrelaxed() == 3);
+            // the pool: the 8th stream (7 entries, caps 16) grows it, a full pool of 16 does not, a prealloc stream always creates
+            struct PCase { DWORD prealloc, entries, want; } pcs[] = {{1, 7, 3}, {0, 7, 3}, {0, 15, 3}, {0, 16, 4}, {0, 40, 4}};
+            int okp = 0;
+            for (const PCase& c : pcs) {
+                *(DWORD*)(uintptr_t)0xA09318 = c.entries;
+                mu_call(pool, 0, 0, c.prealloc, 0, (DWORD)(uintptr_t)buf, 0xE0E0E0E0);
+                bool regs = g_mu_out[0] == 0x51515151 && g_mu_out[1] == 0x7D7D7D7D && g_mu_out[2] == 0 && g_mu_out[5] == g_mu_out[4];
+                if (g_mu_hit == c.want && regs) ++okp; else printf("    pool case prealloc %u entries %u: landing %u (want %u)\n", c.prealloc, c.entries, g_mu_hit, c.want);
+            }
+            CHECK(okp == 5);
+            // the dup refusal (trace): a free file continues, a used one clears [ebp+74h] and leaves
+            buf[0x74 / 4] = (DWORD)(uintptr_t)wav;
+            mu_call(dup, 0, 0, 0, 0, (DWORD)(uintptr_t)buf, 0xE0E0E000);   // al = 0
+            bool d0 = g_mu_hit == 5 && buf[0x74 / 4] == (DWORD)(uintptr_t)wav;
+            mu_call(dup, 0, 0, 0, 0, (DWORD)(uintptr_t)buf, 0xE0E0E001);   // al = 1
+            bool d1 = g_mu_hit == 6 && buf[0x74 / 4] == 0 && g_mu_out[2] == 0 && g_mu_out[5] == g_mu_out[4];
+            if (!d0 || !d1) printf("    dup: d0 %d d1 %d (hit %u, [74h] %08X, ebx %08X, esp %08X / %08X)\n", d0, d1, g_mu_hit, buf[0x74 / 4], g_mu_out[2], g_mu_out[5], g_mu_out[4]);
+            CHECK(d0 && d1);
+            *(DWORD*)(uintptr_t)0xA35EC0 = keep_mgr; *(BYTE*)(uintptr_t)0xA35ED4 = keep_movie; *(DWORD*)(uintptr_t)0xA09318 = keep_pn;
+            VirtualProtect((void*)(uintptr_t)0xA35000, 0x1000, op1, &op1); VirtualProtect((void*)(uintptr_t)0xA09000, 0x1000, op2, &op2);
+            printf("12c. fixes: stream_limits off = 0 own sites, on = 3 (refusal, pool, warning cap); refusal stub %d/9 (a stopped stream holds no place, a playing one keeps the vanilla caps: no overlap; movie rule kept; engine-allowed untouched), pool stub %d/5, dup stub %d/2 (registers and stack kept)\n", okc, okp, (d0 ? 1 : 0) + (d1 ? 1 : 0));
         }
     }
     // ---- 13. [display]: off = nothing; on = exactly its sites (+ the camera cull fix, + [fixes]); the stubs on fake frames

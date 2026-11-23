@@ -150,11 +150,28 @@ typedef struct b3HullBuilder
 	b3HorizonFrame* horizonStack;
 	int horizonStackCapacity;
 
+	// TOD Gameplay+ patch (hull_hang): set when the builder meets corrupt or degenerate topology (a ring walk that never
+	// ends, a pool that ran out). Every loop checks it and stops; b3HullBuilder_Construct then returns false and
+	// b3CreateHull returns NULL. `work` counts pointer-chasing steps against `workCap`, a hard backstop.
+	bool failed;
+	int work;
+	int workCap;
+
 	// Final counts of the constructed hull (vertexList / faceList / half-edges around faces).
 	int finalVertexCount;
 	int finalHalfEdgeCount;
 	int finalFaceCount;
 } b3HullBuilder;
+
+// TOD Gameplay+ patch (hull_hang): charge one step of work; sets `failed` once the backstop is spent. True while ok.
+static inline bool b3HullBuilder_Step( b3HullBuilder* b )
+{
+	if ( ++b->work > b->workCap )
+	{
+		b->failed = true;
+	}
+	return b->failed == false;
+}
 
 static inline void b3QHList_Init( b3QHListNode* head )
 {
@@ -200,6 +217,12 @@ static inline void b3QHList_PushBack( b3QHListNode* head, b3QHListNode* node )
 static b3QHVertex* b3HullBuilder_NewVertex( b3HullBuilder* b, b3Vec3 position )
 {
 	B3_ASSERT( b->vertexCount < b->vertexCapacity );
+	if ( b->vertexCount >= b->vertexCapacity )
+	{
+		// TOD Gameplay+ patch (hull_hang): never write past the pool; the build is abandoned
+		b->failed = true;
+		b->vertexCount = b->vertexCapacity - 1;
+	}
 	b3QHVertex* vertex = b->vertexBase + b->vertexCount++;
 
 	vertex->link.prev = NULL;
@@ -223,6 +246,12 @@ static b3QHHalfEdge* b3HullBuilder_NewEdge( b3HullBuilder* b )
 	else
 	{
 		B3_ASSERT( b->edgeCount < b->edgeCapacity );
+		if ( b->edgeCount >= b->edgeCapacity )
+		{
+			// TOD Gameplay+ patch (hull_hang): never write past the pool; the build is abandoned
+			b->failed = true;
+			b->edgeCount = b->edgeCapacity - 1;
+		}
 		edge = b->edgeBase + b->edgeCount++;
 	}
 	// All other fields (prev/next/origin/face/twin) are written by NewFace immediately after.
@@ -248,6 +277,12 @@ static b3QHFace* b3HullBuilder_NewFace( b3HullBuilder* b, b3QHVertex* v1, b3QHVe
 	else
 	{
 		B3_ASSERT( b->faceCount < b->faceCapacity );
+		if ( b->faceCount >= b->faceCapacity )
+		{
+			// TOD Gameplay+ patch (hull_hang): never write past the pool; the build is abandoned
+			b->failed = true;
+			b->faceCount = b->faceCapacity - 1;
+		}
 		face = b->faceBase + b->faceCount++;
 	}
 
@@ -475,7 +510,7 @@ static bool b3IsEdgeConcave( const b3QHHalfEdge* edge, float tolerance )
 	return distance > tolerance;
 }
 
-static int b3VertexCountOfFace( const b3QHFace* face )
+static int b3VertexCountOfFace( b3HullBuilder* b, const b3QHFace* face )
 {
 	int count = 0;
 	const b3QHHalfEdge* edge = face->edge;
@@ -483,6 +518,13 @@ static int b3VertexCountOfFace( const b3QHFace* face )
 	{
 		count++;
 		edge = edge->next;
+
+		// TOD Gameplay+ patch (hull_hang): a ring that does not close within the edge pool is corrupt
+		if ( count > b->edgeCapacity || b3HullBuilder_Step( b ) == false )
+		{
+			b->failed = true;
+			return count;
+		}
 	}
 	while ( edge != face->edge );
 
@@ -526,13 +568,20 @@ static void b3LinkFaces( b3QHFace* face1, int index1, b3QHFace* face2, int index
 	edge2->twin = edge1;
 }
 
-static void b3NewellPlane( b3QHFace* face )
+// TOD Gameplay+ patch (hull_hang): takes the builder so a corrupt ring (or a face without edges) fails the build instead
+// of walking off into garbage memory.
+static void b3NewellPlane( b3HullBuilder* b, b3QHFace* face )
 {
 	int count = 0;
 	b3Vec3 centroid = b3Vec3_zero;
 	b3Vec3 normal = b3Vec3_zero;
 
 	b3QHHalfEdge* edge = face->edge;
+	if ( edge == NULL )
+	{
+		b->failed = true;
+		return;
+	}
 	B3_ASSERT( edge->face == face );
 
 	// Use the first vertex as the origin to reduce round-off
@@ -541,6 +590,11 @@ static void b3NewellPlane( b3QHFace* face )
 	do
 	{
 		b3QHHalfEdge* twin = edge->twin;
+		if ( twin == NULL || b3HullBuilder_Step( b ) == false )
+		{
+			b->failed = true;
+			return;
+		}
 		B3_ASSERT( twin->twin == edge );
 
 		b3Vec3 v1 = b3Sub( edge->origin->position, origin );
@@ -553,6 +607,13 @@ static void b3NewellPlane( b3QHFace* face )
 		normal.z += ( v1.x - v2.x ) * ( v1.y + v2.y );
 
 		edge = edge->next;
+		if ( edge == NULL )
+		{
+			// TOD Gameplay+ patch (hull_hang): the ring runs into a retired half-edge (its next is the free list link,
+			// NULL at the end of the list): the face ring is corrupt. Upstream dereferenced NULL here (crash).
+			b->failed = true;
+			return;
+		}
 	}
 	while ( edge != face->edge );
 
@@ -846,6 +907,12 @@ static void b3HullBuilder_BuildHorizon( b3HullBuilder* b, b3QHVertex* apex, b3QH
 
 	while ( top > 0 )
 	{
+		// TOD Gameplay+ patch (hull_hang): bounded walk
+		if ( b3HullBuilder_Step( b ) == false )
+		{
+			return;
+		}
+
 		b3HorizonFrame* f = &stack[top - 1];
 
 		if ( f->started && f->edge == f->startEdge )
@@ -859,6 +926,13 @@ static void b3HullBuilder_BuildHorizon( b3HullBuilder* b, b3QHVertex* apex, b3QH
 		b3QHHalfEdge* twin = edge->twin;
 		f->edge = edge->next;
 
+		if ( twin == NULL )
+		{
+			// TOD Gameplay+ patch (hull_hang): an unlinked half-edge
+			b->failed = true;
+			return;
+		}
+
 		if ( twin->face->mark != B3_MARK_VISIBLE )
 		{
 			continue;
@@ -868,11 +942,21 @@ static void b3HullBuilder_BuildHorizon( b3HullBuilder* b, b3QHVertex* apex, b3QH
 		if ( distance > b->minRadius )
 		{
 			B3_ASSERT( top < b->horizonStackCapacity );
+			if ( top >= b->horizonStackCapacity )
+			{
+				b->failed = true;
+				return;
+			}
 			b3HullBuilder_EnterHorizonFace( b, twin->face, twin, &stack[top++] );
 		}
 		else
 		{
 			B3_ASSERT( b->horizonCount < b->horizonCapacity );
+			if ( b->horizonCount >= b->horizonCapacity )
+			{
+				b->failed = true;
+				return;
+			}
 			b->horizon[b->horizonCount++] = edge;
 		}
 	}
@@ -887,9 +971,22 @@ static void b3HullBuilder_BuildCone( b3HullBuilder* b, b3QHVertex* apex )
 
 		b3QHFace* face = b3HullBuilder_NewFace( b, apex, edge->origin, edge->twin->origin );
 		B3_ASSERT( b->coneCount < b->coneCapacity );
+		if ( b->coneCount >= b->coneCapacity || b->failed )
+		{
+			// TOD Gameplay+ patch (hull_hang)
+			b->failed = true;
+			return;
+		}
 		b->cone[b->coneCount++] = face;
 
 		b3LinkFace( face, 1, edge->twin );
+	}
+
+	if ( b->coneCount < 3 )
+	{
+		// TOD Gameplay+ patch (hull_hang)
+		b->failed = true;
+		return;
 	}
 
 	b3QHFace* face1 = b->cone[b->coneCount - 1];
@@ -909,6 +1006,12 @@ static void b3HullBuilder_DestroyEdges( b3HullBuilder* b, b3QHHalfEdge* begin, b
 	b3QHHalfEdge* edge = begin;
 	while ( edge != end )
 	{
+		// TOD Gameplay+ patch (hull_hang): bounded walk
+		if ( b3HullBuilder_Step( b ) == false )
+		{
+			return;
+		}
+
 		b3QHHalfEdge* next = edge->next;
 		b3HullBuilder_RetireEdge( b, edge );
 		edge = next;
@@ -930,7 +1033,14 @@ static void b3HullBuilder_ConnectEdges( b3HullBuilder* b, b3QHHalfEdge* prev, b3
 		}
 
 		b3QHHalfEdge* twin;
-		if ( b3VertexCountOfFace( prev->twin->face ) == 3 )
+		int opposingCount = b3VertexCountOfFace( b, prev->twin->face );
+		if ( b->failed )
+		{
+			// TOD Gameplay+ patch (hull_hang): corrupt ring, nothing has been changed yet
+			return;
+		}
+
+		if ( opposingCount == 3 )
 		{
 			// Capture all 3 half-edges of the dead triangle before the rewire overwrites prev->twin.
 			b3QHHalfEdge* deadEdge0 = prev->twin;		// prev->twin (will be rewired below)
@@ -943,6 +1053,12 @@ static void b3HullBuilder_ConnectEdges( b3HullBuilder* b, b3QHHalfEdge* prev, b3
 			b3QHFace* opposingFace = prev->twin->face;
 			opposingFace->mark = B3_MARK_DELETE;
 			B3_ASSERT( b->mergedFacesCount < b->mergedFacesCapacity );
+			if ( b->mergedFacesCount >= b->mergedFacesCapacity )
+			{
+				// TOD Gameplay+ patch (hull_hang)
+				b->failed = true;
+				return;
+			}
 			b->mergedFaces[b->mergedFacesCount++] = opposingFace;
 
 			prev->next = next->next;
@@ -984,7 +1100,11 @@ static void b3HullBuilder_ConnectEdges( b3HullBuilder* b, b3QHHalfEdge* prev, b3
 		}
 
 		// Twin->face changed shape; recompute its plane and refresh its cached max conflict.
-		b3NewellPlane( twin->face );
+		b3NewellPlane( b, twin->face );
+		if ( b->failed )
+		{
+			return;
+		}
 		b3HullBuilder_RecacheConflicts( twin->face, b->minOutside );
 	}
 	else
@@ -1040,30 +1160,64 @@ static void b3HullBuilder_ConnectFaces( b3HullBuilder* b, b3QHHalfEdge* edge )
 
 	b3QHHalfEdge* twin = edge->twin;
 
+	// TOD Gameplay+ patch (hull_hang): an unlinked or self-twinned edge cannot be merged.
+	if ( twin == NULL || twin->face == face )
+	{
+		b->failed = true;
+		return;
+	}
+
 	b3QHHalfEdge* edgePrev = edge->prev;
 	b3QHHalfEdge* edgeNext = edge->next;
 	b3QHHalfEdge* twinPrev = twin->prev;
 	b3QHHalfEdge* twinNext = twin->next;
 
-	while ( edgePrev->twin->face == twin->face )
+	// TOD Gameplay+ patch (hull_hang): the two walks below follow the shared run of edges between `face` and the twin
+	// face with no bound upstream. When the two faces share EVERY edge (a degenerate, collapsed hull) the walk goes round
+	// the face ring and never ends: the game thread hung in here (MM030 Smash the Stash, Map06). Each walk now stops,
+	// before anything is changed, when it comes back to its start, runs past the edge pool or the work backstop, or meets
+	// a broken twin. On valid input the loops take exactly the steps they took before.
+	int guard = b->edgeCapacity;
+	while ( edgePrev->twin != NULL && edgePrev->twin->face == twin->face )
 	{
 		B3_ASSERT( edgePrev->twin == twinNext );
 		B3_ASSERT( twinNext->twin == edgePrev );
 
 		edgePrev = edgePrev->prev;
 		twinNext = twinNext->next;
+
+		if ( edgePrev == edge || twinNext == twin || --guard < 0 || b3HullBuilder_Step( b ) == false )
+		{
+			b->failed = true;
+			return;
+		}
 	}
 	B3_ASSERT( edgePrev->face != twinNext->face );
 
-	while ( edgeNext->twin->face == twin->face )
+	guard = b->edgeCapacity;
+	while ( edgeNext->twin != NULL && edgeNext->twin->face == twin->face )
 	{
 		B3_ASSERT( edgeNext->twin == twinPrev );
 		B3_ASSERT( twinPrev->twin == edgeNext );
 
 		edgeNext = edgeNext->next;
 		twinPrev = twinPrev->prev;
+
+		if ( edgeNext == edge || twinPrev == twin || --guard < 0 || b3HullBuilder_Step( b ) == false )
+		{
+			b->failed = true;
+			return;
+		}
 	}
 	B3_ASSERT( edgeNext->face != twinPrev->face );
+
+	// the merge needs both runs to end on edges that belong to the two faces being joined
+	if ( edgePrev->twin == NULL || edgeNext->twin == NULL || edgePrev->face != face || edgeNext->face != face ||
+		 twinNext->face != twin->face || twinPrev->face != twin->face )
+	{
+		b->failed = true;
+		return;
+	}
 
 	face->edge = edgePrev;
 
@@ -1077,15 +1231,33 @@ static void b3HullBuilder_ConnectFaces( b3HullBuilder* b, b3QHHalfEdge* edge )
 	for ( b3QHHalfEdge* absorbed = twinNext; absorbed != twinPrev->next; absorbed = absorbed->next )
 	{
 		absorbed->face = face;
+
+		// TOD Gameplay+ patch (hull_hang): bounded walk
+		if ( b3HullBuilder_Step( b ) == false )
+		{
+			return;
+		}
 	}
 
 	b3HullBuilder_DestroyEdges( b, edgePrev->next, edgeNext );
 	b3HullBuilder_DestroyEdges( b, twinPrev->next, twinNext );
 
 	b3HullBuilder_ConnectEdges( b, edgePrev, twinNext );
+	if ( b->failed )
+	{
+		return;
+	}
 	b3HullBuilder_ConnectEdges( b, twinPrev, edgeNext );
+	if ( b->failed )
+	{
+		return;
+	}
 
-	b3NewellPlane( face );
+	b3NewellPlane( b, face );
+	if ( b->failed )
+	{
+		return;
+	}
 	// Existing conflicts now have stale distances under the new plane; AbsorbFaces will then
 	// add more incrementally and update the cache as it goes.
 	b3HullBuilder_RecacheConflicts( face, b->minOutside );
@@ -1107,10 +1279,16 @@ static bool b3HullBuilder_MergeConcave( b3HullBuilder* b, b3QHFace* face )
 		if ( b3IsEdgeConcave( edge, b->minRadius ) || b3IsEdgeConcave( twin, b->minRadius ) )
 		{
 			b3HullBuilder_ConnectFaces( b, edge );
-			return true;
+			return b->failed == false;
 		}
 
 		edge = edge->next;
+
+		// TOD Gameplay+ patch (hull_hang): bounded walk
+		if ( b3HullBuilder_Step( b ) == false )
+		{
+			return false;
+		}
 	}
 	while ( edge != face->edge );
 
@@ -1128,10 +1306,16 @@ static bool b3HullBuilder_MergeCoplanar( b3HullBuilder* b, b3QHFace* face )
 		if ( !b3IsEdgeConvex( edge, b->minRadius ) || !b3IsEdgeConvex( twin, b->minRadius ) )
 		{
 			b3HullBuilder_ConnectFaces( b, edge );
-			return true;
+			return b->failed == false;
 		}
 
 		edge = edge->next;
+
+		// TOD Gameplay+ patch (hull_hang): bounded walk
+		if ( b3HullBuilder_Step( b ) == false )
+		{
+			return false;
+		}
 	}
 	while ( edge != face->edge );
 
@@ -1140,7 +1324,7 @@ static bool b3HullBuilder_MergeCoplanar( b3HullBuilder* b, b3QHFace* face )
 
 static void b3HullBuilder_MergeFaces( b3HullBuilder* b )
 {
-	for ( int i = 0; i < b->coneCount; ++i )
+	for ( int i = 0; i < b->coneCount && b->failed == false; ++i )
 	{
 		b3QHFace* face = b->cone[i];
 		if ( face->mark == B3_MARK_VISIBLE && face->flipped )
@@ -1162,32 +1346,47 @@ static void b3HullBuilder_MergeFaces( b3HullBuilder* b )
 				}
 
 				edge = edge->next;
+
+				// TOD Gameplay+ patch (hull_hang): bounded walk
+				if ( b3HullBuilder_Step( b ) == false )
+				{
+					return;
+				}
 			}
 			while ( edge != face->edge );
 
 			B3_ASSERT( bestEdge != NULL );
+			if ( bestEdge == NULL )
+			{
+				// TOD Gameplay+ patch (hull_hang): every neighbour had zero or NaN area; upstream dereferenced NULL here
+				b->failed = true;
+				return;
+			}
 			b3HullBuilder_ConnectFaces( b, bestEdge );
 		}
 	}
 
-	for ( int i = 0; i < b->coneCount; ++i )
+	for ( int i = 0; i < b->coneCount && b->failed == false; ++i )
 	{
 		b3QHFace* face = b->cone[i];
 		if ( face->mark == B3_MARK_VISIBLE )
 		{
-			while ( b3HullBuilder_MergeConcave( b, face ) )
+			while ( b->failed == false && b3HullBuilder_MergeConcave( b, face ) )
 			{
+				// TOD Gameplay+ patch (hull_hang): every merge deletes a face so this is bounded; charged anyway
+				b3HullBuilder_Step( b );
 			}
 		}
 	}
 
-	for ( int i = 0; i < b->coneCount; ++i )
+	for ( int i = 0; i < b->coneCount && b->failed == false; ++i )
 	{
 		b3QHFace* face = b->cone[i];
 		if ( face->mark == B3_MARK_VISIBLE )
 		{
-			while ( b3HullBuilder_MergeCoplanar( b, face ) )
+			while ( b->failed == false && b3HullBuilder_MergeCoplanar( b, face ) )
 			{
+				b3HullBuilder_Step( b );
 			}
 		}
 	}
@@ -1259,6 +1458,12 @@ static void b3HullBuilder_ResolveFaces( b3HullBuilder* b )
 				b3QHHalfEdge* next = edge->next;
 				b3HullBuilder_RetireEdge( b, edge );
 				edge = next;
+
+				// TOD Gameplay+ patch (hull_hang): bounded walk
+				if ( b3HullBuilder_Step( b ) == false )
+				{
+					return;
+				}
 			}
 			while ( edge != start );
 
@@ -1284,15 +1489,29 @@ static void b3HullBuilder_AddVertexToHull( b3HullBuilder* b, b3QHVertex* vertex 
 	b3QHList_Remove( &vertex->link );
 	b3QHList_PushBack( &b->vertexList.link, &vertex->link );
 
+	// TOD Gameplay+ patch (hull_hang): every stage can set `failed`; stop at the first one that does.
 	b->horizonCount = 0;
 	b3HullBuilder_BuildHorizon( b, vertex, face );
 	B3_ASSERT( b->horizonCount >= 3 );
+	if ( b->failed || b->horizonCount < 3 )
+	{
+		b->failed = true;
+		return;
+	}
 
 	b->coneCount = 0;
 	b3HullBuilder_BuildCone( b, vertex );
 	B3_ASSERT( b->coneCount >= 3 );
+	if ( b->failed )
+	{
+		return;
+	}
 
 	b3HullBuilder_MergeFaces( b );
+	if ( b->failed )
+	{
+		return;
+	}
 	b3HullBuilder_ResolveVertices( b );
 	b3HullBuilder_ResolveFaces( b );
 }
@@ -1453,8 +1672,20 @@ static bool b3HullBuilder_Construct( b3HullBuilder* b, const b3Vec3* points, int
 	while ( vertex && budget > 0 )
 	{
 		b3HullBuilder_AddVertexToHull( b, vertex );
+
+		// TOD Gameplay+ patch (hull_hang): give up on corrupt or degenerate topology; b3CreateHull returns NULL.
+		if ( b->failed || b3HullBuilder_Step( b ) == false )
+		{
+			return false;
+		}
+
 		vertex = b3HullBuilder_NextConflictVertex( b );
 		budget -= 1;
+	}
+
+	if ( b->failed )
+	{
+		return false;
 	}
 
 	b3HullBuilder_CleanHull( b, origin );
@@ -1572,6 +1803,12 @@ static void b3HullBuilder_Init( b3HullBuilder* b, char* mem, const b3HullWorkSiz
 
 	b->horizonStack = (b3HorizonFrame*)( mem + s->offsetHorizonStack );
 	b->horizonStackCapacity = s->horizonStackCapacity;
+
+	// TOD Gameplay+ patch (hull_hang): backstop for all pointer-chasing walks of one build. A healthy build of M kept
+	// vertices does on the order of M * 10 * M steps; this allows far more (tens of ms at the very worst).
+	b->work = 0;
+	b->workCap = 1000000 + 4 * s->edgeCapacity * ( s->M + 16 );
+	b->failed = false;
 }
 
 static b3Vec3* b3GetHullPointsWrite( b3HullData* hull )
@@ -2128,6 +2365,9 @@ static bool b3UpdateHullBulkProperties( b3HullData* hull )
 	return true;
 }
 
+// TOD Gameplay+ patch (hull_hang): how many b3CreateHull calls the builder abandoned (read by TODPhysics.dll for its log).
+int b3HullBuilderGaveUp = 0;
+
 b3HullData* b3CreateHull( const b3Vec3* points, int pointCount, int maxVertexCount )
 {
 	if ( pointCount < 4 )
@@ -2148,6 +2388,11 @@ b3HullData* b3CreateHull( const b3Vec3* points, int pointCount, int maxVertexCou
 	b3Vec3* shiftedPoints = (b3Vec3*)( work + sizes.offsetShiftedPoints );
 
 	bool ok = b3HullBuilder_Construct( &builder, points, pointCount, clampedMaxCount, origin, shiftedPoints );
+	if ( builder.failed )
+	{
+		// TOD Gameplay+ patch (hull_hang): the builder gave up on corrupt / degenerate topology (counted for the log)
+		b3HullBuilderGaveUp += 1;
+	}
 	if ( ok == false )
 	{
 		b3Free( work, sizes.totalBytes );

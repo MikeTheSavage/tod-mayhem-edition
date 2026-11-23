@@ -7,6 +7,15 @@ redistributed, so the installer runs this script on the player's machine and wri
 
   --out      default <game>\\TODGameplay_minimap (minimap.txt, one tile pack + one .occ per map, bake.json)
   --force    bake even when bake.json says the sources and the style did not change
+  --extra-archive PKG.zip   (repeatable) a map package that is NOT installed yet, e.g. the stream_override.zip of a
+             make_new_map.py recipe build: it is searched BEFORE the game's own archives, so the maps it adds (blocks named
+             mainmap_mapNN_x.map + submapNN_mapNN_x.submap in its shared folder) are listed and baked like the shipped nine,
+             and its overdose.main / changed blocks win. Use --maps to bake only the new map (a recipe zip also rewrites
+             blocks of the maps it connects to, e.g. Downtown), and --out an own folder (or the player's
+             TODGameplay_minimap: every map stays listed, bake.json keeps one entry per map):
+               python -I bake_minimap.py --game "C:/GOG Games/Total Overdose" --extra-archive D:/builds/N10/stream_override.zip --maps map11
+             The DLL picks the pack by the player's POSITION, so a new map needs coordinates that no other map's pack
+             covers (the recipe's mesa is at x 720-880, z 720-880).
 
 This script reads the solid collision of every placed model and collision box of the map block and all its submaps, and
 the names of the models for tree symbols and clutter (minimap_geo.py). The pixel work is done by dist\\TODMinimapBake.exe
@@ -109,6 +118,7 @@ def main(argv=None):
     ap.add_argument('--out')
     ap.add_argument('--maps', default='')
     ap.add_argument('--force', action='store_true')
+    ap.add_argument('--extra-archive', action='append', default=[], help='map package zip searched before the game archives (repeatable)')
     a = ap.parse_args(argv)
     game = os.path.abspath(a.game)
     out = os.path.abspath(a.out or os.path.join(game, 'TODGameplay_minimap'))
@@ -120,6 +130,11 @@ def main(argv=None):
         print('%s is missing (dist folder): build it with dll\\build.bat' % BAKER); return 3
     os.makedirs(out, exist_ok=True)
     fs = MapFS(game, skip=['todgameplay_data.zip'])
+    for z in reversed(a.extra_archive):
+        z = os.path.abspath(z)
+        if not os.path.isfile(z):
+            print('--extra-archive %s does not exist' % z); return 2
+        fs.order.insert(0, z)                       # first archive wins, like the filesystem line
     maps = mg.list_maps(fs)
     want = [m for m in a.maps.split(',') if m]
     keys = [k for k in maps if not want or any(k.startswith(w) for w in want)]

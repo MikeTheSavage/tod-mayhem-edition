@@ -272,6 +272,20 @@ writes pOwner from the weapon root's Owner and answers 0 for none). check_sites.
 R_WO_SKIP = FIX_WPN_SKIP. Every skip is logged (`fixes: weapon_owner: ...`, first 5 then every 100th). Host test 12b
 runs the stub with and without an owner.
 
+### Streamed-sound quotas (`[fixes] stream_limits`; code `dll/src/gp_music.cpp`, maths `gp_music_logic.cpp`)
+
+| Site | VA | What | Why |
+|---|---|---|---|
+| MU_REFUSE | 0x445AE2 (in the ctor 0x445770) | jmp hook 10: `cmp [esp+2Ch],ebx` (length of the refusal message) / `je 0x445B77` (create the stream) -> `StreamRefuseStub`: a refusal (length != 0) that comes only from streams that no longer play (counts recomputed from the manager list, vanilla caps) becomes "create" (length cleared), else the original; also logs every refusal for `[debug] music_trace` | The constructor refuses to create a streamed sound when a console-era quota is hit (stereo: one at a time and none next to an aux mono, normal mono 5, aux mono 2): the SoundSlot stays silent and nothing retries, so a looped music cue that is refused stays missing until a level load frees the streams. REF rows MU_Q_MOVIE / MU_Q_STEREO / MU_Q_MONO / MU_Q_AUX hold the four conditions, MU_OK_TARGET / MU_FAIL_TARGET the two continuations. |
+| MU_POOL | 0x445EDE (same ctor) | jmp hook 9: `cmp byte [esp+98h],bl` / `jne 0x445F31` (new pool token) -> `StreamPoolStub`: also grow the pool while it has fewer than `stream_pool` entries (vector at 0xA09314 / size 0xA09318), else the original ("TERMINATED (Sorry)") | A stream needs a free entry of the 7-entry pool (`FUN_00444CE0`). REF rows MU_POOL_FIND, MU_POOL_CREATE, MU_POOL_FAIL. |
+| MU_WARN | 0x43E717 (in 0x43E640) | operand 1: `cmp eax,7` -> `cmp eax,7Fh` | The manager logs "XBOX WARNING: More than 7 StreamedSoundBuffers are allocated" every frame while more than 7 streams exist. |
+| MU_DUP | 0x4458E6 (same ctor) | jmp hook 7 (`[debug] music_trace` only): `test al,al / je 0x445934 / mov [ebp+74h],ebx` -> `StreamDupStub`: logs the silent refusal (the sound file's stream data is used by another stream), then the original | `IsStreamBufferAlreadyExists` 0x43E8B0 refuses a second stream on the same SoundFile without any message. Observed only (not relaxed). |
+
+The movie quota (a fullscreen MoviePlayer and another stream) stays. Host test 12c runs the three stubs on the ctor's frame.
+`[debug] music_trace` also starts a thread that logs the stream picture (manager list +6Ch/+70h, counts +38h/+3Ch/+40h, pool
+0xA09314) whenever it changes; the test-copy key script marks `mu_hog IDX [aux]` / `mu_free IDX` allocate / destroy the stream of
+SoundDict slot IDX through `SoundSlot::AllocateStream` 0x89D450 / 0x89D0C0 (a stream held on purpose, to reproduce a refusal).
+
 ## Debug (`[debug]`; code `dll/src/gp_debug.cpp`, `gp_debug_logic.cpp`; test copy only)
 
 No game site of its own: TOD.exe's import slots HeapAlloc 0x9B31DC / HeapFree 0x9B31D0 / HeapReAlloc 0x9B31E0 are

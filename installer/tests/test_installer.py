@@ -110,6 +110,7 @@ class PlanMapping(unittest.TestCase):
         self.assertEqual(ini[('suave', 'slot')], ('10', 'set'))
         self.assertEqual(ini[('bullettime', 'key')], ('G', 'set'))
         self.assertEqual(ini[('fixes', 'vector_realloc')], ('1', 'set'))
+        self.assertEqual(ini[('fixes', 'stream_limits')], ('1', 'set'))
         self.assertEqual(ini[('physics', 'enabled')], ('0', 'if_present'))
         self.assertEqual(ini[('difficulty', 'enabled')], ('0', 'if_present'))
         self.assertEqual(ini[('display', 'borderless')], ('0', 'set'))
@@ -186,6 +187,33 @@ class PlanMapping(unittest.TestCase):
         self.assertEqual(modes[('seamless', 'enabled')], 'if_present')
         self.assertTrue(all(c == '0' for a, b, c, m in p['ini']))
 
+    def test_driving_feel_choice(self):
+        """Driving feel: one choice of five, default Mayhem feel; each level goes to the data `driving` key; the installed
+        level is read back from the data manifest"""
+        d = next(g for g in catalog.GROUPS if g['id'] == 'driving')
+        feel = next(x for x in d['subs'] if x['id'] == 'driving_feel')
+        self.assertEqual([o[0] for o in feel['options']], ['vanilla', 'better_feel', 'drift', 'grip', 'heavy'])
+        self.assertEqual(feel['default'], 'better_feel')
+        self.assertEqual(P.make_plan(catalog.default_selection(), SHIPPED)['data']['driving'], 'better_feel')
+        for lvl in ('vanilla', 'better_feel', 'drift', 'grip', 'heavy'):
+            s = sel(driving=True)
+            s['subs']['driving_feel'] = lvl
+            self.assertEqual(P.make_plan(s, SHIPPED)['data']['driving'], lvl)
+            self.assertEqual(catalog.normalize(s)['subs']['driving_feel'], lvl)
+            tmp = tempfile.mkdtemp()
+            try:
+                game = make_game(tmp, ini=SHIPPED)
+                with open(os.path.join(game, P.ZIP + '.manifest.json'), 'w') as f:
+                    json.dump({'selection': {'driving': lvl, 'vehicle_camera': 'far'}}, f)
+                det = GS.installed_state(game)['detected']
+                self.assertTrue(det['groups']['driving'])
+                self.assertEqual(det['subs']['driving_feel'], lvl)
+            finally:
+                shutil.rmtree(tmp, ignore_errors=True)
+        s = sel(driving=True)
+        s['subs']['driving_feel'] = 'nonsense'
+        self.assertEqual(catalog.normalize(s)['subs']['driving_feel'], 'better_feel')
+
     def test_subs(self):
         s = sel(display=True, suave=True, seamless=True, controller=True, driving=True, smart_ai=True, qol=True)
         s['subs'].update(display_mode='borderless', suave_slot='11', seamless_hide_markers=False, pad_prompts='playstation',
@@ -206,6 +234,7 @@ class PlanMapping(unittest.TestCase):
         self.assertEqual(ini[('bullettime', 'key')], 'MOUSE4')
         self.assertEqual(ini[('restart', 'key')], 'F9')
         self.assertEqual(ini[('fixes', 'vector_realloc')], '0')                    # crash fixes unticked
+        self.assertEqual(ini[('fixes', 'stream_limits')], '0')
         self.assertEqual(ini[('timing', 'clock_fix')], '1')                        # stability fixes still on
         self.assertEqual(catalog.normalize(s)['subs']['max_live_enemies'], 9)       # clamped to 6..9
 
@@ -463,6 +492,20 @@ class InstallJob(unittest.TestCase):
         engine.run_install(job, self.game, s, self.root, kind, False, no_procs, fake_build, fake_prefetch)
         self.assertEqual(job.state, 'done', job.error)
         return job
+
+    def test_no_configpc_is_created(self):
+        """a game folder without configpc.txt (a fresh install that never ran): the install writes the vanilla one
+        (the game's default archive order) and goes on; a restore of that backup removes it again."""
+        os.remove(os.path.join(self.game, 'configpc.txt'))
+        before = B.folder_digest(self.game)
+        job = self.run_job(sel(physics=True, difficulty=True, more_enemies=True))
+        cfg = GS.read_text(os.path.join(self.game, 'configpc.txt'))
+        self.assertIn('filesystem = todgameplay_data.zip, blocks.naz, sounds.naz, videos00.naz, videos01.naz', cfg)
+        rj = engine.Job('restore', engine.RESTORE_STEPS)
+        engine.run_restore(rj, self.game, job.result['backup'], False, no_procs)
+        self.assertEqual(rj.state, 'done', rj.error)
+        self.assertFalse(os.path.exists(os.path.join(self.game, 'configpc.txt')))
+        self.assertEqual(B.folder_digest(self.game), before)
 
     def test_install_switch_off_restore(self):
         before = B.folder_digest(self.game)

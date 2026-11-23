@@ -771,10 +771,10 @@ static void log_stats(double now) {
     int active = 0; for (auto& p : g_bodies) if (p.active) ++active;
     gp_log("physics: stats %d bodies (%d awake, peak %d, %d moved so far), %d static hulls | step %.3f ms avg %.3f max "
            "(%d steps) | write %.3f ms avg %.3f max | frame total %.3f ms avg %.3f max | hits %d (%d on non-props), blasts %d, "
-           "writes %d, dropped %d | vehicle frames %d (%d drives)\n",
+           "writes %d, dropped %d | vehicle frames %d (%d drives) | hull builder: %d gave up (loop guard), %d retried, %d boxes\n",
            pc.bodies, pc.awake, g_peak_awake, active, pc.static_shapes, g_st_step.avg(), g_st_step.mx, g_st_step.n,
            g_st_write.avg(), g_st_write.mx, g_st_frame.avg(), g_st_frame.mx, g_hits, g_hit_misses, g_blasts, g_writes, g_dropped,
-           g_drive_frames_total, g_drive_spans);
+           g_drive_frames_total, g_drive_spans, pc.hull_gave_up, pc.hull_retries, pc.hull_boxes);
     int shown = 0;   // which bodies keep moving (a body that never sleeps costs a write every frame)
     for (auto& p : g_bodies) {
         float pos[3], q[4], v[3], w[3];

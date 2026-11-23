@@ -24,7 +24,9 @@ import song_import as si   # noqa: E402
 
 MP3 = os.environ.get('TODSONG_MP3', '')
 FFBUILD = os.environ.get('TODSONG_FFMPEG_BUILD', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build'))
+FFMPEG = os.environ.get('TODSONG_FFMPEG', 'ffmpeg')
 HAVE = os.path.isfile(MP3)
+import subprocess   # noqa: E402
 try:
     import soundfile as sf
 except ImportError:            # pragma: no cover
@@ -182,6 +184,21 @@ class SongImport(unittest.TestCase):
             si.import_song(p, os.path.join(self.tmp, 'short'), self.fp)
         self.assertIn('ends too early', str(c.exception))
 
+    @unittest.skipUnless(os.path.isfile(FFMPEG) and os.name == 'nt', 'needs ffmpeg (encoder) and Windows')
+    def test_other_containers_via_windows(self):
+        """m4a (aac), the same m4a named .mp3, and wma: libsndfile cannot read them, Media Foundation does; the
+        import finds the song (aac priming: the offset moves by about 23 ms) and cuts the same segments."""
+        for name, args in (('song.m4a', ['-c:a', 'aac', '-b:a', '160k']), ('swap.mp3', ['-c:a', 'aac', '-b:a', '160k',
+                           '-f', 'mp4']), ('song.wma', ['-c:a', 'wmav2', '-b:a', '160k'])):
+            p = os.path.join(self.tmp, name)
+            subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-y', '-i', MP3] + args + [p], check=True)
+            d = os.path.join(self.tmp, 'c_' + name.replace('.', '_'))
+            m = si.import_song(p, d, self.fp)
+            self.assertLess(abs(m['offset_s']), 0.06, name)
+            snr = snr_db(self.seg(os.path.join(self.tmp, 'ref'), 2), self.seg(d, 2))
+            self.report['snr_db_via_' + name] = round(snr, 1)
+            self.assertGreater(snr, 10.0, name)
+
     def test_unreadable_and_missing_files(self):
         p = os.path.join(self.tmp, 'junk.mp3')
         with open(p, 'wb') as f:
@@ -189,6 +206,60 @@ class SongImport(unittest.TestCase):
         for bad in (p, os.path.join(self.tmp, 'nothere.mp3')):
             with self.assertRaises(si.SongImportError):
                 si.import_song(bad, os.path.join(self.tmp, 'bad'), self.fp)
+
+
+@unittest.skipUnless(sf is not None, 'needs soundfile')
+class Formats(unittest.TestCase):
+    """No song needed: a 440 Hz tone in every container the player may bring, plus the files that are not audio."""
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp(prefix='todsong_fmt_')
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def tone(self, name, args):
+        src = os.path.join(self.tmp, 'tone.wav')
+        if not os.path.isfile(src):
+            t = np.arange(8 * 44100) / 44100.0
+            sf.write(src, np.stack([np.sin(2 * np.pi * 440 * t)] * 2, 1) * 0.5, 44100, subtype='PCM_16')
+        p = os.path.join(self.tmp, name)
+        subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-y', '-i', src] + args + [p], check=True)
+        return p
+
+    @unittest.skipUnless(os.path.isfile(FFMPEG) and os.name == 'nt', 'needs ffmpeg (encoder) and Windows')
+    def test_windows_decodes_what_libsndfile_cannot(self):
+        for name, args, kind in (('t.m4a', ['-c:a', 'aac'], 'mp4'), ('alac.m4a', ['-c:a', 'alac'], 'mp4'),
+                                 ('t.aac', ['-c:a', 'aac'], 'aac'), ('t.wma', ['-c:a', 'wmav2'], 'asf'),
+                                 ('fake.mp3', ['-c:a', 'aac', '-f', 'mp4'], 'mp4')):
+            p = self.tone(name, args)
+            self.assertEqual(si.sniff(p)[0], kind, name)
+            x, info = si.read_song(p)
+            self.assertEqual(info['subtype'], 'WINDOWS_MF', name)
+            self.assertAlmostEqual(info['seconds'], 8.0, delta=0.1, msg=name)
+            self.assertEqual(int(np.abs(np.fft.rfft(x[:44100])).argmax()), 440, name)   # right pitch: right rate
+
+    def test_not_audio_is_named(self):
+        cases = (('page.mp3', b'<!DOCTYPE html><html>403</html>', 'web page'),
+                 ('empty.mp3', b'', 'empty file'),
+                 ('zeros.mp3', b'\0' * 4096, 'empty file'),
+                 ('locked.m4p', b'\0\0\0\x20ftypM4P ' + b'\0' * 64, 'copy-protected'))
+        for name, data, words in cases:
+            p = os.path.join(self.tmp, name)
+            with open(p, 'wb') as f:
+                f.write(data)
+            with self.assertRaises(si.SongImportError) as cm:
+                si.read_song(p)
+            self.assertIn(words, str(cm.exception), name)
+
+    def test_real_formats_are_sniffed(self):
+        for head, kind in ((b'ID3\x04', 'mp3'), (b'\xff\xfb\x90', 'mp3'), (b'\xff\xf1\x50', 'aac'), (b'OggS', 'ogg'),
+                           (b'RIFF', 'wav'), (b'fLaC', 'flac'), (b'\x1aE\xdf\xa3', 'webm')):
+            p = os.path.join(self.tmp, 'h_' + kind)
+            with open(p, 'wb') as f:
+                f.write(head + b'\x01' * 60)
+            self.assertEqual(si.sniff(p)[0], kind, head)
 
 
 class Fingerprint(unittest.TestCase):

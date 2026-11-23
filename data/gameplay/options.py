@@ -88,10 +88,79 @@ SHELL_TURN_RATE_DEFAULT = 0.174
 P1_SKIP_TYPES = {'Dirtbike', 'Chopper', 'AITest', 'Door_Left_Front'}
 
 
+# Driving presets Drift / Grip / Heavy: the values of TOD Mod Studio's built-in presets (backend/data/driving_presets.json,
+# target "All cars"), copied as numbers. type = per VehicleDict row, ('mul', k) acts on the shipped value; car = absolute
+# values of the shared car_move_ctrl (VehicleSedan MoveCtrl). Results are clamped to the ranges below, rounded to 6
+# decimals, and a value equal to the shipped one writes nothing; a zero stays zero under mul. Suspension is not touched.
+DRIVING_TYPE_RANGE = {
+    'Mass': (100, 20000), 'BrakeForce': (1000, 100000), 'cornering_stiffness': (0, 3), 'lateral_slide_speed': (1, 60),
+    'front_slide_factor': (0, 2), 'slide_factor': (0, 8), 'control_speed': (0, 100), 'time_to_slide_factor': (0.1, 30),
+    'handbrake_boost': (0, 5), 'spinning_angular_friction': (0, 50)}
+DRIVING_CAR_RANGE = {'turn_rate': (0.02, 0.8), 'slide_angle': (0.02, 1), 'standard_sideways_slide_resistance': (0.1, 0.995)}
+DRIVING_CAR_DEFAULT = {'turn_rate': 0.174, 'slide_angle': 0.174, 'standard_sideways_slide_resistance': 0.6}   # code defaults
+DRIVING_PRESETS = {
+    'drift': dict(
+        type={'cornering_stiffness': 1.25, 'lateral_slide_speed': 0.55, 'slide_factor': 3.0, 'front_slide_factor': 2.0,
+              'control_speed': 0.6, 'time_to_slide_factor': 6.0, 'handbrake_boost': 1.5},
+        car={'turn_rate': 0.25, 'slide_angle': 0.1, 'standard_sideways_slide_resistance': 0.85},
+        note='Mod Studio "Drift": loose tail, quick steering, handbrake throws the car sideways'),
+    'grip': dict(
+        type={'cornering_stiffness': 0.7, 'lateral_slide_speed': 1.6, 'slide_factor': 0.6, 'time_to_slide_factor': 2.0,
+              'spinning_angular_friction': 1.5, 'BrakeForce': 1.3},
+        car={'turn_rate': 0.22},
+        note='Mod Studio "Grip" (id arcade): sticks to the road, steers at any speed, hard to spin'),
+    'heavy': dict(
+        type={'Mass': 1.4, 'BrakeForce': 0.9, 'cornering_stiffness': 1.1, 'slide_factor': 1.3, 'time_to_slide_factor': 0.8},
+        car={'turn_rate': 0.12, 'standard_sideways_slide_resistance': 0.75},
+        note='Mod Studio "Heavy": slower to move and stop, wide and lazy in a slide'),
+}
+
+
+def _r6(x):
+    return round(x * 1e6) / 1e6
+
+
+def gen_driving_preset(ctx, level):
+    ops = []
+    pr = DRIVING_PRESETS[level]
+    sedan = ctx.doc(MAIN, F_SEDAN)
+    mc = sedan.find('MoveCtrl')
+    if not (sedan.type_of(mc) or '').startswith('car_move_ctrl'):
+        raise OptionError('VehicleSedan MoveCtrl is not a car_move_ctrl')
+    for prop, val in pr['car'].items():
+        lo, hi = DRIVING_CAR_RANGE[prop]
+        new = f32(_r6(min(hi, max(lo, val))))
+        cur = sedan.get(mc, prop)
+        base = DRIVING_CAR_DEFAULT[prop] if cur is None else cur
+        if abs(_r6(new) - float(base)) < 1e-6:
+            continue
+        ops.append(Op(MAIN, F_SEDAN, mc, prop, new, cur if cur is not None else 'default %g (code)' % base,
+                      '%s: car-wide %s' % (level, prop), sedan.path_of(mc)))
+    vd = ctx.doc(MAIN, F_VDICT)
+    for n in rows_of_type(vd, 'database_vehicle_type'):
+        if vd.get(n, 'name') in P1_SKIP_TYPES:
+            continue
+        for prop, k in pr['type'].items():
+            old = vd.get(n, prop)
+            if old is None:
+                raise OptionError('%s has no %s in the game data' % (vd.path_of(n), prop))
+            if not isinstance(old, float):
+                raise OptionError('%s.%s is not a number' % (vd.path_of(n), prop))
+            if old == 0:
+                continue
+            lo, hi = DRIVING_TYPE_RANGE[prop]
+            new = f32(_r6(min(hi, max(lo, float(old) * k))))
+            if abs(float(new) - float(old)) >= 1e-9:
+                ops.append(Op(MAIN, F_VDICT, n, prop, new, old, '%s: x%g' % (level, k), vd.path_of(n)))
+    return ops
+
+
 def gen_driving(ctx, level):
     ops = []
     if level == 'vanilla':
         return ops
+    if level in DRIVING_PRESETS:
+        return gen_driving_preset(ctx, level)
     sedan = ctx.doc(MAIN, F_SEDAN)
     mc = sedan.find('MoveCtrl')
     if not (sedan.type_of(mc) or '').startswith('car_move_ctrl'):
@@ -389,8 +458,9 @@ def gen_difficulty_menu(ctx, level):
 
 # ------------------------------------------------------------------ the catalogue (apply order = this order)
 OPTIONS = [
-    dict(key='driving', levels=['vanilla', 'better_feel'], gen=gen_driving,
-         help='better_feel = vehicles package P1 (steering ramp 0.12, cornering x0.9, slide control x0.5)'),
+    dict(key='driving', levels=['vanilla', 'better_feel', 'drift', 'grip', 'heavy'], gen=gen_driving,
+         help='better_feel = vehicles package P1 (steering ramp 0.12, cornering x0.9, slide control x0.5); drift / grip / heavy = '
+              'the Mod Studio presets (see DRIVING_PRESETS)'),
     dict(key='difficulty', levels=['normal', 'easy', 'hard', 'brutal'], gen=gen_difficulty,
          help='normal = vanilla; see DIFFICULTY for every factor'),
     dict(key='camera_distance', levels=['default', 'near', 'far', 'farther'], gen=gen_camera,

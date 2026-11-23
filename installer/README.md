@@ -80,9 +80,9 @@ cleanly.
 | Essentials / Fixes (default on; "Game may crash without these." when off) | - | Crash fixes: `[fixes] vector_realloc, weapon_owner`; Stability fixes: `[timing] clock_fix, pickup_step_fix`, `[controls] mouse_turn_fix, diagonal_normalize` (each 1, or 0 when its box is unticked) | DLL + loader | fixes `= 0` (they default to on in the DLL), the others `= 0` if present |
 | Display | - | `[display] enabled = 1, mode_menu = 1, borderless = 0/1` (Start in: windowed 1920x1080 / borderless native; note "change it in game any time: SETTINGS > SCREEN RESOLUTION") | configpc `fullscreen`, `screensize` (1920,1080 or the monitor size), registry XRes/YRes; on a start-mode pick: `Documents\Total Overdose\savegames\TODGameplay_display.txt` backed up, then deleted | `[display] enabled = 0` |
 | Controller | `controller = menu` | `[pad] enabled = 1, prompts = auto/keyboard/xbox/playstation`; Rumble 0..200 %: `rumble = 0/1`, `rumble_strength = %/100` | DLL | `[pad] enabled = 0` |
-| Better Driving | `driving = better_feel`; Chase camera: `vehicle_camera = far` | optional `[vehicles] steering_return_rate = 0.25`, `s_brake_parity = 1` (experimental) | DLL only with those | `[vehicles]` keys `= 0` |
+| Better Driving | data `driving` = the Driving feel choice (vanilla, better_feel (default), drift, grip, heavy); Chase camera: `vehicle_camera = far` | optional `[vehicles] steering_return_rate = 0.25`, `s_brake_parity = 1` (experimental) | DLL only with those | `[vehicles]` keys `= 0` |
 | Seamless World **(EXPERIMENTAL)** | `seamless = on_nomarkers` (or `on`) | `[seamless] enabled = 1, prefetch = 0/1` | `TODGameplay_seamless.txt` | `[seamless] enabled = 0`, table removed |
-| Suave / Piñata Loco **(EXPERIMENTAL)** | `suave_anims = on`, `suave = on_slot10` (or `on` = slot 11), `suave_music = off` when no song file is given | `[suave] enabled = 1, slot = 10/11, music = 1/0` (1 only with the player's song file) | DLL; the music segments cut from the player's own copy of the song go into the data zip (see "The Suave song") | `[suave] enabled = 0` |
+| Piñata Loco **(EXPERIMENTAL)** | `suave_anims = on`, `suave = on_slot10` (or `on` = slot 11), `suave_music = off` when no song file is given | `[suave] enabled = 1, slot = 10/11, music = 1/0` (1 only with the player's song file) | DLL; the music segments cut from the player's own copy of the song go into the data zip (see "The Suave song") | `[suave] enabled = 0` |
 | Smart AI | - | `[smart_ai] enabled = 1, squad = 0/1, morale = 0/1` | DLL | `[smart_ai] enabled = 0` |
 | Bullet Time & Quick Restart | - | `[bullettime] enabled = 1, key = <key>`, `[restart] enabled = 1, key = <key>` (key fields: press a key or a middle / side mouse button; only names TODGameplay.dll knows are written) | DLL | both `enabled = 0` |
 | Minimap (default off) | - | Map in the radar: `[minimap] enabled = 1, map = 1, rotate = 1/0` (turns with the view / north up); Objective markers: `objective_marker`, `world_marker` = 1/0 (`[minimap] enabled = 1` with the map or the markers). An older ini's `[weapon_wheel] enabled` goes to 0 with this card on or off (`retired` key: the section is not in the shipped ini, the DLL ignores it anyway) | `TODGameplay_minimap\` baked by `hud\tools\bake_minimap.py` from the player's files (only with the map); the installer owns exactly the files that tool makes (`minimap.txt`, `bake.json`, each map's `.mmp` and `.occ` or an older bake's `.png`, their `.tmp` leftovers) | `enabled = 0`; the bake's files removed (a file the player put into that folder stays), the folder if empty |
@@ -233,8 +233,9 @@ programs.
 ## The Suave song
 
 The Suave move's music is four 17.4 s segments of a commercial recording, so they never ship. The Suave card has
-**Your copy of Suavemente**: a file picker (mp3, wav, flac, ogg, opus, aiff, w64, caf: what libsndfile 1.2 reads; not
-m4a / aac / wma). Picking a file runs `/api/song` (read + match only, shown under the picker); the install repeats it as
+**Your copy of Suavemente**: a file picker (mp3, wav, flac, ogg, opus, aiff, w64, caf through libsndfile 1.2; m4a / aac,
+Apple Lossless, wma, mp4 and webm through Windows Media Foundation, chosen by the file's first bytes, not its name:
+downloaders save m4a / webm as .mp3; copy-protected .m4p, empty files and saved web pages are refused by name). Picking a file runs `/api/song` (read + match only, shown under the picker); the install repeats it as
 the step "Suave music from your copy of the song", **before the backup**, so a refused file changes nothing.
 
 - `suave\audio\song_import.py` (numpy + soundfile, no ffmpeg) reads the file, mixes to mono (ffmpeg's 0.7071 * (L + R)),

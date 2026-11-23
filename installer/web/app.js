@@ -21,6 +21,18 @@
     score: null, audioCtx: null, muted: false, volume: 0.8, unlocked: false, stepSeen: {}, lastFocus: null,
   };
 
+  // one native picker window at a time (the server refuses a second one too): while one is open every Browse /
+  // Choose file button is disabled; the request is never retried (a retry would open a second window)
+  let picking = false;
+  const PICK_BTNS = '#game-browse, #backup-browse, #rest-browse, [data-pick]';
+  async function pickApi(path, body) {
+    if (picking) return {};
+    picking = true;
+    const btns = Array.from(document.querySelectorAll(PICK_BTNS)), was = btns.map((b) => b.disabled);
+    btns.forEach((b) => { b.disabled = true; });
+    try { return await api(path, body, 1); } catch (e) { return {}; }
+    finally { picking = false; btns.forEach((b, i) => { b.disabled = was[i]; }); }
+  }
   async function api(path, body, tries = 6) {
     for (let i = 0; ; i++) {
       try {
@@ -162,7 +174,7 @@
       $$('[data-key]', c).forEach((b) => keyField(b, g));
       $$('[data-pick]', c).forEach((b) => b.addEventListener('click', async () => {
         const sid = b.dataset.pick, spec = g.subs.find((x) => x.id === sid);
-        const r = await api('/api/browse-file', { title: 'Pick your copy of the song', filter: spec.filetypes, start: S.sel.subs[sid] });
+        const r = await pickApi('/api/browse-file', { title: 'Pick your copy of the song', filter: spec.filetypes, start: S.sel.subs[sid] });
         if (r.path) { S.sel.subs[sid] = r.path; changed(); checkSong(sid); }
       }));
       $$('[data-clear]', c).forEach((b) => b.addEventListener('click', () => { S.sel.subs[b.dataset.clear] = ''; S.songMsg = null; changed(); }));
@@ -258,7 +270,7 @@
       // a warning of the check that belongs to this card (HD Effects: another d3d9.dll is set aside)
       const cw = $('.warn--check', c);
       let cwt = ((S.check && S.check.warnings) || []).find((x) => g.id === 'hdfx' && /d3d9\.dll/.test(x));
-      if (g.id === 'suave' && !S.sel.subs.suave_song) cwt = 'The music is not included. No song file chosen: Suave installs without music. Open Details to pick your own copy of the song.';
+      if (g.id === 'suave' && !S.sel.subs.suave_song) cwt = 'No song chosen: plays without music.';
       if (g.id === 'suave' && S.sel.subs.suave_song && S.songMsg && S.songMsg.path === S.sel.subs.suave_song && S.songMsg.ok === false && !S.songMsg.busy) cwt = 'Your song file was not accepted: ' + S.songMsg.message;
       cw.hidden = !(cwt && isOn); if (cwt) $('span', cw).textContent = cwt;
       if (g.id === 'display') {
@@ -288,9 +300,9 @@
           const m = S.songMsg && S.songMsg.path === v ? S.songMsg : null;
           pth.textContent = v || 'No file chosen'; pth.title = v || '';
           pth.classList.toggle('is-empty', !v);
-          $(`[data-pick="${s.id}"]`, c).disabled = dis; $(`[data-clear="${s.id}"]`, c).disabled = dis || !v;
+          $(`[data-pick="${s.id}"]`, c).disabled = dis || picking; $(`[data-clear="${s.id}"]`, c).disabled = dis || !v;
           st.className = 'file-status' + (m && !m.busy ? (m.ok ? ' is-ok' : ' is-bad') : '');
-          st.textContent = !v ? 'No file: Suave installs and works without music.' : !m ? '' : m.busy ? 'Checking the file\u2026' : m.message;
+          st.textContent = !v ? '' : !m ? '' : m.busy ? 'Checking the file\u2026' : m.message;
           continue;
         }
         if (s.type === 'select' && s.options.length <= 2) {
@@ -443,11 +455,11 @@
   $('#game').addEventListener('change', (e) => loadState(e.target.value.trim()));
   $('#backup-root').addEventListener('change', (e) => { S.backupRoot = e.target.value.trim(); runCheck(); });
   $('#game-browse').addEventListener('click', async () => {
-    const r = await api('/api/browse', { title: 'Pick the Total Overdose folder (the one with TOD.exe)', start: S.game });
+    const r = await pickApi('/api/browse', { title: 'Pick the Total Overdose folder (the one with TOD.exe)', start: S.game });
     if (r.path) loadState(r.path);
   });
   $('#backup-browse').addEventListener('click', async () => {
-    const r = await api('/api/browse', { title: 'Pick where the Gameplay+ backups go', start: S.backupRoot });
+    const r = await pickApi('/api/browse', { title: 'Pick where the Gameplay+ backups go', start: S.backupRoot });
     if (r.path) { S.backupRoot = r.path; $('#backup-root').value = r.path; runCheck(); }
   });
   $$('input[name="bk-kind"]').forEach((r) => r.addEventListener('change', () => { S.kind = r.value; runCheck(); }));
@@ -614,7 +626,7 @@
   $('#go-restore').addEventListener('click', () => show('restore', '#scr-rest-t'));
   $('#rest-back').addEventListener('click', () => show('main', '#go-restore'));
   $('#rest-browse').addEventListener('click', async () => {
-    const r = await api('/api/browse', { title: 'Pick the folder that holds the Gameplay+ backups', start: S.restoreRoot || S.backupRoot });
+    const r = await pickApi('/api/browse', { title: 'Pick the folder that holds the Gameplay+ backups', start: S.restoreRoot || S.backupRoot });
     if (r.path) { S.restoreRoot = r.path; loadBackups(); }
   });
   $('#rest-go').addEventListener('click', () => {

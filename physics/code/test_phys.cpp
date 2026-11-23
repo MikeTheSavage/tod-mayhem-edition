@@ -345,8 +345,132 @@ static void test_nan_no_hang() {
     A->destroy();
 }
 
+
+// hull-hang (MM030 freeze): Box3D's b3HullBuilder_ConnectFaces walked a ring of shared edges with no bound; on a
+// degenerate cloud (nearly collinear points, a flat patch far from the origin) the faces share every edge, the walk
+// goes round and round, and the game thread never returned (hull_hang patch in third_party/box3d/src/hull.c). The
+// three inputs below are real hangs of the ORIGINAL builder found by physics/tools/hull_fuzz.bat (which runs the original
+// hull.c next to the patched one and checks that it still hangs there). Here: the patched builder returns promptly,
+// make_hull falls back to a box, and random degenerate clouds always terminate.
+extern "C" int b3HullBuilderGaveUp;
+static const float k_collinear5[] = {
+    772.978943f, -45.1926537f, -1793.2699f,
+    779.884827f, -50.4212799f, -1797.63013f,
+    779.945557f, -50.4672585f, -1797.66846f,
+    776.379089f, -47.7669983f, -1795.41675f,
+    779.880005f, -50.4250526f, -1797.6333f};
+static const float k_collinear_slab10[] = {
+    870.20105f, -70.9181061f, 1528.50232f,
+    868.540771f, -65.5087128f, 1534.48645f,
+    867.06543f, -60.7019806f, 1539.80396f,
+    866.771118f, -59.7431412f, 1540.86475f,
+    870.20105f, -70.9182281f, 1528.50244f,
+    870.059082f, -71.0888214f, 1528.61731f,
+    868.398804f, -65.6794281f, 1534.60144f,
+    866.923462f, -60.8726921f, 1539.91895f,
+    866.62915f, -59.9138527f, 1540.97974f,
+    870.059082f, -71.0889435f, 1528.61743f};
+static const float k_flat_far_slab8[] = {
+    1103.41797f, -24642.7148f, -746.524597f,
+    48602.0312f, -24642.6973f, -22013.2402f,
+    24642.7207f, -24642.7031f, 0.0149112754f,
+    2242.11133f, -24642.7188f, -21281.3711f,
+    1103.41797f, -24642.9648f, -746.524597f,
+    48602.0312f, -24642.9473f, -22013.2402f,
+    24642.7207f, -24642.9531f, 0.014911334f,
+    2242.11133f, -24642.9688f, -21281.3711f};
+
+static const float* g_hh_pts = nullptr; static int g_hh_n = 0; static b3HullData* g_hh_h = nullptr; static volatile LONG g_hh_done = 0;
+static DWORD WINAPI hh_worker(void*) {
+    g_hh_h = b3CreateHull((const b3Vec3*)g_hh_pts, g_hh_n, 32);
+    InterlockedExchange(&g_hh_done, 1);
+    return 0;
+}
+static volatile LONG g_fz_done = 0, g_fz_cases = 0, g_fz_hulls = 0, g_fz_null = 0;
+static DWORD WINAPI fuzz_worker(void*) {
+    for (int seed = 0; seed < 6000; ++seed) {
+        g_trng = (unsigned)seed * 2654435761u + 99;
+        float ox = 780 + trnd() * 40, oy = -45 + trnd() * 10, oz = -1790 + trnd() * 40;
+        b3Vec3 p[96]; int n = 0;
+        switch (seed % 5) {
+        case 0: {   // nearly collinear: a line plus a sub-millimetre scatter (a pole, a wire, a rail)
+            n = 4 + (int)(trnd() * 30); b3Vec3 d = {trnd() - 0.5f, trnd() - 0.5f, trnd() - 0.5f}; float e = (seed % 3) ? 1e-4f : 1e-3f;
+            for (int i = 0; i < n; ++i) { float t = trnd() * 20 - 10; p[i] = {ox + d.x * t + (trnd() - 0.5f) * e, oy + d.y * t + (trnd() - 0.5f) * e, oz + d.z * t + (trnd() - 0.5f) * e}; }
+            break; }
+        case 1: {   // a few distinct points repeated
+            int m = 4 + (int)(trnd() * 4); b3Vec3 b[8];
+            for (int i = 0; i < m; ++i) b[i] = {ox + trnd() * 3, oy + trnd() * 3, oz + trnd() * 3};
+            n = m + (int)(trnd() * 40); if (n > 96) n = 96;
+            for (int i = 0; i < n; ++i) p[i] = b[(int)(trnd() * m) % m];
+            break; }
+        case 2: {   // a flat patch twice (a slab of thickness 0..1 mm), mm noise
+            int m = 3 + (int)(trnd() * 12); float th = (seed % 2) ? 0.0f : trnd() * 1e-3f;
+            n = 2 * m;
+            for (int i = 0; i < m; ++i) { float a = trnd() * 8, b = trnd() * 8, h = (trnd() - 0.5f) * 2e-3f; p[i] = {ox + a, oy + h, oz + b}; p[m + i] = {ox + a, oy + h - th, oz + b}; }
+            break; }
+        case 3: {   // a small integer lattice
+            n = 4 + (int)(trnd() * 40);
+            for (int i = 0; i < n; ++i) p[i] = {ox + (float)(int)(trnd() * 3), oy + (float)(int)(trnd() * 3), oz + (float)(int)(trnd() * 3)};
+            break; }
+        default: {  // far from the origin, tiny extent
+            n = 4 + (int)(trnd() * 30); float big = 1000.0f + trnd() * 40000.0f;
+            for (int i = 0; i < n; ++i) p[i] = {big + trnd() * 1e-3f, -big + trnd() * 1e-3f, trnd() * ((i % 5) ? 1e-3f : big)};
+            break; }
+        }
+        b3HullData* h = b3CreateHull(p, n, 32);
+        InterlockedIncrement(&g_fz_cases);
+        if (h) { InterlockedIncrement(&g_fz_hulls); b3DestroyHull(h); } else InterlockedIncrement(&g_fz_null);
+    }
+    InterlockedExchange(&g_fz_done, 1);
+    return 0;
+}
+static void test_hull_hang() {
+    struct { const float* p; int n; const char* name; } fx[] = {{k_collinear5, 5, "collinear5"}, {k_collinear_slab10, 10, "collinear_slab10"}, {k_flat_far_slab8, 8, "flat_far_slab8"}};
+    for (auto& f : fx) {
+        g_hh_pts = f.p; g_hh_n = f.n; g_hh_h = nullptr; g_hh_done = 0;
+        int before = b3HullBuilderGaveUp;
+        HANDLE h = CreateThread(nullptr, 0, hh_worker, nullptr, 0, nullptr);
+        DWORD w = WaitForSingleObject(h, 5000);
+        CHECK(w == WAIT_OBJECT_0 && g_hh_done == 1);
+        if (w != WAIT_OBJECT_0) { printf("  hull builder STUCK on %s\n", f.name); return; }   // the process exit ends it
+        CloseHandle(h);
+        CHECK(g_hh_h == nullptr);                      // it gives up instead of spinning
+        CHECK(b3HullBuilderGaveUp == before + 1);      // ... and counts it
+        if (g_hh_h) b3DestroyHull(g_hh_h);
+    }
+    // through the game's function table: the static hull and a body hull both come back as a box (the builder gave up
+    // twice per call, on the points and on the 5 mm grid copy)
+    const PhApi* A = TODPhysics_GetApi(TODPHYS_API_VERSION);
+    if (!A) return;
+    CHECK(A->create(-9.81f, 0.0f) == 1);
+    PhCounts c0; A->counts(&c0);
+    // (the far slab is 48 km wide, far outside any level: no hang is what counts, a refused shape is fine)
+    for (int i = 0; i < 3; ++i) {
+        int ok = A->add_static_hull(fx[i].p, fx[i].n, 0.6f);
+        if (i < 2) CHECK(ok == 1);
+        if (i < 2 && ok != 1) printf("  add_static_hull refused %s\n", fx[i].name);
+    }
+    PhBodyDesc d; memset(&d, 0, sizeof d); d.rot[3] = 1; d.pos[1] = 5;
+    int b = A->body_create(&d); CHECK(b >= 0);
+    CHECK(A->body_add_hull(b, k_collinear5, 5, 120.0f, 0.6f, 0.1f) == 1);
+    CHECK(A->body_finish(b, 3.0f, 120.0f) == 1);
+    PhCounts c1; A->counts(&c1);
+    CHECK(c1.hull_gave_up - c0.hull_gave_up >= 6);
+    CHECK(c1.hull_boxes - c0.hull_boxes >= 1);
+    for (int i = 0; i < 10; ++i) A->step(0.04f, 4);
+    A->destroy();
+    // random degenerate clouds always terminate (6000 builds, limit 60 s; the original hangs on about 2 %)
+    HANDLE h = CreateThread(nullptr, 0, fuzz_worker, nullptr, 0, nullptr);
+    DWORD w = WaitForSingleObject(h, 60000);
+    CHECK(w == WAIT_OBJECT_0 && g_fz_done == 1);
+    if (w != WAIT_OBJECT_0) { printf("  degenerate-cloud fuzz STUCK after %ld cases\n", (long)g_fz_cases); return; }
+    CloseHandle(h);
+    CHECK(g_fz_cases == 6000);
+    printf("  hull fuzz: %ld builds, %ld hulls, %ld given up / degenerate\n", (long)g_fz_cases, (long)g_fz_hulls, (long)g_fz_null);
+}
+
 int main() {
-    test_math(); test_hull(); test_names(); test_clock(); test_sim(); test_plaza_regression(); test_drive(); test_nan_no_hang();
+    test_math(); test_hull(); test_names(); test_clock(); test_sim(); test_plaza_regression(); test_drive(); test_nan_no_hang(); test_hull_hang();
     printf("test_phys: %d passed, %d failed\n", g_pass, g_fail);
     return g_fail ? 1 : 0;
 }

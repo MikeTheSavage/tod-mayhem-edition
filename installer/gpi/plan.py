@@ -121,14 +121,14 @@ def group_spec(gid, subs, shipped_ini='', native=None):
         d['dll'] = True
         crash = 1 if s.get('ess_crash', True) else 0
         stab = 1 if s.get('ess_stability', True) else 0
-        d['on'] = [('fixes', 'vector_realloc', crash), ('fixes', 'weapon_owner', crash), ('timing', 'clock_fix', stab),
+        d['on'] = [('fixes', 'vector_realloc', crash), ('fixes', 'weapon_owner', crash), ('fixes', 'stream_limits', crash), ('timing', 'clock_fix', stab),
                    ('timing', 'pickup_step_fix', stab), ('controls', 'mouse_turn_fix', stab),
                    ('controls', 'diagonal_normalize', stab)]
         # the two crash fixes default to ON in the DLL when the key is missing: write 0 explicitly
         d['off'] = [('fixes', 'vector_realloc', 0, 'set'), ('fixes', 'weapon_owner', 0, 'set'),
                     ('timing', 'clock_fix', 0, 'if_present'), ('timing', 'pickup_step_fix', 0, 'if_present'),
                     ('controls', 'mouse_turn_fix', 0, 'if_present'), ('controls', 'diagonal_normalize', 0, 'if_present')]
-        d['notes'] = ['Border-swap double-free fix (vanilla engine bug)', 'Weapon-reload crash fix (vanilla engine bug)',
+        d['notes'] = ['Border-swap double-free fix (vanilla engine bug)', 'Weapon-reload crash fix (vanilla engine bug)', 'Music no longer stays silent when the engine refuses a stream (vanilla engine bug)',
                       'Slow motion no longer stalls timers at high frame rates', 'Pickups fall at the same speed at any fps',
                       'Mouse turning independent of the frame rate', 'Diagonal running no longer 41 % faster']
     elif gid == 'display':
@@ -158,7 +158,8 @@ def group_spec(gid, subs, shipped_ini='', native=None):
         d['off'] = [('pad', 'enabled', 0, 'if_present')]
         d['notes'] = ['SETTINGS > VIBRATION row shown on PC', 'Prompts follow the device used last']
     elif gid == 'driving':
-        d['data'] = {'driving': 'better_feel'}
+        feel = s.get('driving_feel', 'better_feel')
+        d['data'] = {'driving': feel}
         if s.get('chase_camera'):
             d['data']['vehicle_camera'] = 'far'
         if s.get('steer_return'):
@@ -173,7 +174,11 @@ def group_spec(gid, subs, shipped_ini='', native=None):
         if not s.get('brake_parity'):
             d.setdefault('off_always', []).append(('vehicles', 's_brake_parity', 0, 'if_present'))
         d['off'] = [('vehicles', 'steering_return_rate', 0, 'if_present'), ('vehicles', 's_brake_parity', 0, 'if_present')]
-        d['notes'] = ['Steering ramp 0.12, cornering x0.9, slide control x0.5 (25 vehicles)']
+        d['notes'] = {'better_feel': ['Steering ramp 0.12, cornering x0.9, slide control x0.5 (25 vehicles)'],
+                      'drift': ['Drift: loose tail, quick steering, handbrake throws the car sideways (25 vehicles)'],
+                      'grip': ['Grip: sticks to the road, steers at any speed, hard to spin (25 vehicles)'],
+                      'heavy': ['Heavy: slower to move and stop, wide and lazy in a slide (25 vehicles)'],
+                      }.get(feel, ['Vanilla handling'])
     elif gid == 'seamless':
         d['dll'] = True
         d['data'] = {'seamless': 'on_nomarkers' if s.get('seamless_hide_markers', True) else 'on'}

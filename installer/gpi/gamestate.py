@@ -131,6 +131,9 @@ def ini_value(text, section, key):
     return None
 
 
+DRIVING_FEELS = ('better_feel', 'drift', 'grip', 'heavy')      # the data `driving` levels besides vanilla
+
+
 def installed_state(game_dir):
     """What Gameplay+ pieces are in the game folder now, and a selection guessed from them."""
     j = lambda n: os.path.join(game_dir, n)          # noqa: E731
@@ -154,7 +157,7 @@ def installed_state(game_dir):
         'essentials': bool(ini) and (on('timing', 'clock_fix') or (ini_value(ini, 'fixes', 'vector_realloc') or '1') != '0'),
         'display': on('display'),
         'controller': on('pad') or data.get('controller') == 'menu',
-        'driving': data.get('driving') == 'better_feel',
+        'driving': data.get('driving', 'vanilla') in DRIVING_FEELS or data.get('vehicle_camera') == 'far',
         'seamless': on('seamless') or data.get('seamless', 'off') != 'off',
         'suave': on('suave') or data.get('suave_anims') == 'on',
         'smart_ai': on('smart_ai'),
@@ -208,6 +211,7 @@ def installed_state(game_dir):
         subs['seamless_hide_markers'] = False
     if data.get('vehicle_camera') == 'far':
         subs['chase_camera'] = True
+    subs['driving_feel'] = data.get('driving') if data.get('driving') in DRIVING_FEELS else 'vanilla'
     if ini_value(ini, 'psycho', 'enemy_loco_moves') in ('0', '1'):
         subs['psycho_loco'] = ini_value(ini, 'psycho', 'enemy_loco_moves') == '1'
     if ini_value(ini, 'psycho', 'elite_drops') in ('0', '1'):

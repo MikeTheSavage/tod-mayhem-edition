@@ -86,6 +86,15 @@ int ph_create(float gravity_y, float restitution_threshold) {
 // level patches (the Downtown plaza curb, 22 points with mm-level bumps) gave b3CreateHull a hull that did NOT cover
 // its points: a crate fell through the plaza in game (run p7) and in an offline replay of the exact floats.
 static int g_hull_retries = 0, g_hull_boxes = 0;
+extern "C" int b3HullBuilderGaveUp;   // third_party/box3d/src/hull.c (hull_hang patch): builds the loop guard abandoned
+static int g_hull_av = 0;
+// hull_hang: the hull builder's own loop guard (hull.c) makes b3CreateHull return NULL on corrupt / degenerate topology
+// instead of spinning forever (MM030 freeze). This wrapper is the last line: an access violation inside the builder
+// (the original also crashed on a few such inputs) is turned into NULL too. No C++ objects live in this function.
+static b3HullData* create_hull_guarded(const b3Vec3* p, int n, int maxv) {
+    __try { return b3CreateHull(p, n, maxv); }
+    __except (EXCEPTION_EXECUTE_HANDLER) { ++g_hull_av; return nullptr; }
+}
 static bool hull_ok(const b3HullData* h, const b3Vec3* p, int n, float tol) {
     if (!h || h->vertexCount < 4 || h->faceCount < 4) return false;
     const b3Plane* pl = b3GetHullPlanes(h);
@@ -107,7 +116,7 @@ b3HullData* make_hull(const float* pts, int n) {
         lo = b3Min(lo, v[i]); hi = b3Max(hi, v[i]);
     }
     float tol = 0.02f;
-    b3HullData* h = b3CreateHull(v.data(), n, 32);
+    b3HullData* h = create_hull_guarded(v.data(), n, 32);
     if (hull_ok(h, v.data(), n, tol)) return h;
     if (h) b3DestroyHull(h);
     ++g_hull_retries;
@@ -118,7 +127,7 @@ b3HullData* make_hull(const float* pts, int n) {
         a.y = v[0].y + floorf((a.y - v[0].y) / 0.005f + 0.5f) * 0.005f;
         a.z = v[0].z + floorf((a.z - v[0].z) / 0.005f + 0.5f) * 0.005f;
     }
-    h = b3CreateHull(q.data(), n, 32);
+    h = create_hull_guarded(q.data(), n, 32);
     if (hull_ok(h, v.data(), n, 0.03f)) return h;
     if (h) b3DestroyHull(h);
     // last resort: the points' axis-aligned box (covers more than the shape, never less)
@@ -127,7 +136,7 @@ b3HullData* make_hull(const float* pts, int n) {
     e.x = e.x < 0.02f ? 0.02f : e.x; e.y = e.y < 0.02f ? 0.02f : e.y; e.z = e.z < 0.02f ? 0.02f : e.z;
     b3Vec3 box[8];
     for (int i = 0; i < 8; ++i) { box[i].x = c.x + ((i & 1) ? e.x : -e.x); box[i].y = c.y + ((i & 2) ? e.y : -e.y); box[i].z = c.z + ((i & 4) ? e.z : -e.z); }
-    return b3CreateHull(box, 8, 8);
+    return create_hull_guarded(box, 8, 8);
 }
 int ph_add_static_hull(const float* pts, int n, float friction) {
     if (!live()) return 0;
@@ -297,6 +306,7 @@ void ph_counts(PhCounts* o) {
     if (!o) return;
     memset(o, 0, sizeof *o);
     o->static_shapes = g_static_shapes; o->static_failed = g_static_failed;
+    o->hull_gave_up = b3HullBuilderGaveUp + g_hull_av; o->hull_retries = g_hull_retries; o->hull_boxes = g_hull_boxes;
     for (size_t i = 0; i < g_bodies.size(); ++i) {
         if (!g_bodies[i].used || !live() || !b3Body_IsValid(g_bodies[i].id)) continue;
         if (g_bodies[i].kind == PHSIM_KIND_CAR) continue;   // kinematic cars move all the time: not a reason to hold a rescan

@@ -34,8 +34,11 @@ GROUPS = [
                dict(id='pad_rumble_pct', type='range', label='Rumble', default=100, min=0, max=200, step=10,
                     unit='%')]),
     dict(id='driving', section='main', title='Better Driving', default=True,
-         tagline='Smoother steering and grippier cars.',
-         subs=[dict(id='chase_camera', type='check', label='Chase camera: every vehicle camera 1.5 m back',
+         tagline='Pick how the cars handle.',
+         subs=[dict(id='driving_feel', type='select', label='Driving feel', default='better_feel',
+                    options=[['vanilla', 'Vanilla'], ['better_feel', 'Mayhem feel'], ['drift', 'Drift'],
+                             ['grip', 'Grip'], ['heavy', 'Heavy']]),
+               dict(id='chase_camera', type='check', label='Chase camera: every vehicle camera 1.5 m back',
                     default=False),
                dict(id='steer_return', type='check', label='Wheels return to straight gradually (experimental)',
                     default=False),
@@ -45,16 +48,15 @@ GROUPS = [
          subs=[dict(id='seamless_hide_markers', type='check', label='Hide the border beams and area signs',
                     default=True),
                dict(id='seamless_prefetch', type='check', label='Read the next area ahead of time', default=True)]),
-    dict(id='suave', section='main', title='Suave / Pi\u00f1ata Loco', default=True, experimental=True,
+    dict(id='suave', section='main', title='Pi\u00f1ata Loco', default=True, experimental=True,
          tagline='A salsa with the nearest enemy, a ring of clapping thugs and a dynamite finale.',
-         note='The music is not included: it is a commercial recording. Pick your own copy of "Suavemente" by Elvis '
-              'Crespo (the studio version: mp3, wav, flac or ogg) and the installer cuts four short clips from it on '
-              'this PC; the file is only read and never copied or uploaded. Without a file Suave installs and works '
-              'without music.',
-         subs=[dict(id='suave_slot', type='select', label='Power-up slot', default='10',
-                    options=[['10', 'Slot 10: replaces the Pi\u00f1ata (tested)'], ['11', 'Slot 11: Tequila']]),
+         note='The song is not included. Pick your own copy of "Suavemente" by Elvis Crespo below; without it the '
+              'move works, just without music.',
+         subs=[dict(id='suave_slot', type='select', label='Replaces', default='10',
+                    options=[['10', 'The Pi\u00f1ata power-up'], ['11', 'The Tequila power-up']]),
                dict(id='suave_song', type='file', label='Your copy of Suavemente', default='',
-                    filetypes='Audio files|*.mp3;*.wav;*.flac;*.ogg;*.oga;*.aif;*.aiff;*.w64;*.caf|All files|*.*')]),
+                    filetypes='Audio files|*.mp3;*.m4a;*.aac;*.mp4;*.wma;*.wav;*.flac;*.ogg;*.oga;*.opus;*.webm;*.aif;'
+                              '*.aiff;*.w64;*.caf|All files|*.*')]),
     dict(id='smart_ai', section='main', title='Smart AI', default=True,
          tagline='Enemies with roles, squad turns and morale.',
          subs=[dict(id='smart_squad', type='check', label='Squad tactics: two close in, the rest hold and shoot',
